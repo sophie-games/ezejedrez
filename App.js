@@ -15,6 +15,7 @@ export default function App() {
   };
 
   useEffect(() => {
+    // If Dimensions change, we update the dimensions state
     Dimensions.addEventListener('change', onChange);
     return () => {
       Dimensions.removeEventListener('change', onChange);
@@ -29,7 +30,7 @@ export default function App() {
     <View style={styles.container}>
       <Board size={boardSize} />
 
-      <StatusBar style='auto' />
+      <StatusBar style="auto" />
     </View>
   );
 }

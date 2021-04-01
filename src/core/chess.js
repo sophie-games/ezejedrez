@@ -1,20 +1,20 @@
 export default class Chess {
   get whoPlays() {
-    return "white";
+    return 'white';
   }
 
   getBoard() {
     const board = [];
 
     const pawnLines = [
-      { lineY: 1, color: "white" },
-      { lineY: 6, color: "black" },
+      { lineY: 1, color: 'white' },
+      { lineY: 6, color: 'black' },
     ];
 
     pawnLines.forEach((line) => {
       for (let i = 0; i < 8; i++) {
         board.push({
-          pieceType: "pawn",
+          pieceType: 'pawn',
           color: line.color,
           x: i,
           y: line.lineY,
@@ -40,6 +40,6 @@ export default class Chess {
   }
 
   move() {
-    throw new Error("Invalid movement");
+    throw new Error('Invalid movement');
   }
 }

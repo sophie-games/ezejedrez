@@ -14,7 +14,6 @@ export default function Board({ size = 500 }) {
   return (
     <View
       style={{
-        backgroundColor: '#eee',
         width: size,
         height: size,
         display: 'flex',

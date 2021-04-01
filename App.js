@@ -1,11 +1,11 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
-import Board from "./src/ui/board.jsx";
-import { Dimensions } from "react-native";
+import { StatusBar } from 'expo-status-bar';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import Board from './src/ui/board.jsx';
+import { Dimensions } from 'react-native';
 
-const window = Dimensions.get("window");
-const screen = Dimensions.get("screen");
+const window = Dimensions.get('window');
+const screen = Dimensions.get('screen');
 
 export default function App() {
   const [dimensions, setDimensions] = useState({ window, screen });
@@ -16,9 +16,9 @@ export default function App() {
 
   useEffect(() => {
     // If Dimensions change, we update the dimensions state
-    Dimensions.addEventListener("change", onChange);
+    Dimensions.addEventListener('change', onChange);
     return () => {
-      Dimensions.removeEventListener("change", onChange);
+      Dimensions.removeEventListener('change', onChange);
     };
   }, []);
 
@@ -38,8 +38,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#000',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

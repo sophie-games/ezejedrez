@@ -1,6 +1,6 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
-import Square from "./square";
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import Square from './square';
 
 // Rows and Columns of the board
 const ROWS = 8;
@@ -14,11 +14,11 @@ export default function Board({ size = 500 }) {
   return (
     <View
       style={{
-        backgroundColor: "#eee",
+        backgroundColor: '#eee',
         width: size,
         height: size,
-        display: "flex",
-        flexDirection: "column-reverse", // "column-reverse" because the (0,0) square is the one at the bottom left
+        display: 'flex',
+        flexDirection: 'column-reverse', // "column-reverse" because the (0,0) square is the one at the bottom left
       }}
     >
       {columnArray.map((c) => (
@@ -35,7 +35,7 @@ export default function Board({ size = 500 }) {
 const styles = StyleSheet.create({
   row: {
     flex: 1,
-    display: "flex",
-    flexDirection: "row",
+    display: 'flex',
+    flexDirection: 'row',
   },
 });

@@ -1,9 +1,13 @@
 export default class Chess {
+  constructor() {
+    this.board = this.createBoard();
+  }
+
   get whoPlays() {
     return 'white';
   }
 
-  getBoard() {
+  createBoard() {
     const board = [];
 
     const pawnLines = [
@@ -25,6 +29,10 @@ export default class Chess {
     return board;
   }
 
+  getBoard() {
+    return this.board;
+  }
+
   getMovements(x, y) {
     if (y === 6) {
       return [
@@ -39,7 +47,26 @@ export default class Chess {
     ];
   }
 
-  move() {
+  movePiece(x, board, fromX, fromY, toX, toY) {
+    if (fromX === x && fromY === 1 && toX === x && toY === 2) {
+      const piece = board.find((piece) => piece.x === x && piece.y === 1);
+      piece.y = 2;
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  move(fromX, fromY, toX, toY) {
+    const board = this.getBoard();
+
+    for (let i = 0; i < 8; i++) {
+      if (this.movePiece(i, board, fromX, fromY, toX, toY)) {
+        return;
+      }
+    }
+
     throw new Error('Invalid movement');
   }
 }

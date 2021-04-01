@@ -15,6 +15,7 @@ export default function App() {
   };
 
   useEffect(() => {
+    // If Dimensions change, we update the dimensions state
     Dimensions.addEventListener("change", onChange);
     return () => {
       Dimensions.removeEventListener("change", onChange);

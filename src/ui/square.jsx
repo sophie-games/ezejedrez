@@ -3,7 +3,7 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 
 export default function Square({ x, y }) {
   // TODO: Detectar automáticamente qué color debería ser a partir de las coordenadas x e y
-  const color = "white";
+  const color = Math.random() < 0.5 ? "white" : "black";
 
   return (
     <TouchableOpacity
@@ -18,14 +18,12 @@ export default function Square({ x, y }) {
 
 const styles = StyleSheet.create({
   white: {
-    width: 100,
-    height: 100,
+    flex: 1,
     backgroundColor: "#D8AF86",
   },
 
   black: {
-    width: 100,
-    height: 100,
+    flex: 1,
     backgroundColor: "#8E5431",
   },
 });

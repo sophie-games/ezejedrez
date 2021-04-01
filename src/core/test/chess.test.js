@@ -98,3 +98,11 @@ test('Can move to a valid position 2', () => {
 
   expect(board.find((piece) => piece.x === 1 && piece.y === 1)).toBe(undefined);
 });
+
+test('After the white pieces moves, the black pieces move', () => {
+  const chess = new Chess();
+
+  chess.move(0, 1, 0, 2);
+
+  expect(chess.whoPlays).toBe('black');
+});

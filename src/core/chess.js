@@ -1,10 +1,15 @@
 export default class Chess {
   constructor() {
     this.board = this.createBoard();
+    this.turnNumber = 1;
   }
 
   get whoPlays() {
-    return 'white';
+    if (this.turnNumber % 2 === 0) {
+      return 'black';
+    } else {
+      return 'white';
+    }
   }
 
   createBoard() {
@@ -60,6 +65,8 @@ export default class Chess {
 
   move(fromX, fromY, toX, toY) {
     const board = this.getBoard();
+
+    this.turnNumber = this.turnNumber + 1;
 
     for (let i = 0; i < 8; i++) {
       if (this.movePiece(i, board, fromX, fromY, toX, toY)) {

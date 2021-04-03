@@ -12,6 +12,7 @@ export default function Square({ x, y }) {
   }
 
   const rand = Math.random();
+  // Despues este "piece" se lo vamos a pasar como parámetro a Square desde Board
   const piece =
     rand < 0.15
       ? 'w_pawn'

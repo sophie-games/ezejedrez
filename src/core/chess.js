@@ -5,11 +5,7 @@ export default class Chess {
   }
 
   get whoPlays() {
-    if (this.turnNumber % 2 === 0) {
-      return 'black';
-    } else {
-      return 'white';
-    }
+    return this.turnNumber % 2 === 0 ? 'black' : 'white';
   }
 
   createBoard() {
@@ -52,9 +48,15 @@ export default class Chess {
     ];
   }
 
-  movePiece(x, board, fromX, fromY, toX, toY) {
+  getPiece(x, y) {
+    const board = this.getBoard();
+
+    return board.find((piece) => piece.x === x && piece.y === y);
+  }
+
+  pieceMovement(x, fromX, fromY, toX, toY) {
     if (fromX === x && fromY === 1 && toX === x && toY === 2) {
-      const piece = board.find((piece) => piece.x === x && piece.y === 1);
+      const piece = this.getPiece(x, 1);
       piece.y = 2;
 
       return true;
@@ -64,12 +66,10 @@ export default class Chess {
   }
 
   move(fromX, fromY, toX, toY) {
-    const board = this.getBoard();
-
-    this.turnNumber = this.turnNumber + 1;
+    this.turnNumber++;
 
     for (let i = 0; i < 8; i++) {
-      if (this.movePiece(i, board, fromX, fromY, toX, toY)) {
+      if (this.pieceMovement(i, fromX, fromY, toX, toY)) {
         return;
       }
     }

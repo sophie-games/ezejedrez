@@ -55,9 +55,14 @@ export default class Chess {
   }
 
   pieceMovement(x, fromX, fromY, toX, toY) {
+    const piece = this.getPiece(x, 1);
+
     if (fromX === x && fromY === 1 && toX === x && toY === 2) {
-      const piece = this.getPiece(x, 1);
       piece.y = 2;
+
+      return true;
+    } else if (fromX === x && fromY === 1 && toX === x && toY === 3) {
+      piece.y = 3;
 
       return true;
     } else {

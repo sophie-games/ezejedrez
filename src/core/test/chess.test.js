@@ -61,7 +61,7 @@ test('Pawns movements 3', () => {
   expect(movements.find((m) => m.x === 1 && m.y === 4)).not.toBe(undefined);
 });
 
-test('Cannot move to an invalid position', () => {
+test('White pawn cannot move to an invalid position', () => {
   const chess = new Chess();
 
   const t = () => {
@@ -71,33 +71,47 @@ test('Cannot move to an invalid position', () => {
   expect(t).toThrow('Invalid movement');
 });
 
-test('Can move to a valid position', () => {
+test('White pawn can move to a valid position', () => {
   const chess = new Chess();
 
   chess.move(0, 1, 0, 2);
 
-  const board = chess.getBoard();
+  expect(chess.getPiece(0, 2)).not.toBe(undefined);
 
-  expect(board.find((piece) => piece.x === 0 && piece.y === 2)).not.toBe(
-    undefined,
-  );
-
-  expect(board.find((piece) => piece.x === 0 && piece.y === 1)).toBe(undefined);
+  expect(chess.getPiece(0, 1)).toBe(undefined);
 });
 
-test('Can move to a valid position 2', () => {
+test('White pawn can move to a valid position 2', () => {
   const chess = new Chess();
 
   chess.move(1, 1, 1, 2);
 
-  const board = chess.getBoard();
+  expect(chess.getPiece(1, 2)).not.toBe(undefined);
 
-  expect(board.find((piece) => piece.x === 1 && piece.y === 2)).not.toBe(
-    undefined,
-  );
-
-  expect(board.find((piece) => piece.x === 1 && piece.y === 1)).toBe(undefined);
+  expect(chess.getPiece(1, 1)).toBe(undefined);
 });
+
+test('White pawn can move 2 squares at the begining', () => {
+  const chess = new Chess();
+
+  chess.move(0, 1, 0, 3);
+
+  expect(chess.getPiece(0, 3)).not.toBe(undefined);
+
+  expect(chess.getPiece(0, 1)).toBe(undefined);
+});
+
+test('White pawn can move 2 squares at the begining 2', () => {
+  const chess = new Chess();
+
+  chess.move(5, 1, 5, 3);
+
+  expect(chess.getPiece(5, 3)).not.toBe(undefined);
+
+  expect(chess.getPiece(5, 1)).toBe(undefined);
+});
+
+test(`White pawn can't move 2 squares if Y != 1`, () => {});
 
 test('After the white pieces moves, the black pieces move', () => {
   const chess = new Chess();

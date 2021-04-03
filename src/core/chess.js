@@ -52,7 +52,7 @@ export default class Chess {
     const board = this.getBoard();
 
     function getPiece(x, y) {
-      return board.find((piece) => piece.x === x && piece.y === 1);
+      return board.find((piece) => piece.x === x && piece.y === y);
     }
 
     if (fromX === x && fromY === 1 && toX === x && toY === 2) {

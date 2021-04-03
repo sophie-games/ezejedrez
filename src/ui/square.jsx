@@ -1,13 +1,18 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
-export default function Square({ x, y }) {
-  // TODO: Detectar automáticamente qué color debería ser a partir de las coordenadas x e y
-  const color = Math.random() < 0.5 ? 'white' : 'black';
+function determineColor(x, y) {
+  if ((x % 2 == 0 && y % 2 == 1) || (x % 2 == 1 && y % 2 == 0)) {
+    return 'white';
+  } else {
+    return 'black';
+  }
+}
 
+export default function Square({ x, y }) {
   return (
     <TouchableOpacity
-      style={styles[color]}
+      style={styles[determineColor(x, y)]}
       activeOpacity={1}
       onPress={() => {
         console.log(`Has presionado el cuadrado ${x} ${y}`);

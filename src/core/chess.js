@@ -48,16 +48,21 @@ export default class Chess {
     ];
   }
 
-  pieceMovement(x, fromX, fromY, toX, toY) {
+  getPiece(x, y) {
     const board = this.getBoard();
 
-    function getPiece(x, y) {
-      return board.find((piece) => piece.x === x && piece.y === y);
-    }
+    return board.find((piece) => piece.x === x && piece.y === y);
+  }
+
+  pieceMovement(x, fromX, fromY, toX, toY) {
+    const piece = this.getPiece(x, 1);
 
     if (fromX === x && fromY === 1 && toX === x && toY === 2) {
-      const piece = getPiece(x, 1);
       piece.y = 2;
+
+      return true;
+    } else if (fromX === x && fromY === 1 && toX === x && toY === 3) {
+      piece.y = 3;
 
       return true;
     } else {
@@ -66,9 +71,7 @@ export default class Chess {
   }
 
   move(fromX, fromY, toX, toY) {
-    const board = this.getBoard();
-
-    this.turnNumber = this.turnNumber + 1;
+    this.turnNumber++;
 
     for (let i = 0; i < 8; i++) {
       if (this.pieceMovement(i, fromX, fromY, toX, toY)) {

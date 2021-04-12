@@ -1,9 +1,14 @@
 export default class Chess {
-  get whoPlays() {
-    return 'white';
+  constructor() {
+    this.board = this.createBoard();
+    this.turnNumber = 1;
   }
 
-  getBoard() {
+  get whoPlays() {
+    return this.turnNumber % 2 === 0 ? 'black' : 'white';
+  }
+
+  createBoard() {
     const board = [];
 
     const pawnLines = [
@@ -25,6 +30,10 @@ export default class Chess {
     return board;
   }
 
+  getBoard() {
+    return this.board;
+  }
+
   getMovements(x, y) {
     if (y === 6) {
       return [
@@ -39,7 +48,37 @@ export default class Chess {
     ];
   }
 
-  move() {
+  getPiece(x, y) {
+    const board = this.getBoard();
+
+    return board.find((piece) => piece.x === x && piece.y === y);
+  }
+
+  pieceMovement(x, fromX, fromY, toX, toY) {
+    const piece = this.getPiece(x, 1);
+
+    if (fromX === x && fromY === 1 && toX === x && toY === 2) {
+      piece.y = 2;
+
+      return true;
+    } else if (fromX === x && fromY === 1 && toX === x && toY === 3) {
+      piece.y = 3;
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  move(fromX, fromY, toX, toY) {
+    this.turnNumber++;
+
+    for (let i = 0; i < 8; i++) {
+      if (this.pieceMovement(i, fromX, fromY, toX, toY)) {
+        return;
+      }
+    }
+
     throw new Error('Invalid movement');
   }
 }

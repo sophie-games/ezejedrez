@@ -111,7 +111,10 @@ test('White pawn can move 2 squares at the begining 2', () => {
   expect(chess.getPiece(5, 1)).toBe(undefined);
 });
 
-test(`White pawn can't move 2 squares if Y != 1`, () => {});
+test(`White pawn can't move 2 squares if Y != 1`, (
+
+  
+) => {});
 
 test('After the white pieces moves, the black pieces move', () => {
   const chess = new Chess();

@@ -3,20 +3,23 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Board from './src/ui/board.jsx';
 import { Dimensions } from 'react-native';
+import Chess from './src/core/chess';
 
 const window = Dimensions.get('window');
 const screen = Dimensions.get('screen');
 
 export default function App() {
   const [dimensions, setDimensions] = useState({ window, screen });
+  const [board, setBoard] = useState(null);
 
   const onChange = ({ window, screen }) => {
     setDimensions({ window, screen });
   };
 
   useEffect(() => {
-    // If Dimensions change, we update the dimensions state
-    Dimensions.addEventListener('change', onChange);
+    const chess = new Chess();
+
+    Dimensions.addEventListener('change', onChange); // If Dimensions change, we update the dimensions state
     return () => {
       Dimensions.removeEventListener('change', onChange);
     };
@@ -30,7 +33,7 @@ export default function App() {
     <View style={styles.container}>
       <Board size={boardSize} />
 
-      <StatusBar style="auto" />
+      <StatusBar style='auto' />
     </View>
   );
 }

@@ -25,11 +25,11 @@ export default function Board({ size = 500, board }) {
           {columnArray.map((c) => {
             const boardPiece = board.find((p) => p.x === c && p.y === r);
 
-            const pieceColorCode = boardPiece.color === 'white' ? 'w' : 'b';
-
-            const piece = boardPiece
-              ? `${pieceColorCode}_${boardPiece.pieceType}`
-              : null;
+            let piece = null;
+            if (boardPiece) {
+              const pieceColorCode = boardPiece.color === 'white' ? 'w' : 'b';
+              piece = `${pieceColorCode}_${boardPiece.pieceType}`;
+            }
 
             return <Square board={board} piece={piece} key={c} x={c} y={r} />;
           })}

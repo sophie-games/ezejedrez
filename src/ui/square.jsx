@@ -10,26 +10,14 @@ function determineColor(x, y) {
   }
 }
 
-export default function Square({ x, y }) {
-  const rand = Math.random();
-  // Despues este "piece" se lo vamos a pasar como parámetro a Square desde Board
-  const piece =
-    rand < 0.15
-      ? 'w_pawn'
-      : rand < 0.3
-      ? 'b_bishop'
-      : rand < 0.45
-      ? 'w_knight'
-      : null;
-
+export default function Square({ x, y, piece }) {
   return (
     <TouchableOpacity
       style={styles[determineColor(x, y)]}
       activeOpacity={1}
       onPress={() => {
         console.log(`Has presionado el cuadrado ${x} ${y}`);
-      }}
-    >
+      }}>
       {piece ? <Piece piece={piece} /> : null}
     </TouchableOpacity>
   );

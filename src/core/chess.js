@@ -14,9 +14,9 @@ export default class Chess {
 
   createBoard() {
     // We create the matrix
-    const board = [];
+    const board = new Array(COLUMNS);
     for (let x = 0; x < COLUMNS; x++) {
-      board[x] = [];
+      board[x] = new Array(ROWS);
       for (let y = 0; y < ROWS; y++) {
         board[x][y] = 0;
       }

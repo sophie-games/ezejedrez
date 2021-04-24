@@ -2,15 +2,20 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Square from './square';
 
-// Rows and Columns of the board.
-const ROWS = 8;
+// Columns and Rows of the board.
 const COLUMNS = 8;
+const ROWS = 8;
 
 // We create an array of numbers to make .map() in the render.
 const rowArray = Array.from(Array(ROWS).keys());
 const columnArray = Array.from(Array(COLUMNS).keys());
 
 export default function Board({ size = 500, board }) {
+  if (!board) {
+    // We need the board
+    return null;
+  }
+
   return (
     <View
       style={{
@@ -23,7 +28,7 @@ export default function Board({ size = 500, board }) {
       {rowArray.map((r) => (
         <View key={r} style={styles.row}>
           {columnArray.map((c) => {
-            const boardPiece = board.find((p) => p.x === c && p.y === r);
+            const boardPiece = board[c][r];
 
             let piece = null;
             if (boardPiece) {

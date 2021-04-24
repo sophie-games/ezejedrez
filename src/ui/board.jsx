@@ -11,6 +11,11 @@ const rowArray = Array.from(Array(ROWS).keys());
 const columnArray = Array.from(Array(COLUMNS).keys());
 
 export default function Board({ size = 500, board }) {
+  if (!board) {
+    // We need the board
+    return null;
+  }
+
   return (
     <View
       style={{
@@ -23,7 +28,7 @@ export default function Board({ size = 500, board }) {
       {rowArray.map((r) => (
         <View key={r} style={styles.row}>
           {columnArray.map((c) => {
-            const boardPiece = board.find((p) => p.x === c && p.y === r);
+            const boardPiece = board[c][r];
 
             let piece = null;
             if (boardPiece) {

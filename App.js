@@ -9,7 +9,7 @@ const screen = Dimensions.get('screen');
 
 export default function App() {
   const [dimensions, setDimensions] = useState({ window, screen });
-  const [board, setBoard] = useState([]);
+  const [board, setBoard] = useState(null);
 
   const onChange = ({ window, screen }) => {
     setDimensions({ window, screen });
@@ -34,7 +34,7 @@ export default function App() {
     <View style={styles.container}>
       <Board board={board} size={boardSize} />
 
-      <StatusBar style='auto' />
+      <StatusBar style="auto" />
     </View>
   );
 }

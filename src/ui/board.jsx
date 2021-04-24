@@ -2,9 +2,9 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Square from './square';
 
-// Rows and Columns of the board.
-const ROWS = 8;
+// Columns and Rows of the board.
 const COLUMNS = 8;
+const ROWS = 8;
 
 // We create an array of numbers to make .map() in the render.
 const rowArray = Array.from(Array(ROWS).keys());

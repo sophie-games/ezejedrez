@@ -8,7 +8,7 @@ test('Wait should play first', () => {
 
 test('All pieces should be in its correct place', () => {
   const chess = new Chess();
-  const board = chess.getBoard();
+  const arrayBoard = chess.getBoardAsArray();
 
   const pawnLines = [
     { lineY: 1, color: 'white' },
@@ -17,16 +17,16 @@ test('All pieces should be in its correct place', () => {
 
   pawnLines.forEach((line) => {
     for (let i = 0; i < 8; i++) {
-      const pawn = board.find(
-        (piece) => piece.x === i && piece.y === line.lineY,
-      );
-      expect(pawn).not.toBe(undefined);
+      const pawn = chess.getPiece(i, line.lineY);
+      expect(pawn).not.toBe(0);
       expect(pawn.pieceType).toBe('pawn');
       expect(pawn.color).toBe(line.color);
     }
   });
 
-  expect(board.filter((piece) => piece.pieceType === 'pawn').length).toBe(16);
+  expect(arrayBoard.filter((piece) => piece.pieceType === 'pawn').length).toBe(
+    16
+  );
 
   // TODO: testear las otras piezas
 });
@@ -76,9 +76,8 @@ test('White pawn can move to a valid position', () => {
 
   chess.move(0, 1, 0, 2);
 
-  expect(chess.getPiece(0, 2)).not.toBe(undefined);
-
-  expect(chess.getPiece(0, 1)).toBe(undefined);
+  expect(chess.getPiece(0, 2)).not.toBe(0);
+  expect(chess.getPiece(0, 1)).toBe(0);
 });
 
 test('White pawn can move to a valid position 2', () => {
@@ -86,9 +85,8 @@ test('White pawn can move to a valid position 2', () => {
 
   chess.move(1, 1, 1, 2);
 
-  expect(chess.getPiece(1, 2)).not.toBe(undefined);
-
-  expect(chess.getPiece(1, 1)).toBe(undefined);
+  expect(chess.getPiece(1, 2)).not.toBe(0);
+  expect(chess.getPiece(1, 1)).toBe(0);
 });
 
 test('White pawn can move 2 squares at the begining', () => {
@@ -96,9 +94,8 @@ test('White pawn can move 2 squares at the begining', () => {
 
   chess.move(0, 1, 0, 3);
 
-  expect(chess.getPiece(0, 3)).not.toBe(undefined);
-
-  expect(chess.getPiece(0, 1)).toBe(undefined);
+  expect(chess.getPiece(0, 3)).not.toBe(0);
+  expect(chess.getPiece(0, 1)).toBe(0);
 });
 
 test('White pawn can move 2 squares at the begining 2', () => {
@@ -106,15 +103,11 @@ test('White pawn can move 2 squares at the begining 2', () => {
 
   chess.move(5, 1, 5, 3);
 
-  expect(chess.getPiece(5, 3)).not.toBe(undefined);
-
-  expect(chess.getPiece(5, 1)).toBe(undefined);
+  expect(chess.getPiece(5, 3)).not.toBe(0);
+  expect(chess.getPiece(5, 1)).toBe(0);
 });
 
-test(`White pawn can't move 2 squares if Y != 1`, (
-
-  
-) => {});
+test(`White pawn can't move 2 squares if Y != 1`, () => {});
 
 test('After the white pieces moves, the black pieces move', () => {
   const chess = new Chess();

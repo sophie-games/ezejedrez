@@ -1,11 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import {
-  StyleSheet,
-  View,
-  Dimensions,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import { StyleSheet, View, Dimensions } from 'react-native';
 import Board from './src/ui/board.jsx';
 import Chess from './src/core/chess';
 
@@ -24,12 +19,7 @@ export default function App() {
     const chess = new Chess();
     const chessBoard = chess.getBoard();
 
-    chessBoard.push({
-      pieceType: 'king',
-      color: 'white',
-      x: 3,
-      y: 4,
-    });
+    chessBoard[4][3] = { pieceType: 'king', color: 'white' };
 
     setBoard(chessBoard);
 
@@ -48,7 +38,7 @@ export default function App() {
     <View style={styles.container}>
       <Board board={board} size={boardSize} />
 
-      <StatusBar style="auto" />
+      <StatusBar style='auto' />
     </View>
   );
 }

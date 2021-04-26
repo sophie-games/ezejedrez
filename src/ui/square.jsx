@@ -3,11 +3,9 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import Piece from './piece';
 
 function determineColor(x, y) {
-  if ((x % 2 == 0 && y % 2 == 1) || (x % 2 == 1 && y % 2 == 0)) {
-    return 'white';
-  } else {
-    return 'black';
-  }
+  return (x % 2 == 0 && y % 2 == 1) || (x % 2 == 1 && y % 2 == 0)
+    ? 'white'
+    : 'black';
 }
 
 export default function Square({ x, y, piece }) {

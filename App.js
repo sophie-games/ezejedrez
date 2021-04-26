@@ -1,6 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import Board from './src/ui/board.jsx';
 import Chess from './src/core/chess';
 
@@ -17,7 +22,16 @@ export default function App() {
 
   useEffect(() => {
     const chess = new Chess();
-    setBoard(chess.getBoard());
+    const chessBoard = chess.getBoard();
+
+    chessBoard.push({
+      pieceType: 'king',
+      color: 'white',
+      x: 3,
+      y: 4,
+    });
+
+    setBoard(chessBoard);
 
     Dimensions.addEventListener('change', onChange); // If Dimensions change, we update the dimensions state
 

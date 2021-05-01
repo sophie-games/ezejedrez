@@ -54,22 +54,9 @@ export default class Chess {
     return arrayBoard;
   }
 
-  getMovements(x, y) {
-    if (y === 6) {
-      return [
-        { x: x, y: 5 },
-        { x: x, y: 4 },
-      ];
-    }
-
-    return [
-      { x: x, y: 2 },
-      { x: x, y: 3 },
-    ];
-  }
-
   getPiece(x, y) {
     const board = this.getBoard();
+
     return board[x][y];
   }
 
@@ -88,30 +75,129 @@ export default class Chess {
     board[toX][toY] = piece;
   }
 
-  pieceMovement(x, fromX, fromY, toX, toY) {
-    const piece = this.getPiece(x, 1);
+  getMovements(x, y) {
+    const piece = this.getPiece(x, y);
+    const movements = [];
 
-    if (fromX === x && fromY === 1 && toX === x && toY === 2) {
-      piece.y = 2;
-      this.movePiece(fromX, fromY, fromX, 2);
+    if (piece.color === 'white') {
+      movements.push({
+        x: x,
+        y: y + 1,
+      });
 
-      return true;
-    } else if (fromX === x && fromY === 1 && toX === x && toY === 3) {
-      this.movePiece(fromX, fromY, fromX, 3);
+      if (y === 1) {
+        movements.push({
+          x: x,
+          y: y + 2,
+        });
+      }
+    }
 
-      return true;
-    } else {
+    if (piece.color === 'black') {
+      movements.push({
+        x: x,
+        y: y - 1,
+      });
+
+      if (y === 6) {
+        movements.push({
+          x: x,
+          y: y - 2,
+        });
+      }
+    }
+
+    return movements;
+  }
+
+  isAValidPosition(x, y) {
+    if (x < 0 || x > 7) {
       return false;
     }
+
+    if (y < 0 || y > 7) {
+      return false;
+    }
+
+    return true;
+  }
+
+  getTargetMovements(x, y) {
+    const movements = [];
+    const piece = this.getPiece(x, y);
+
+    if (piece.color === 'white') {
+      if (
+        // Cuando tenemos la comapracion AND(&&), la propia comparacion se ejecuta en orden sincronico y si UNA de ellas
+        // da false el resto no se ejecutan porque ya sabe que toda la comparacion va a dar false.
+        this.isAValidPosition(x + 1, y + 1) &&
+        this.getPiece(x + 1, y + 1) &&
+        this.getPiece(x + 1, y + 1).color === 'black'
+      ) {
+        movements.push({
+          x: x + 1,
+          y: y + 1,
+        });
+      }
+
+      if (
+        this.isAValidPosition(x - 1, y + 1) &&
+        this.getPiece(x - 1, y + 1) &&
+        this.getPiece(x - 1, y + 1).color === 'black'
+      ) {
+        movements.push({
+          x: x - 1,
+          y: y + 1,
+        });
+      }
+    }
+
+    if (piece.color === 'black') {
+      if (
+        this.isAValidPosition(x - 1, y - 1) &&
+        this.getPiece(x - 1, y - 1) &&
+        this.getPiece(x - 1, y - 1).color === 'white'
+      ) {
+        movements.push({
+          x: x - 1,
+          y: y - 1,
+        });
+      }
+
+      if (
+        this.isAValidPosition(x + 1, y - 1) &&
+        this.getPiece(x + 1, y - 1) &&
+        this.getPiece(x + 1, y - 1).color === 'white'
+      ) {
+        movements.push({
+          x: x + 1,
+          y: y - 1,
+        });
+      }
+    }
+
+    return movements;
+  }
+
+  getAllPawnMovements(x, y) {
+    const pawnMovements = this.getMovements(x, y);
+    const pawnTargets = this.getTargetMovements(x, y);
+    const allPawnMovements = pawnMovements.concat(pawnTargets);
+
+    return allPawnMovements;
+  }
+
+  hasPiece(x, y) {
+    return this.getPiece(x, y) ? true : false;
   }
 
   move(fromX, fromY, toX, toY) {
-    this.turnNumber++;
+    const allPawnMovements = this.getAllPawnMovements(fromX, fromY);
 
-    for (let i = 0; i < 8; i++) {
-      if (this.pieceMovement(i, fromX, fromY, toX, toY)) {
-        return;
-      }
+    if (allPawnMovements.find((m) => m.x === toX && m.y === toY)) {
+      this.movePiece(fromX, fromY, toX, toY);
+      this.turnNumber++;
+      return;
     }
 
     throw new Error('Invalid movement');

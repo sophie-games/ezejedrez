@@ -105,6 +105,14 @@ export default class Chess {
     }
   }
 
+  getPieces() {
+    // return un array con todas las piezas
+  }
+
+  addPiece() {
+    // return agregar una pieza añ tablero del board del chess
+  }
+
   move(fromX, fromY, toX, toY) {
     this.turnNumber++;
 

@@ -25,7 +25,7 @@ test('All pieces should be in its correct place', () => {
   // TODO: testear las otras piezas
 });
 
-test('Wait should play first', () => {
+test('White should play first', () => {
   const chess = new Chess();
 
   expect(chess.whoPlays).toBe('white');
@@ -88,8 +88,8 @@ test('White pawn can move to a valid position', () => {
 
   chess.move(0, 1, 0, 2);
 
-  expect(chess.getPiece(0, 2)).not.toBe(0);
-  expect(chess.getPiece(0, 1)).toBe(0);
+  expect(chess.hasPiece(0, 2)).toBe(true);
+  expect(chess.hasPiece(0, 1)).toBe(false);
 });
 
 test('White pawn can move to a valid position 2', () => {
@@ -97,8 +97,8 @@ test('White pawn can move to a valid position 2', () => {
 
   chess.move(1, 1, 1, 2);
 
-  expect(chess.getPiece(1, 2)).not.toBe(0);
-  expect(chess.getPiece(1, 1)).toBe(0);
+  expect(chess.hasPiece(1, 2)).toBe(true);
+  expect(chess.hasPiece(1, 1)).toBe(false);
 });
 
 test('White pawn can move 2 squares at the begining', () => {
@@ -106,8 +106,8 @@ test('White pawn can move 2 squares at the begining', () => {
 
   chess.move(0, 1, 0, 3);
 
-  expect(chess.getPiece(0, 3)).not.toBe(0);
-  expect(chess.getPiece(0, 1)).toBe(0);
+  expect(chess.hasPiece(0, 3)).toBe(true);
+  expect(chess.hasPiece(0, 1)).toBe(false);
 });
 
 test('White pawn can move 2 squares at the begining 2', () => {
@@ -115,8 +115,8 @@ test('White pawn can move 2 squares at the begining 2', () => {
 
   chess.move(5, 1, 5, 3);
 
-  expect(chess.getPiece(5, 3)).not.toBe(0);
-  expect(chess.getPiece(5, 1)).toBe(0);
+  expect(chess.hasPiece(5, 3)).toBe(true);
+  expect(chess.hasPiece(5, 1)).toBe(false);
 });
 
 test('White pawn cannot move 2 squares if Y != 1', () => {
@@ -134,6 +134,7 @@ test('White pawn cannot move 2 squares if Y != 1', () => {
 test('Black pawn cannot move 2 squares if Y != 6', () => {
   const chess = new Chess();
 
+  chess.move(7, 1, 7, 2);
   chess.movePiece(4, 6, 4, 5);
 
   const t = () => {
@@ -153,7 +154,7 @@ test('White pawn can only capture diagonally forward one square to the left or r
 
   const arrayBoard = chess.getBoardAsArray();
 
-  expect(chess.getPiece(4, 4)).not.toBe(0);
+  expect(chess.hasPiece(4, 4)).toBe(true);
   expect(chess.getPiece(4, 4).color).toBe('white');
 
   expect(
@@ -179,7 +180,7 @@ test('Black pawn can only capture diagonally forward one square to the left or r
 
   const arrayBoard = chess.getBoardAsArray();
 
-  expect(chess.getPiece(3, 3)).not.toBe(0);
+  expect(chess.hasPiece(3, 3)).toBe(true);
   expect(chess.getPiece(3, 3).color).toBe('black');
 
   expect(

@@ -31,6 +31,14 @@ test('White should play first', () => {
   expect(chess.whoPlays).toBe('white');
 });
 
+test('After the white pieces moves, the black pieces move', () => {
+  const chess = new Chess();
+
+  chess.move(0, 1, 0, 2);
+
+  expect(chess.whoPlays).toBe('black');
+});
+
 test(`It has to return true if there's a piece`, () => {
   const chess = new Chess();
 
@@ -131,7 +139,6 @@ test('White pawn cannot move 2 squares if Y != 1', () => {
   expect(t).toThrow('Invalid movement');
 });
 
-<<<<<<< HEAD
 test(`It should be possible to add a piece in a valid position`, () => {
   const chess = new Chess();
 
@@ -140,27 +147,28 @@ test(`It should be possible to add a piece in a valid position`, () => {
 
   chess.addPiece('king', 'white', 4, 3);
 
-  expect(hasPiece(4, 3)).toBe(true);
+  expect(chess.hasPiece(4, 3)).toBe(true);
 
-  const piece = getPiece(4, 3);
+  const piece = chess.getPiece(4, 3);
 
   expect(piece.pieceType).toBe('king');
   expect(piece.color).toBe('white');
   expect(chess.getPieces().length).toBe(17);
 });
 
-// test(`It shouldn't be possible to add a piece in a invalid position`, () => {
-//   const chess = new Chess();
+test(`It shouldn't be possible to add a piece in a invalid position`, () => {
+  const chess = new Chess();
 
-//   expect(chess.getPiece(3, 1)).not.toBe(0);
-//   expect(chess.getPieces().length).toBe(16);
+  expect(chess.hasPiece(3, 1)).toBe(true);
+  expect(chess.getPieces().length).toBe(16);
 
-//   chess.addPiece('king', 'white', 3, 1);
+  const t = () => {
+    chess.addPiece('king', 'white', 3, 1);
+  };
 
-//   expect(chess.getPieces()).toBe(`There's already a piece in that position`);
-//   expect(chess.getPieces().length).toBe(16);
-// });
-=======
+  expect(t).toThrow(`There's already a piece in that position`);
+});
+
 test('Black pawn cannot move 2 squares if Y != 6', () => {
   const chess = new Chess();
 
@@ -229,12 +237,3 @@ test('Black pawn can only capture diagonally forward one square to the left or r
 // test('White pawn cannot move if it has a piece in front of it', () => {});
 
 // test('Black pawn cannot move if it has a piece in front of it', () => {});
->>>>>>> master
-
-test('After the white pieces moves, the black pieces move', () => {
-  const chess = new Chess();
-
-  chess.move(0, 1, 0, 2);
-
-  expect(chess.whoPlays).toBe('black');
-});

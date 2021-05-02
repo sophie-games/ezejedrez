@@ -122,18 +122,37 @@ export default class Chess {
     return true;
   }
 
-<<<<<<< HEAD
   getPieces() {
-    // return un array con todas las piezas
+    const arr = this.getBoardAsArray();
+    const pieces = arr.filter((piece) => piece.pieceType);
+
+    return pieces;
   }
 
-  addPiece() {
-    // return agregar una pieza añ tablero del board del chess
+  addPiece(type, color, x, y) {
+    const board = this.getBoard();
+    const hasPiece = this.hasPiece(x, y);
+    const newPiece = { pieceType: type, color: color };
+
+    if (hasPiece) {
+      throw new Error(`There's already a piece in that position`);
+    } else {
+      board[x][y] = newPiece;
+    }
   }
 
   move(fromX, fromY, toX, toY) {
-    this.turnNumber++;
-=======
+    const allPawnMovements = this.getAllPawnMovements(fromX, fromY);
+
+    if (allPawnMovements.find((m) => m.x === toX && m.y === toY)) {
+      this.movePiece(fromX, fromY, toX, toY);
+      this.turnNumber++;
+      return;
+    }
+
+    throw new Error('Invalid movement');
+  }
+
   getTargetMovements(x, y) {
     const movements = [];
     const piece = this.getPiece(x, y);
@@ -151,7 +170,6 @@ export default class Chess {
           y: y + 1,
         });
       }
->>>>>>> master
 
       if (
         this.isAValidPosition(x - 1, y + 1) &&
@@ -202,17 +220,5 @@ export default class Chess {
 
   hasPiece(x, y) {
     return this.getPiece(x, y) ? true : false;
-  }
-
-  move(fromX, fromY, toX, toY) {
-    const allPawnMovements = this.getAllPawnMovements(fromX, fromY);
-
-    if (allPawnMovements.find((m) => m.x === toX && m.y === toY)) {
-      this.movePiece(fromX, fromY, toX, toY);
-      this.turnNumber++;
-      return;
-    }
-
-    throw new Error('Invalid movement');
   }
 }

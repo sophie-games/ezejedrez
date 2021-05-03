@@ -79,31 +79,25 @@ export default class Chess {
     const piece = this.getPiece(x, y);
     const movements = [];
 
+    const addIfIsAnEmptySquare = (mX, mY) => {
+      if (!this.hasPiece(mX, mY)) {
+        movements.push({ x: mX, y: mY });
+      }
+    };
+
     if (piece.color === 'white') {
-      movements.push({
-        x: x,
-        y: y + 1,
-      });
+      addIfIsAnEmptySquare(x, y + 1);
 
       if (y === 1) {
-        movements.push({
-          x: x,
-          y: y + 2,
-        });
+        addIfIsAnEmptySquare(x, y + 2);
       }
     }
 
     if (piece.color === 'black') {
-      movements.push({
-        x: x,
-        y: y - 1,
-      });
+      addIfIsAnEmptySquare(x, y - 1);
 
       if (y === 6) {
-        movements.push({
-          x: x,
-          y: y - 2,
-        });
+        addIfIsAnEmptySquare(x, y - 2);
       }
     }
 

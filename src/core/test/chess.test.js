@@ -234,6 +234,36 @@ test('Black pawn can only capture diagonally forward one square to the left or r
   ).toBe(7);
 });
 
-// test('White pawn cannot move if it has a piece in front of it', () => {});
+test('White pawn cannot move if it has a piece in front of it', () => {
+  const chess = new Chess();
 
-// test('Black pawn cannot move if it has a piece in front of it', () => {});
+  chess.movePiece(3, 1, 3, 3);
+  expect(chess.hasPiece(3, 3)).toBe(true);
+
+  chess.movePiece(3, 6, 3, 4);
+  expect(chess.hasPiece(3, 4)).toBe(true);
+
+  const t = () => {
+    chess.move(3, 3, 3, 4);
+  };
+
+  expect(t).toThrow('Invalid movement');
+});
+
+test('Black pawn cannot move if it has a piece in front of it', () => {
+  const chess = new Chess();
+
+  chess.movePiece(3, 1, 3, 3);
+  expect(chess.hasPiece(3, 3)).toBe(true);
+
+  chess.movePiece(3, 6, 3, 4);
+  expect(chess.hasPiece(3, 4)).toBe(true);
+
+  chess.move(7, 1, 7, 2);
+
+  const t = () => {
+    chess.move(3, 4, 3, 3);
+  };
+
+  expect(t).toThrow('Invalid movement');
+});

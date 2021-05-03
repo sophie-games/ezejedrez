@@ -67,7 +67,7 @@ export default class Chess {
    * @param {Number} toX
    * @param {Number} toY
    */
-  movePiece(fromX, fromY, toX, toY) {
+  __movePiece(fromX, fromY, toX, toY) {
     const board = this.getBoard();
     const piece = this.getPiece(fromX, fromY);
 
@@ -139,7 +139,7 @@ export default class Chess {
     const allPawnMovements = this.getAllPawnMovements(fromX, fromY);
 
     if (allPawnMovements.find((m) => m.x === toX && m.y === toY)) {
-      this.movePiece(fromX, fromY, toX, toY);
+      this.__movePiece(fromX, fromY, toX, toY);
       this.turnNumber++;
       return;
     }

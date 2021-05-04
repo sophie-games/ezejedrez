@@ -84,7 +84,7 @@ describe('Chess', () => {
     });
   });
 
-  describe('.setBoard()', () => {
+  describe('.setBoard(callback)', () => {
     test('setBoard should allow to create a custom board', () => {
       const chess = new Chess();
 

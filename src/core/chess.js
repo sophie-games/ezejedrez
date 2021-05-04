@@ -88,7 +88,7 @@ export default class Chess {
     if (piece.color === 'white') {
       addIfIsAnEmptySquare(x, y + 1);
 
-      if (y === 1) {
+      if (y === 1 && !this.hasPiece(x, y + 1)) {
         addIfIsAnEmptySquare(x, y + 2);
       }
     }
@@ -96,7 +96,7 @@ export default class Chess {
     if (piece.color === 'black') {
       addIfIsAnEmptySquare(x, y - 1);
 
-      if (y === 6) {
+      if (y === 6 && !this.hasPiece(x, y - 1)) {
         addIfIsAnEmptySquare(x, y - 2);
       }
     }

@@ -267,3 +267,41 @@ test('Black pawn cannot move if it has a piece in front of it', () => {
 
   expect(t).toThrow('Invalid movement');
 });
+
+test('A white pawn cannot move out of the board', () => {
+  const chess = new Chess();
+});
+
+test('A black pawn cannot move out of the board', () => {
+  const chess = new Chess();
+});
+
+test('A white pawn cannot overstep a piece', () => {
+  const chess = new Chess();
+
+  chess.addPiece('pawn', 'white', 3, 2);
+  expect(chess.hasPiece(3, 2)).toBe(true);
+  expect(chess.hasPiece(3, 1)).toBe(true);
+
+  const t = () => {
+    chess.move(3, 1, 3, 3);
+  };
+
+  expect(t).toThrow('Invalid movement');
+});
+
+test('A black pawn cannot overstep a piece', () => {
+  const chess = new Chess();
+
+  chess.move(7, 1, 7, 2);
+
+  chess.addPiece('pawn', 'black', 3, 5);
+  expect(chess.hasPiece(3, 5)).toBe(true);
+  expect(chess.hasPiece(3, 6)).toBe(true);
+
+  const t = () => {
+    chess.move(3, 6, 3, 4);
+  };
+
+  expect(t).toThrow('Invalid movement');
+});

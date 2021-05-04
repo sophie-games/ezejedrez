@@ -215,4 +215,24 @@ export default class Chess {
   hasPiece(x, y) {
     return this.getPiece(x, y) ? true : false;
   }
+
+  /**
+   * Borra todas las piezas del tablero
+   */
+  cleanBoard() {
+    for(let i = 0; i < COLUMNS; i++) {
+      for(let j = 0; j < ROWS; j++) {
+        this._board[i][j] = 0;
+      }
+    }
+  }
+  
+  /**
+   * Borra el tablero actual y permite interactuar con el board interno en el callback para agregar piezas.
+   * @param {Function} callback
+   */
+  setBoard( callback ) {
+    this.cleanBoard();
+    callback(this._board);
+  }
 }

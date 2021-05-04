@@ -293,3 +293,27 @@ test('A black pawn cannot overstep a piece', () => {
 
   expect(t).toThrow('Invalid movement');
 });
+
+test('cleanBoard just clears the board', () => {
+  const chess = new Chess();
+
+  chess.cleanBoard();
+
+  expect(chess.getPieces().length).toBe(0);
+});
+
+test('setBoard should allow to create a custom board', () => {
+  const chess = new Chess();
+
+  chess.setBoard( board => {
+    board[4][4] = {
+      pieceType: "pawn",
+      color: "white",
+    };
+  });
+
+  expect(chess.hasPiece(4, 4)).toBe(true);
+  expect(chess.getPiece(4, 4).color).toBe("white");
+  expect(chess.getPiece(4, 4).pieceType).toBe("pawn");
+  expect(chess.getPieces().length).toBe(1);
+});

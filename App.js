@@ -17,7 +17,12 @@ export default function App() {
 
   useEffect(() => {
     const chess = new Chess();
-    setBoard(chess.getBoard());
+    const chessBoard = chess.getBoard();
+
+    // chess.addPiece('king', 'white', 4, 3);
+    // chessBoard[4][3] = { pieceType: 'king', color: 'white' };
+
+    setBoard(chessBoard);
 
     Dimensions.addEventListener('change', onChange); // If Dimensions change, we update the dimensions state
 
@@ -34,7 +39,7 @@ export default function App() {
     <View style={styles.container}>
       <Board board={board} size={boardSize} />
 
-      <StatusBar style="auto" />
+      <StatusBar style='auto' />
     </View>
   );
 }

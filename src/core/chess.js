@@ -4,7 +4,7 @@ const ROWS = 8;
 
 export default class Chess {
   constructor() {
-    this._board = this.createBoard();
+    this.__board = this.createBoard();
     this.turnNumber = 1;
   }
 
@@ -40,7 +40,7 @@ export default class Chess {
   }
 
   getBoard() {
-    return this._board;
+    return this.__board;
   }
 
   getBoardAsArray() {
@@ -222,7 +222,7 @@ export default class Chess {
   cleanBoard() {
     for(let i = 0; i < COLUMNS; i++) {
       for(let j = 0; j < ROWS; j++) {
-        this._board[i][j] = 0;
+        this.__board[i][j] = 0;
       }
     }
   }
@@ -233,6 +233,6 @@ export default class Chess {
    */
   setBoard( callback ) {
     this.cleanBoard();
-    callback(this._board);
+    callback(this.__board);
   }
 }

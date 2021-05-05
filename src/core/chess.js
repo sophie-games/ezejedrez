@@ -178,9 +178,9 @@ export default class Chess {
   }
 
   move(fromX, fromY, toX, toY) {
-    const allPawnMovements = this.__getPawnMovements(fromX, fromY);
+    const getPieceMovements = this.getPieceMovements(fromX, fromY);
 
-    if (allPawnMovements.find((m) => m.x === toX && m.y === toY)) {
+    if (getPieceMovements.find((m) => m.x === toX && m.y === toY)) {
       this.__movePiece(fromX, fromY, toX, toY);
       this.turnNumber++;
       return;

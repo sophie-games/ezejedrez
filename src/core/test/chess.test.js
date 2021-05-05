@@ -129,7 +129,7 @@ describe('Chess', () => {
     });
   });
 
-  describe('.getMovements(x, y)', () => {
+  describe('.getPieceMovements(x, y)', () => {
     test('Pawns movements 1', () => {
       const chess = new Chess();
 

@@ -13,7 +13,6 @@ describe('Chess', () => {
     pawnLines.forEach((line) => {
       for (let i = 0; i < 8; i++) {
         const pawn = chess.getPiece(i, line.lineY);
-        expect(pawn).not.toBe(false);
         expect(pawn.pieceType).toBe('pawn');
         expect(pawn.color).toBe(line.color);
       }
@@ -30,8 +29,6 @@ describe('Chess', () => {
     const whiteKing = chess.getPiece(4, 0);
     const blackKing = chess.getPiece(4, 7);
 
-    expect(whiteKing).not.toBe(false);
-    expect(blackKing).not.toBe(false);
     expect(whiteKing.pieceType).toBe('king');
     expect(blackKing.pieceType).toBe('king');
     expect(whiteKing.color).toBe('white');

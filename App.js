@@ -19,9 +19,6 @@ export default function App() {
     const chess = new Chess();
     const chessBoard = chess.getBoard();
 
-    // chess.addPiece('king', 'white', 4, 3);
-    // chessBoard[4][3] = { pieceType: 'king', color: 'white' };
-
     setBoard(chessBoard);
 
     Dimensions.addEventListener('change', onChange); // If Dimensions change, we update the dimensions state

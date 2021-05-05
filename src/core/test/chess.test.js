@@ -1,7 +1,7 @@
 import Chess from '../chess';
 
 describe('Chess', () => {
-  test('All pieces should be in its correct place', () => {
+  test('Pawns should be in its correct place', () => {
     const chess = new Chess();
     const arrayBoard = chess.getBoardAsArray();
 
@@ -13,17 +13,33 @@ describe('Chess', () => {
     pawnLines.forEach((line) => {
       for (let i = 0; i < 8; i++) {
         const pawn = chess.getPiece(i, line.lineY);
-        expect(pawn).not.toBe(0);
+        expect(pawn).not.toBe(false);
         expect(pawn.pieceType).toBe('pawn');
         expect(pawn.color).toBe(line.color);
       }
     });
 
     expect(
-      arrayBoard.filter((piece) => piece.pieceType === 'pawn').length
+      arrayBoard.filter((piece) => piece.pieceType === 'pawn').length,
     ).toBe(16);
+  });
 
-    // TODO: testear las otras piezas
+  test('Kings should be in its correct place', () => {
+    const chess = new Chess();
+    const arrayBoard = chess.getBoardAsArray();
+    const whiteKing = chess.getPiece(4, 0);
+    const blackKing = chess.getPiece(4, 7);
+
+    expect(whiteKing).not.toBe(false);
+    expect(blackKing).not.toBe(false);
+    expect(whiteKing.pieceType).toBe('king');
+    expect(blackKing.pieceType).toBe('king');
+    expect(whiteKing.color).toBe('white');
+    expect(blackKing.color).toBe('black');
+
+    expect(
+      arrayBoard.filter((piece) => piece.pieceType === 'king').length,
+    ).toBe(2);
   });
 
   describe('.whoPlays', () => {
@@ -45,9 +61,9 @@ describe('Chess', () => {
   describe('.addPiece(pieceType, color, x, y)', () => {
     test(`It should be possible to add a piece in a valid position`, () => {
       const chess = new Chess();
+      const piecesLength = chess.getPieces().length;
 
       expect(chess.hasPiece(4, 3)).toBe(false);
-      expect(chess.getPieces().length).toBe(16);
 
       chess.addPiece('king', 'white', 4, 3);
 
@@ -57,14 +73,11 @@ describe('Chess', () => {
 
       expect(piece.pieceType).toBe('king');
       expect(piece.color).toBe('white');
-      expect(chess.getPieces().length).toBe(17);
+      expect(chess.getPieces().length).toBe(piecesLength + 1);
     });
 
     test(`It shouldn't be possible to add a piece in a invalid position`, () => {
       const chess = new Chess();
-
-      expect(chess.hasPiece(3, 1)).toBe(true);
-      expect(chess.getPieces().length).toBe(16);
 
       const t = () => {
         chess.addPiece('king', 'white', 3, 1);
@@ -120,7 +133,7 @@ describe('Chess', () => {
     test('Pawns movements 1', () => {
       const chess = new Chess();
 
-      const movements = chess.getMovements(0, 1);
+      const movements = chess.getPieceMovements(0, 1);
 
       expect(movements.length).toBe(2);
       expect(movements.find((m) => m.x === 0 && m.y === 2)).not.toBe(undefined);
@@ -130,7 +143,7 @@ describe('Chess', () => {
     test('Pawns movements 2', () => {
       const chess = new Chess();
 
-      const movements = chess.getMovements(1, 1);
+      const movements = chess.getPieceMovements(1, 1);
 
       expect(movements.length).toBe(2);
       expect(movements.find((m) => m.x === 1 && m.y === 2)).not.toBe(undefined);
@@ -140,7 +153,7 @@ describe('Chess', () => {
     test('Pawns movements 3 (black)', () => {
       const chess = new Chess();
 
-      const movements = chess.getMovements(1, 6);
+      const movements = chess.getPieceMovements(1, 6);
 
       expect(movements.length).toBe(2);
       expect(movements.find((m) => m.x === 1 && m.y === 5)).not.toBe(undefined);
@@ -149,6 +162,7 @@ describe('Chess', () => {
   });
 
   describe('.move(fromX, fromY, toX, toY)', () => {
+    // Pawns moves
     test('White pawn cannot move to an invalid position', () => {
       const chess = new Chess();
 
@@ -235,14 +249,14 @@ describe('Chess', () => {
 
       expect(
         arrayBoard.filter(
-          (piece) => piece.pieceType === 'pawn' && piece.color === 'black'
-        ).length
+          (piece) => piece.pieceType === 'pawn' && piece.color === 'black',
+        ).length,
       ).toBe(8);
 
       expect(
         arrayBoard.filter(
-          (piece) => piece.pieceType === 'pawn' && piece.color === 'white'
-        ).length
+          (piece) => piece.pieceType === 'pawn' && piece.color === 'white',
+        ).length,
       ).toBe(9);
     });
 
@@ -261,14 +275,14 @@ describe('Chess', () => {
 
       expect(
         arrayBoard.filter(
-          (piece) => piece.pieceType === 'pawn' && piece.color === 'black'
-        ).length
+          (piece) => piece.pieceType === 'pawn' && piece.color === 'black',
+        ).length,
       ).toBe(9);
 
       expect(
         arrayBoard.filter(
-          (piece) => piece.pieceType === 'pawn' && piece.color === 'white'
-        ).length
+          (piece) => piece.pieceType === 'pawn' && piece.color === 'white',
+        ).length,
       ).toBe(8);
     });
 
@@ -330,6 +344,37 @@ describe('Chess', () => {
       };
 
       expect(t).toThrow('Invalid movement');
+    });
+
+    // Kings moves
+    test('The king can only move to a valid position', () => {
+      const chess = new Chess();
+
+      chess.cleanBoard();
+
+      chess.addPiece('king', 'white', 4, 3);
+
+      const movements = chess.getPieceMovements(4, 3);
+
+      expect(movements.length).toBe(8);
+      expect(movements.find((m) => m.x === 4 && m.y === 4)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 3 && m.y === 4)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 3 && m.y === 3)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 3 && m.y === 2)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 4 && m.y === 2)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 5 && m.y === 2)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 5 && m.y === 3)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 5 && m.y === 4)).not.toBe(undefined);
+    });
+
+    test('The king cannot move out of the board', () => {
+      const chess = new Chess();
+
+      chess.cleanBoard();
+
+      chess.addPiece('king', 'white', 4, 3);
+
+      const movements = chess.getKingMovements(4, 0);
     });
   });
 });

@@ -15,6 +15,7 @@ export default class Chess {
   createBoard() {
     // We create the matrix
     const board = new Array(COLUMNS);
+
     for (let x = 0; x < COLUMNS; x++) {
       board[x] = new Array(ROWS);
       for (let y = 0; y < ROWS; y++) {
@@ -22,6 +23,7 @@ export default class Chess {
       }
     }
 
+    //Adding pawns
     const pawnLines = [
       { lineY: 1, color: 'white' },
       { lineY: 6, color: 'black' },
@@ -35,6 +37,17 @@ export default class Chess {
         };
       }
     });
+
+    // Adding kings
+    board[4][0] = {
+      pieceType: 'king',
+      color: 'white',
+    };
+
+    board[4][7] = {
+      pieceType: 'king',
+      color: 'black',
+    };
 
     return board;
   }
@@ -75,7 +88,7 @@ export default class Chess {
     board[toX][toY] = piece;
   }
 
-  getMovements(x, y) {
+  __getPawnMoveMovements(x, y) {
     const piece = this.getPiece(x, y);
     const movements = [];
 
@@ -99,6 +112,35 @@ export default class Chess {
       if (y === 6 && !this.hasPiece(x, y - 1)) {
         addIfIsAnEmptySquare(x, y - 2);
       }
+    }
+
+    return movements;
+  }
+
+  __getKingMoveMovements(x, y) {
+    const movements = [];
+
+    const addIfIsAnEmptySquare = (mX, mY) => {
+      if (!this.hasPiece(mX, mY)) {
+        movements.push({ x: mX, y: mY });
+      }
+    };
+
+    const kingPossibleMovs = [
+      { x: x, y: y + 1 },
+      { x: x - 1, y: y + 1 },
+      { x: x - 1, y: y },
+      { x: x - 1, y: y - 1 },
+      { x: x, y: y - 1 },
+      { x: x + 1, y: y - 1 },
+      { x: x + 1, y: y },
+      { x: x + 1, y: y + 1 },
+    ];
+
+    for (let i = 0; i < kingPossibleMovs.length; i++) {
+      const possibleMov = kingPossibleMovs[i];
+
+      addIfIsAnEmptySquare(possibleMov.x, possibleMov.y);
     }
 
     return movements;
@@ -136,7 +178,7 @@ export default class Chess {
   }
 
   move(fromX, fromY, toX, toY) {
-    const allPawnMovements = this.getAllPawnMovements(fromX, fromY);
+    const allPawnMovements = this.__getPawnMovements(fromX, fromY);
 
     if (allPawnMovements.find((m) => m.x === toX && m.y === toY)) {
       this.__movePiece(fromX, fromY, toX, toY);
@@ -147,14 +189,12 @@ export default class Chess {
     throw new Error('Invalid movement');
   }
 
-  getTargetMovements(x, y) {
+  __getPawnCaptureMovements(x, y) {
     const movements = [];
     const piece = this.getPiece(x, y);
 
     if (piece.color === 'white') {
       if (
-        // Cuando tenemos la comapracion AND(&&), la propia comparacion se ejecuta en orden sincronico y si UNA de ellas
-        // da false el resto no se ejecutan porque ya sabe que toda la comparacion va a dar false.
         this.isAValidPosition(x + 1, y + 1) &&
         this.getPiece(x + 1, y + 1) &&
         this.getPiece(x + 1, y + 1).color === 'black'
@@ -204,12 +244,32 @@ export default class Chess {
     return movements;
   }
 
-  getAllPawnMovements(x, y) {
-    const pawnMovements = this.getMovements(x, y);
-    const pawnTargets = this.getTargetMovements(x, y);
+  __getPawnMovements(x, y) {
+    const pawnMovements = this.__getPawnMoveMovements(x, y);
+    const pawnTargets = this.__getPawnCaptureMovements(x, y);
     const allPawnMovements = pawnMovements.concat(pawnTargets);
 
     return allPawnMovements;
+  }
+
+  __getKingMovements(x, y) {
+    const kingMovements = this.__getKingMoveMovements(x, y);
+
+    const allKingMovements = kingMovements;
+
+    return allKingMovements;
+  }
+
+  getPieceMovements(x, y) {
+    const piece = this.getPiece(x, y);
+
+    switch (piece.pieceType) {
+      case 'king':
+        return this.__getKingMovements(x, y);
+
+      case 'pawn':
+        return this.__getPawnMovements(x, y);
+    }
   }
 
   hasPiece(x, y) {
@@ -220,18 +280,18 @@ export default class Chess {
    * Borra todas las piezas del tablero
    */
   cleanBoard() {
-    for(let i = 0; i < COLUMNS; i++) {
-      for(let j = 0; j < ROWS; j++) {
+    for (let i = 0; i < COLUMNS; i++) {
+      for (let j = 0; j < ROWS; j++) {
         this.__board[i][j] = 0;
       }
     }
   }
-  
+
   /**
    * Borra el tablero actual y permite interactuar con el board interno en el callback para agregar piezas.
    * @param {Function} callback
    */
-  setBoard( callback ) {
+  setBoard(callback) {
     this.cleanBoard();
     callback(this.__board);
   }

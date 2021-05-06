@@ -364,14 +364,18 @@ describe('Chess', () => {
       expect(movements.find((m) => m.x === 5 && m.y === 4)).not.toBe(undefined);
     });
 
-    test('The king cannot move out of the board', () => {
+    test('A piece cannot move out of the board', () => {
       const chess = new Chess();
 
       chess.cleanBoard();
 
-      chess.addPiece('king', 'white', 4, 3);
+      chess.addPiece('king', 'white', 4, 0);
 
-      const movements = chess.getKingMovements(4, 0);
+      const t = () => {
+        chess.move(4, 0, 4, -1);
+      };
+
+      expect(t).toThrow('Invalid movement');
     });
   });
 });

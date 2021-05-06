@@ -92,25 +92,19 @@ export default class Chess {
     const piece = this.getPiece(x, y);
     const movements = [];
 
-    const addIfIsAnEmptySquare = (mX, mY) => {
-      if (!this.hasPiece(mX, mY)) {
-        movements.push({ x: mX, y: mY });
-      }
-    };
-
     if (piece.color === 'white') {
-      addIfIsAnEmptySquare(x, y + 1);
+      this.__addIfIsAValidMovement(x, y + 1, movements);
 
       if (y === 1 && !this.hasPiece(x, y + 1)) {
-        addIfIsAnEmptySquare(x, y + 2);
+        this.__addIfIsAValidMovement(x, y + 2, movements);
       }
     }
 
     if (piece.color === 'black') {
-      addIfIsAnEmptySquare(x, y - 1);
+      this.__addIfIsAValidMovement(x, y - 1, movements);
 
       if (y === 6 && !this.hasPiece(x, y - 1)) {
-        addIfIsAnEmptySquare(x, y - 2);
+        this.__addIfIsAValidMovement(x, y - 2, movements);
       }
     }
 
@@ -119,12 +113,6 @@ export default class Chess {
 
   __getKingMoveMovements(x, y) {
     const movements = [];
-
-    const addIfIsAnEmptySquare = (mX, mY) => {
-      if (!this.hasPiece(mX, mY)) {
-        movements.push({ x: mX, y: mY });
-      }
-    };
 
     const kingPossibleMovs = [
       { x: x, y: y + 1 },
@@ -140,10 +128,16 @@ export default class Chess {
     for (let i = 0; i < kingPossibleMovs.length; i++) {
       const possibleMov = kingPossibleMovs[i];
 
-      addIfIsAnEmptySquare(possibleMov.x, possibleMov.y);
+      this.__addIfIsAValidMovement(possibleMov.x, possibleMov.y, movements);
     }
 
     return movements;
+  }
+
+  __addIfIsAValidMovement(x, y, movements) {
+    if (!this.hasPiece(x, y) && this.isAValidPosition(x, y)) {
+      movements.push({ x: x, y: y });
+    }
   }
 
   isAValidPosition(x, y) {

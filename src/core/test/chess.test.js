@@ -500,7 +500,7 @@ describe('Chess', () => {
       expect(t).toThrow('Invalid movement');
     });
 
-    test('A pawn cannot capture a piece that has the same color', () => {
+    test('A piece cannot capture another piece that has the same color', () => {
       const chess = new Chess();
 
       chess.cleanBoard();
@@ -508,20 +508,16 @@ describe('Chess', () => {
       chess.addPiece('pawn', 'white', 4, 3);
       chess.addPiece('pawn', 'white', 5, 4);
 
-      const t = () => {
+      const s = () => {
         chess.move(4, 3, 5, 4);
       };
 
-      expect(t).toThrow('Invalid movement');
-    });
-
-    test('A king cannot capture a piece that has the same color', () => {
-      const chess = new Chess();
+      expect(s).toThrow('Invalid movement');
 
       chess.cleanBoard();
 
       chess.addPiece('king', 'white', 3, 2);
-      chess.addPiece('pawn', 'white', 3, 3);
+      chess.addPiece('king', 'white', 3, 3);
 
       const t = () => {
         chess.move(3, 2, 3, 3);

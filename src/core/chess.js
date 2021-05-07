@@ -93,18 +93,18 @@ export default class Chess {
     const movements = [];
 
     if (piece.color === 'white') {
-      this.__addIfIsAValidMovement(x, y + 1, movements);
+      this.__addIfValidMovement(x, y + 1, movements);
 
       if (y === 1 && !this.hasPiece(x, y + 1)) {
-        this.__addIfIsAValidMovement(x, y + 2, movements);
+        this.__addIfValidMovement(x, y + 2, movements);
       }
     }
 
     if (piece.color === 'black') {
-      this.__addIfIsAValidMovement(x, y - 1, movements);
+      this.__addIfValidMovement(x, y - 1, movements);
 
       if (y === 6 && !this.hasPiece(x, y - 1)) {
-        this.__addIfIsAValidMovement(x, y - 2, movements);
+        this.__addIfValidMovement(x, y - 2, movements);
       }
     }
 
@@ -126,16 +126,14 @@ export default class Chess {
       { x: x + 1, y: y + 1 },
     ];
 
-    for (let i = 0; i < kingPossibleCaptures.length; i++) {
-      const possibleCapture = kingPossibleCaptures[i];
-
+    kingPossibleCaptures.forEach((possibleCapture) =>
       this.__addCaptureMovIfIsValid(
         possibleCapture.x,
         possibleCapture.y,
         movements,
         pieceThatCaptures,
-      );
-    }
+      ),
+    );
 
     return movements;
   }
@@ -154,11 +152,9 @@ export default class Chess {
       { x: x + 1, y: y + 1 },
     ];
 
-    for (let i = 0; i < kingPossibleMovs.length; i++) {
-      const possibleMov = kingPossibleMovs[i];
-
-      this.__addIfIsAValidMovement(possibleMov.x, possibleMov.y, movements);
-    }
+    kingPossibleMovs.forEach((possibleMov) =>
+      this.__addIfValidMovement(possibleMov.x, possibleMov.y, movements),
+    );
 
     return movements;
   }
@@ -177,7 +173,7 @@ export default class Chess {
     }
   }
 
-  __addIfIsAValidMovement(x, y, movements) {
+  __addIfValidMovement(x, y, movements) {
     if (!this.hasPiece(x, y) && this.isAValidPosition(x, y)) {
       movements.push({ x: x, y: y });
     }

@@ -129,7 +129,7 @@ export default class Chess {
     for (let i = 0; i < kingPossibleCaptures.length; i++) {
       const possibleCapture = kingPossibleCaptures[i];
 
-      this.__captureIfIsValid(
+      this.__addCaptureMovIfIsValid(
         possibleCapture.x,
         possibleCapture.y,
         movements,
@@ -163,7 +163,7 @@ export default class Chess {
     return movements;
   }
 
-  __captureIfIsValid(x, y, movements, pieceThatCaptures) {
+  __addCaptureMovIfIsValid(x, y, movements, pieceThatCaptures) {
     const hasPiece = this.hasPiece(x, y);
     const isAValidPosition = this.isAValidPosition(x, y);
     const pieceToCapture = this.getPiece(x, y);
@@ -283,16 +283,16 @@ export default class Chess {
 
   __getPawnMovements(x, y) {
     const pawnMovements = this.__getPawnMoveMovements(x, y);
-    const pawnCapture = this.__getPawnCaptureMovements(x, y);
-    const allPawnMovements = pawnMovements.concat(pawnCapture);
+    const captureMovements = this.__getPawnCaptureMovements(x, y);
+    const allPawnMovements = pawnMovements.concat(captureMovements);
 
     return allPawnMovements;
   }
 
   __getKingMovements(x, y) {
     const kingMovements = this.__getKingMoveMovements(x, y);
-    const kingCapture = this.__getKingCaptureMovements(x, y);
-    const allKingMovements = kingMovements.concat(kingCapture);
+    const captureMovements = this.__getKingCaptureMovements(x, y);
+    const allKingMovements = kingMovements.concat(captureMovements);
 
     return allKingMovements;
   }

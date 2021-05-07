@@ -111,6 +111,35 @@ export default class Chess {
     return movements;
   }
 
+  __getKingCaptureMovements(x, y) {
+    const movements = [];
+    const pieceThatCaptures = this.getPiece(x, y);
+
+    const kingPossibleCaptures = [
+      { x: x, y: y + 1 },
+      { x: x - 1, y: y + 1 },
+      { x: x - 1, y: y },
+      { x: x - 1, y: y - 1 },
+      { x: x, y: y - 1 },
+      { x: x + 1, y: y - 1 },
+      { x: x + 1, y: y },
+      { x: x + 1, y: y + 1 },
+    ];
+
+    for (let i = 0; i < kingPossibleCaptures.length; i++) {
+      const possibleCapture = kingPossibleCaptures[i];
+
+      this.__captureIfIsValid(
+        possibleCapture.x,
+        possibleCapture.y,
+        movements,
+        pieceThatCaptures,
+      );
+    }
+
+    return movements;
+  }
+
   __getKingMoveMovements(x, y) {
     const movements = [];
 
@@ -132,6 +161,20 @@ export default class Chess {
     }
 
     return movements;
+  }
+
+  __captureIfIsValid(x, y, movements, pieceThatCaptures) {
+    const hasPiece = this.hasPiece(x, y);
+    const isAValidPosition = this.isAValidPosition(x, y);
+    const pieceToCapture = this.getPiece(x, y);
+
+    if (
+      hasPiece &&
+      isAValidPosition &&
+      pieceThatCaptures.color !== pieceToCapture.color
+    ) {
+      movements.push({ x: x, y: y });
+    }
   }
 
   __addIfIsAValidMovement(x, y, movements) {
@@ -240,16 +283,16 @@ export default class Chess {
 
   __getPawnMovements(x, y) {
     const pawnMovements = this.__getPawnMoveMovements(x, y);
-    const pawnTargets = this.__getPawnCaptureMovements(x, y);
-    const allPawnMovements = pawnMovements.concat(pawnTargets);
+    const pawnCapture = this.__getPawnCaptureMovements(x, y);
+    const allPawnMovements = pawnMovements.concat(pawnCapture);
 
     return allPawnMovements;
   }
 
   __getKingMovements(x, y) {
     const kingMovements = this.__getKingMoveMovements(x, y);
-
-    const allKingMovements = kingMovements;
+    const kingCapture = this.__getKingCaptureMovements(x, y);
+    const allKingMovements = kingMovements.concat(kingCapture);
 
     return allKingMovements;
   }

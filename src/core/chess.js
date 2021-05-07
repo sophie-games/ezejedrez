@@ -127,7 +127,7 @@ export default class Chess {
     ];
 
     kingPossibleCaptures.forEach((possibleCapture) =>
-      this.__addCaptureMovIfIsValid(
+      this.__addIfValidCapture(
         possibleCapture.x,
         possibleCapture.y,
         movements,
@@ -159,7 +159,7 @@ export default class Chess {
     return movements;
   }
 
-  __addCaptureMovIfIsValid(x, y, movements, pieceThatCaptures) {
+  __addIfValidCapture(x, y, movements, pieceThatCaptures) {
     const hasPiece = this.hasPiece(x, y);
     const isAValidPosition = this.isAValidPosition(x, y);
     const pieceToCapture = this.getPiece(x, y);

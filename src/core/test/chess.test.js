@@ -364,126 +364,33 @@ describe('Chess', () => {
       expect(movements.find((m) => m.x === 5 && m.y === 4)).not.toBe(undefined);
     });
 
-    test('The king can only capture one square to the left, right, diagonally, forward or backward', () => {
-      let chess, piece;
-
-      chess = new Chess();
+    test('getPieceMovements() allows you to move only into a piece valid position', () => {
+      const chess = new Chess();
 
       chess.cleanBoard();
 
       chess.addPiece('king', 'white', 4, 3);
-      chess.addPiece('pawn', 'black', 4, 4);
-      chess.move(4, 3, 4, 4); // Forward
 
-      piece = chess.getPiece(4, 4);
+      chess.addPiece('doge', 'black', 4, 4);
+      chess.addPiece('doge', 'black', 3, 4);
+      chess.addPiece('doge', 'black', 3, 3);
+      chess.addPiece('doge', 'black', 3, 2);
+      chess.addPiece('doge', 'black', 4, 2);
+      chess.addPiece('doge', 'black', 5, 2);
+      chess.addPiece('doge', 'black', 5, 3);
+      chess.addPiece('doge', 'black', 5, 4);
 
-      expect(piece.pieceType).toBe('king');
-      expect(piece.color).toBe('white');
+      const movements = chess.getPieceMovements(4, 3);
 
-      //-----------------------------------//
-
-      chess = new Chess();
-
-      chess.cleanBoard();
-
-      chess.addPiece('king', 'white', 4, 3);
-      chess.addPiece('pawn', 'black', 3, 3);
-      chess.move(4, 3, 3, 3); // Left
-
-      piece = chess.getPiece(3, 3);
-
-      expect(piece.pieceType).toBe('king');
-      expect(piece.color).toBe('white');
-
-      //-----------------------------------//
-
-      chess = new Chess();
-
-      chess.cleanBoard();
-
-      chess.addPiece('king', 'white', 4, 3);
-      chess.addPiece('pawn', 'black', 4, 2);
-      chess.move(4, 3, 4, 2); // Backward
-
-      piece = chess.getPiece(4, 2);
-
-      expect(piece.pieceType).toBe('king');
-      expect(piece.color).toBe('white');
-
-      //-----------------------------------//
-
-      chess = new Chess();
-
-      chess.cleanBoard();
-
-      chess.addPiece('king', 'white', 4, 3);
-      chess.addPiece('pawn', 'black', 5, 3);
-      chess.move(4, 3, 5, 3); // Right
-
-      piece = chess.getPiece(5, 3);
-
-      expect(piece.pieceType).toBe('king');
-      expect(piece.color).toBe('white');
-
-      //-----------------------------------//
-
-      chess = new Chess();
-
-      chess.cleanBoard();
-
-      chess.addPiece('king', 'white', 4, 3);
-      chess.addPiece('pawn', 'black', 3, 4);
-      chess.move(4, 3, 3, 4); // Diagonally forward left
-
-      piece = chess.getPiece(3, 4);
-
-      expect(piece.pieceType).toBe('king');
-      expect(piece.color).toBe('white');
-
-      //-----------------------------------//
-
-      chess = new Chess();
-
-      chess.cleanBoard();
-
-      chess.addPiece('king', 'white', 4, 3);
-      chess.addPiece('pawn', 'black', 5, 2);
-      chess.move(4, 3, 5, 2); // Diagonally backward right
-
-      piece = chess.getPiece(5, 2);
-
-      expect(piece.pieceType).toBe('king');
-      expect(piece.color).toBe('white');
-
-      //-----------------------------------//
-
-      chess = new Chess();
-
-      chess.cleanBoard();
-
-      chess.addPiece('king', 'white', 4, 3);
-      chess.addPiece('pawn', 'black', 5, 4);
-      chess.move(4, 3, 5, 4); // Diagonally forward right
-
-      piece = chess.getPiece(5, 4);
-
-      expect(piece.pieceType).toBe('king');
-      expect(piece.color).toBe('white');
-
-      //-----------------------------------//
-
-      chess = new Chess();
-
-      chess.cleanBoard();
-
-      chess.addPiece('king', 'white', 4, 3);
-      chess.addPiece('pawn', 'black', 3, 2);
-      chess.move(4, 3, 3, 2); // Diagonally backward left
-
-      piece = chess.getPiece(3, 2);
-
-      expect(piece.pieceType).toBe('king');
-      expect(piece.color).toBe('white');
+      expect(movements.length).toBe(8);
+      expect(movements.find((m) => m.x === 4 && m.y === 4)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 3 && m.y === 4)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 3 && m.y === 3)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 3 && m.y === 2)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 4 && m.y === 2)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 5 && m.y === 2)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 5 && m.y === 3)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 5 && m.y === 4)).not.toBe(undefined);
     });
 
     test('A piece cannot move out of the board', () => {
@@ -508,19 +415,8 @@ describe('Chess', () => {
       chess.addPiece('pawn', 'white', 4, 3);
       chess.addPiece('pawn', 'white', 5, 4);
 
-      const s = () => {
-        chess.move(4, 3, 5, 4);
-      };
-
-      expect(s).toThrow('Invalid movement');
-
-      chess.cleanBoard();
-
-      chess.addPiece('king', 'white', 3, 2);
-      chess.addPiece('king', 'white', 3, 3);
-
       const t = () => {
-        chess.move(3, 2, 3, 3);
+        chess.move(4, 3, 5, 4);
       };
 
       expect(t).toThrow('Invalid movement');

@@ -12,6 +12,9 @@ import b_pawn from '../../assets/pieces/b_pawn.svg';
 import b_queen from '../../assets/pieces/b_queen.svg';
 import b_rook from '../../assets/pieces/b_rook.svg';
 
+//NN Dummy piece
+import nn_doge from '../../assets/pieces/nn_doge.png';
+
 // White
 import w_bishop from '../../assets/pieces/w_bishop.svg';
 import w_king from '../../assets/pieces/w_king.svg';
@@ -28,6 +31,8 @@ const piecesSrc = {
   b_queen,
   b_rook,
 
+  nn_doge,
+
   w_bishop,
   w_king,
   w_knight,
@@ -39,5 +44,5 @@ const piecesSrc = {
 const style = { height: '75%' };
 
 export default function Piece({ piece }) {
-  return <img style={style} src={piecesSrc[piece]} alt="Piece" />;
+  return <img style={style} src={piecesSrc[piece]} alt='Piece' />;
 }

@@ -23,8 +23,7 @@ export default function Board({ size = 500, board }) {
         height: size,
         display: 'flex',
         flexDirection: 'column-reverse', // "column-reverse" because the (0,0) square is the one at the bottom left.
-      }}
-    >
+      }}>
       {rowArray.map((r) => (
         <View key={r} style={styles.row}>
           {columnArray.map((c) => {

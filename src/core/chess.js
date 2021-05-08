@@ -93,20 +93,47 @@ export default class Chess {
     const movements = [];
 
     if (piece.color === 'white') {
-      this.__addIfIsAValidMovement(x, y + 1, movements);
+      this.__addIfValidMovement(x, y + 1, movements);
 
       if (y === 1 && !this.hasPiece(x, y + 1)) {
-        this.__addIfIsAValidMovement(x, y + 2, movements);
+        this.__addIfValidMovement(x, y + 2, movements);
       }
     }
 
     if (piece.color === 'black') {
-      this.__addIfIsAValidMovement(x, y - 1, movements);
+      this.__addIfValidMovement(x, y - 1, movements);
 
       if (y === 6 && !this.hasPiece(x, y - 1)) {
-        this.__addIfIsAValidMovement(x, y - 2, movements);
+        this.__addIfValidMovement(x, y - 2, movements);
       }
     }
+
+    return movements;
+  }
+
+  __getKingCaptureMovements(x, y) {
+    const movements = [];
+    const pieceThatCaptures = this.getPiece(x, y);
+
+    const kingPossibleCaptures = [
+      { x: x, y: y + 1 },
+      { x: x - 1, y: y + 1 },
+      { x: x - 1, y: y },
+      { x: x - 1, y: y - 1 },
+      { x: x, y: y - 1 },
+      { x: x + 1, y: y - 1 },
+      { x: x + 1, y: y },
+      { x: x + 1, y: y + 1 },
+    ];
+
+    kingPossibleCaptures.forEach((possibleCapture) =>
+      this.__addIfValidCapture(
+        possibleCapture.x,
+        possibleCapture.y,
+        movements,
+        pieceThatCaptures,
+      ),
+    );
 
     return movements;
   }
@@ -125,16 +152,28 @@ export default class Chess {
       { x: x + 1, y: y + 1 },
     ];
 
-    for (let i = 0; i < kingPossibleMovs.length; i++) {
-      const possibleMov = kingPossibleMovs[i];
-
-      this.__addIfIsAValidMovement(possibleMov.x, possibleMov.y, movements);
-    }
+    kingPossibleMovs.forEach((possibleMov) =>
+      this.__addIfValidMovement(possibleMov.x, possibleMov.y, movements),
+    );
 
     return movements;
   }
 
-  __addIfIsAValidMovement(x, y, movements) {
+  __addIfValidCapture(x, y, movements, pieceThatCaptures) {
+    const hasPiece = this.hasPiece(x, y);
+    const isAValidPosition = this.isAValidPosition(x, y);
+    const pieceToCapture = this.getPiece(x, y);
+
+    if (
+      hasPiece &&
+      isAValidPosition &&
+      pieceThatCaptures.color !== pieceToCapture.color
+    ) {
+      movements.push({ x: x, y: y });
+    }
+  }
+
+  __addIfValidMovement(x, y, movements) {
     if (!this.hasPiece(x, y) && this.isAValidPosition(x, y)) {
       movements.push({ x: x, y: y });
     }
@@ -240,16 +279,16 @@ export default class Chess {
 
   __getPawnMovements(x, y) {
     const pawnMovements = this.__getPawnMoveMovements(x, y);
-    const pawnTargets = this.__getPawnCaptureMovements(x, y);
-    const allPawnMovements = pawnMovements.concat(pawnTargets);
+    const captureMovements = this.__getPawnCaptureMovements(x, y);
+    const allPawnMovements = pawnMovements.concat(captureMovements);
 
     return allPawnMovements;
   }
 
   __getKingMovements(x, y) {
     const kingMovements = this.__getKingMoveMovements(x, y);
-
-    const allKingMovements = kingMovements;
+    const captureMovements = this.__getKingCaptureMovements(x, y);
+    const allKingMovements = kingMovements.concat(captureMovements);
 
     return allKingMovements;
   }
@@ -263,6 +302,9 @@ export default class Chess {
 
       case 'pawn':
         return this.__getPawnMovements(x, y);
+
+      case 'doge':
+        return [];
     }
   }
 

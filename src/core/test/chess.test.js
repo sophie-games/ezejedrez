@@ -421,5 +421,35 @@ describe('Chess', () => {
 
       expect(t).toThrow('Invalid movement');
     });
+
+    test('A piece cannot move to a position that has a piece with the same color', () => {
+      const chess = new Chess();
+
+      chess.cleanBoard();
+
+      chess.addPiece('king', 'white', 4, 3);
+
+      chess.addPiece('doge', 'white', 3, 3);
+      chess.addPiece('doge', 'black', 4, 4);
+      chess.addPiece('doge', 'black', 3, 4);
+      chess.addPiece('doge', 'black', 3, 2);
+      chess.addPiece('doge', 'black', 4, 2);
+      chess.addPiece('doge', 'black', 5, 2);
+      chess.addPiece('doge', 'black', 5, 3);
+      chess.addPiece('doge', 'black', 5, 4);
+
+      const movements = chess.getPieceMovements(4, 3);
+
+      expect(movements.length).toBe(7);
+
+      expect(movements.find((m) => m.x === 3 && m.y === 3)).toBe(undefined);
+      expect(movements.find((m) => m.x === 4 && m.y === 4)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 3 && m.y === 4)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 3 && m.y === 2)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 4 && m.y === 2)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 5 && m.y === 2)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 5 && m.y === 3)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 5 && m.y === 4)).not.toBe(undefined);
+    });
   });
 });

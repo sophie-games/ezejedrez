@@ -12,8 +12,9 @@ import b_pawn from '../../assets/pieces/b_pawn.svg';
 import b_queen from '../../assets/pieces/b_queen.svg';
 import b_rook from '../../assets/pieces/b_rook.svg';
 
-//NN Dummy piece
-import nn_doge from '../../assets/pieces/nn_doge.png';
+//Dummy piece
+import b_doge from '../../assets/pieces/nn_doge.png';
+import w_doge from '../../assets/pieces/nn_doge.png';
 
 // White
 import w_bishop from '../../assets/pieces/w_bishop.svg';
@@ -31,7 +32,8 @@ const piecesSrc = {
   b_queen,
   b_rook,
 
-  nn_doge,
+  w_doge,
+  b_doge,
 
   w_bishop,
   w_king,

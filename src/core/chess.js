@@ -49,11 +49,6 @@ export default class Chess {
       color: 'black',
     };
 
-    board[2][4] = {
-      pieceType: 'doge',
-      color: 'black',
-    };
-
     return board;
   }
 

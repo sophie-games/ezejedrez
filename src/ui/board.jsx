@@ -10,7 +10,7 @@ const ROWS = 8;
 const rowArray = Array.from(Array(ROWS).keys());
 const columnArray = Array.from(Array(COLUMNS).keys());
 
-export default function Board({ size = 500, board }) {
+export default function Board({ size = 500, board, onSquarePress }) {
   if (!board) {
     // We need the board
     return null;
@@ -35,7 +35,16 @@ export default function Board({ size = 500, board }) {
               piece = `${pieceColorCode}_${boardPiece.pieceType}`;
             }
 
-            return <Square board={board} piece={piece} key={c} x={c} y={r} />;
+            return (
+              <Square
+                board={board}
+                piece={piece}
+                key={c}
+                x={c}
+                y={r}
+                onPress={onSquarePress}
+              />
+            );
           })}
         </View>
       ))}

@@ -1,44 +1,60 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Dimensions } from 'react-native';
 import Board from './src/ui/board.jsx';
 import Chess from './src/core/chess';
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dimensions: {
+        window: Dimensions.get('window'),
+        screen: Dimensions.get('screen'),
+      },
+      board: null,
+      selectedSquare: null,
+      highlightedSquare: [],
+    };
 
-const window = Dimensions.get('window');
-const screen = Dimensions.get('screen');
+    this.onDimensionsChange = ({ window, screen }) => {
+      this.setState({ dimensions: { window, screen } });
+    };
+  }
 
-export default function App() {
-  const [dimensions, setDimensions] = useState({ window, screen });
-  const [board, setBoard] = useState(null);
-
-  const onChange = ({ window, screen }) => {
-    setDimensions({ window, screen });
-  };
-
-  useEffect(() => {
+  componentDidMount() {
     const chess = new Chess();
     const chessBoard = chess.getBoard();
 
-    setBoard(chessBoard);
+    this.setState({ board: chessBoard });
 
-    Dimensions.addEventListener('change', onChange); // If Dimensions change, we update the dimensions state
+    Dimensions.addEventListener('change', this.onDimensionsChange); // If Dimensions change, we update the dimensions state
+  }
 
-    return () => {
-      Dimensions.removeEventListener('change', onChange);
-    };
-  }, []);
+  componentWillUnmount() {
+    Dimensions.removeEventListener('change', this.onDimensionsChange);
+  }
 
-  const windowWidth = dimensions.window.width;
-  const windowHeight = dimensions.window.height;
-  const boardSize = windowWidth < windowHeight ? windowWidth : windowHeight;
+  render() {
+    const windowWidth = this.state.dimensions.window.width;
+    const windowHeight = this.state.dimensions.window.height;
+    const boardSize = windowWidth < windowHeight ? windowWidth : windowHeight;
 
-  return (
-    <View style={styles.container}>
-      <Board board={board} size={boardSize} />
+    return (
+      <View style={styles.container}>
+        <Board
+          board={this.state.board}
+          size={boardSize}
+          selectedSquare={this.state.selectedSquare}
+          highlightedSquares={this.state.highlightedSquares}
+          onSquarePress={() => {
+            console.log('on press de app');
+          }}
+        />
 
-      <StatusBar style='auto' />
-    </View>
-  );
+        <StatusBar style='auto' />
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({

@@ -8,12 +8,13 @@ function determineColor(x, y) {
     : 'black';
 }
 
-export default function Square({ x, y, piece }) {
+export default function Square({ x, y, piece, isHighlighted, onPress }) {
   return (
     <TouchableOpacity
       style={styles[determineColor(x, y)]}
       activeOpacity={1}
       onPress={() => {
+        onPress;
         console.log(`Has presionado el cuadrado ${x} ${y}`);
       }}>
       {piece ? <Piece piece={piece} /> : null}

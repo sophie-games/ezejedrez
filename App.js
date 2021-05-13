@@ -13,7 +13,7 @@ export default class App extends React.Component {
       },
       board: null,
       selectedSquare: null,
-      highlightedSquare: [],
+      highlightedSquares: [],
     };
 
     this.onDimensionsChange = ({ window, screen }) => {
@@ -24,8 +24,10 @@ export default class App extends React.Component {
   componentDidMount() {
     const chess = new Chess();
     const chessBoard = chess.getBoard();
+    const chessPieceMovements = chess.getPieceMovements(3, 1);
 
     this.setState({ board: chessBoard });
+    this.setState({ highlightedSquares: chessPieceMovements });
 
     Dimensions.addEventListener('change', this.onDimensionsChange); // If Dimensions change, we update the dimensions state
   }
@@ -38,16 +40,16 @@ export default class App extends React.Component {
     const windowWidth = this.state.dimensions.window.width;
     const windowHeight = this.state.dimensions.window.height;
     const boardSize = windowWidth < windowHeight ? windowWidth : windowHeight;
-
+    console.log(this.state.highlightedSquares);
     return (
       <View style={styles.container}>
         <Board
           board={this.state.board}
           size={boardSize}
-          selectedSquare={this.state.selectedSquare}
           highlightedSquares={this.state.highlightedSquares}
+          // selectedSquare={this.state.selectedSquare}
           onSquarePress={() => {
-            console.log('on press de app');
+            // console.log('on press de app');
           }}
         />
 

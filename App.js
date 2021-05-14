@@ -6,6 +6,9 @@ import Chess from './src/core/chess';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+
+    this._chess = new Chess();
+
     this.state = {
       dimensions: {
         window: Dimensions.get('window'),
@@ -22,12 +25,9 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    const chess = new Chess();
-    const chessBoard = chess.getBoard();
-    const chessPieceMovements = chess.getPieceMovements(3, 1);
+    const chessBoard = this._chess.getBoard();
 
     this.setState({ board: chessBoard });
-    this.setState({ highlightedSquares: chessPieceMovements });
 
     Dimensions.addEventListener('change', this.onDimensionsChange); // If Dimensions change, we update the dimensions state
   }
@@ -47,8 +47,12 @@ export default class App extends React.Component {
           board={this.state.board}
           size={boardSize}
           highlightedSquares={this.state.highlightedSquares}
-          // selectedSquare={this.state.selectedSquare}
           onSquarePress={(x, y) => {
+            if (this._chess.hasPiece(x, y)) {
+              this.setState({
+                highlightedSquares: this._chess.getPieceMovements(x, y),
+              });
+            }
             console.log(`Has presionado el cuadrado ${x} ${y}`);
           }}
         />

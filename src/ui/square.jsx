@@ -9,29 +9,17 @@ function determineColor(x, y) {
 }
 
 export default function Square({ x, y, piece, isHighlighted, onPress }) {
-  // console.log(('isHighlighted', isHighlighted));
-
   return (
     <TouchableOpacity
       style={styles[determineColor(x, y)]}
       activeOpacity={1}
-      onPress={() => {
-        onPress();
-        console.log(`Has presionado el cuadrado ${x} ${y}`);
-      }}>
+      onPress={onPress}>
       <View style={isHighlighted ? styles.highlightedView : styles.view}>
         {piece ? <Piece piece={piece} /> : null}
       </View>
     </TouchableOpacity>
   );
 }
-
-const BaseStyle = {
-  flex: 1,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-};
 
 const styles = StyleSheet.create({
   white: {
@@ -45,7 +33,10 @@ const styles = StyleSheet.create({
   },
 
   view: {
-    ...BaseStyle,
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     width: '100%',
     height: '100%',
   },
@@ -54,6 +45,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     backgroundColor: '#00ff00',
-    opacity: 0.4,
+    opacity: 0.3,
   },
 });

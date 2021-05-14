@@ -53,7 +53,7 @@ export default function Board({
                 x={c}
                 y={r}
                 isHighlighted={isHighlighted}
-                onPress={onSquarePress}
+                onPress={() => onSquarePress(c, r)}
               />
             );
           })}

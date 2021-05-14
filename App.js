@@ -40,7 +40,7 @@ export default class App extends React.Component {
     const windowWidth = this.state.dimensions.window.width;
     const windowHeight = this.state.dimensions.window.height;
     const boardSize = windowWidth < windowHeight ? windowWidth : windowHeight;
-    console.log(this.state.highlightedSquares);
+
     return (
       <View style={styles.container}>
         <Board
@@ -48,11 +48,10 @@ export default class App extends React.Component {
           size={boardSize}
           highlightedSquares={this.state.highlightedSquares}
           // selectedSquare={this.state.selectedSquare}
-          onSquarePress={() => {
-            // console.log('on press de app');
+          onSquarePress={(x, y) => {
+            console.log(`Has presionado el cuadrado ${x} ${y}`);
           }}
         />
-
         <StatusBar style='auto' />
       </View>
     );

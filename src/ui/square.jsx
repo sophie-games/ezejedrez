@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Piece from './piece';
 
 function determineColor(x, y) {
@@ -8,34 +8,42 @@ function determineColor(x, y) {
     : 'black';
 }
 
-export default function Square({ x, y, piece }) {
+export default function Square({ x, y, piece, isHighlighted, onPress }) {
   return (
     <TouchableOpacity
       style={styles[determineColor(x, y)]}
       activeOpacity={1}
-      onPress={() => {
-        console.log(`Has presionado el cuadrado ${x} ${y}`);
-      }}>
-      {piece ? <Piece piece={piece} /> : null}
+      onPress={onPress}>
+      <View style={isHighlighted ? styles.highlightedView : styles.view}>
+        {piece ? <Piece piece={piece} /> : null}
+      </View>
     </TouchableOpacity>
   );
 }
 
-const baseStyle = {
-  flex: 1,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-};
-
 const styles = StyleSheet.create({
   white: {
-    ...baseStyle,
+    flex: 1,
     backgroundColor: '#D8AF86',
   },
 
   black: {
-    ...baseStyle,
+    flex: 1,
     backgroundColor: '#8E5431',
+  },
+
+  view: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
+  },
+
+  highlightedView: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#00ff00',
+    opacity: 0.3,
   },
 });

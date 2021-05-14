@@ -10,7 +10,12 @@ const ROWS = 8;
 const rowArray = Array.from(Array(ROWS).keys());
 const columnArray = Array.from(Array(COLUMNS).keys());
 
-export default function Board({ size = 500, board }) {
+export default function Board({
+  size = 500,
+  board,
+  onSquarePress,
+  highlightedSquares,
+}) {
   if (!board) {
     // We need the board
     return null;
@@ -30,12 +35,27 @@ export default function Board({ size = 500, board }) {
             const boardPiece = board[c][r];
 
             let piece = null;
+
             if (boardPiece) {
               const pieceColorCode = boardPiece.color === 'white' ? 'w' : 'b';
               piece = `${pieceColorCode}_${boardPiece.pieceType}`;
             }
 
-            return <Square board={board} piece={piece} key={c} x={c} y={r} />;
+            const isHighlighted = !!highlightedSquares.find(
+              (sqr) => sqr.x === c && sqr.y === r,
+            );
+
+            return (
+              <Square
+                board={board}
+                piece={piece}
+                key={c}
+                x={c}
+                y={r}
+                isHighlighted={isHighlighted}
+                onPress={() => onSquarePress(c, r)}
+              />
+            );
           })}
         </View>
       ))}

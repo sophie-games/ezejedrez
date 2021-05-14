@@ -1,44 +1,65 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Dimensions } from 'react-native';
 import Board from './src/ui/board.jsx';
 import Chess from './src/core/chess';
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
 
-const window = Dimensions.get('window');
-const screen = Dimensions.get('screen');
+    this.__chess = new Chess();
 
-export default function App() {
-  const [dimensions, setDimensions] = useState({ window, screen });
-  const [board, setBoard] = useState(null);
-
-  const onChange = ({ window, screen }) => {
-    setDimensions({ window, screen });
-  };
-
-  useEffect(() => {
-    const chess = new Chess();
-    const chessBoard = chess.getBoard();
-
-    setBoard(chessBoard);
-
-    Dimensions.addEventListener('change', onChange); // If Dimensions change, we update the dimensions state
-
-    return () => {
-      Dimensions.removeEventListener('change', onChange);
+    this.state = {
+      dimensions: {
+        window: Dimensions.get('window'),
+        screen: Dimensions.get('screen'),
+      },
+      board: null,
+      selectedSquare: null,
+      highlightedSquares: [],
     };
-  }, []);
 
-  const windowWidth = dimensions.window.width;
-  const windowHeight = dimensions.window.height;
-  const boardSize = windowWidth < windowHeight ? windowWidth : windowHeight;
+    this.onDimensionsChange = ({ window, screen }) => {
+      this.setState({ dimensions: { window, screen } });
+    };
+  }
 
-  return (
-    <View style={styles.container}>
-      <Board board={board} size={boardSize} />
+  componentDidMount() {
+    const chessBoard = this.__chess.getBoard();
 
-      <StatusBar style='auto' />
-    </View>
-  );
+    this.setState({ board: chessBoard });
+
+    Dimensions.addEventListener('change', this.onDimensionsChange); // If Dimensions change, we update the dimensions state
+  }
+
+  componentWillUnmount() {
+    Dimensions.removeEventListener('change', this.onDimensionsChange);
+  }
+
+  render() {
+    const windowWidth = this.state.dimensions.window.width;
+    const windowHeight = this.state.dimensions.window.height;
+    const boardSize = windowWidth < windowHeight ? windowWidth : windowHeight;
+
+    return (
+      <View style={styles.container}>
+        <Board
+          board={this.state.board}
+          size={boardSize}
+          highlightedSquares={this.state.highlightedSquares}
+          onSquarePress={(x, y) => {
+            if (this.__chess.hasPiece(x, y)) {
+              this.setState({
+                highlightedSquares: this.__chess.getPieceMovements(x, y),
+              });
+            }
+            console.log(`Has presionado el cuadrado ${x} ${y}`);
+          }}
+        />
+        <StatusBar style='auto' />
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({

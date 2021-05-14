@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
   },
 
   view: {
-    flex: 1,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

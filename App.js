@@ -7,7 +7,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this._chess = new Chess();
+    this.__chess = new Chess();
 
     this.state = {
       dimensions: {
@@ -25,7 +25,7 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    const chessBoard = this._chess.getBoard();
+    const chessBoard = this.__chess.getBoard();
 
     this.setState({ board: chessBoard });
 
@@ -48,9 +48,9 @@ export default class App extends React.Component {
           size={boardSize}
           highlightedSquares={this.state.highlightedSquares}
           onSquarePress={(x, y) => {
-            if (this._chess.hasPiece(x, y)) {
+            if (this.__chess.hasPiece(x, y)) {
               this.setState({
-                highlightedSquares: this._chess.getPieceMovements(x, y),
+                highlightedSquares: this.__chess.getPieceMovements(x, y),
               });
             }
             console.log(`Has presionado el cuadrado ${x} ${y}`);

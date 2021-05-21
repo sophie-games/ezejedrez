@@ -171,7 +171,7 @@ export default class Chess {
   private __addIfValidCapture(
     x: number,
     y: number,
-    movements: object[],
+    movements: Movement[],
     pieceThatCaptures: Piece
   ) {
     const hasPiece = this.hasPiece(x, y);
@@ -187,7 +187,7 @@ export default class Chess {
     }
   }
 
-  private __addIfValidMovement(x: number, y: number, movements: object[]) {
+  private __addIfValidMovement(x: number, y: number, movements: Movement[]) {
     if (!this.hasPiece(x, y) && this.isAValidPosition(x, y)) {
       movements.push({ x: x, y: y });
     }

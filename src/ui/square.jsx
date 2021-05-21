@@ -15,8 +15,7 @@ export default function Square({ x, y, piece }) {
       activeOpacity={1}
       onPress={() => {
         console.log(`Has presionado el cuadrado ${x} ${y}`);
-      }}
-    >
+      }}>
       {piece ? <Piece piece={piece} /> : null}
     </TouchableOpacity>
   );

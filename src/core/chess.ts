@@ -13,7 +13,7 @@ interface Movement {
 }
 
 export default class Chess {
-  __board: Piece[][];
+  private __board: Piece[][];
   turnNumber: number;
 
   constructor() {
@@ -93,7 +93,7 @@ export default class Chess {
    * @param {Number} toX
    * @param {Number} toY
    */
-  __movePiece(fromX: number, fromY: number, toX: number, toY: number) {
+  private __movePiece(fromX: number, fromY: number, toX: number, toY: number) {
     const board = this.getBoard();
     const piece = this.getPiece(fromX, fromY);
 
@@ -101,7 +101,7 @@ export default class Chess {
     board[toX][toY] = piece;
   }
 
-  __getPawnMoveMovements(x: number, y: number) {
+  private __getPawnMoveMovements(x: number, y: number) {
     const piece = this.getPiece(x, y);
     const movements: Movement[] = [];
 
@@ -124,7 +124,7 @@ export default class Chess {
     return movements;
   }
 
-  __getKingCaptureMovements(x: number, y: number) {
+  private __getKingCaptureMovements(x: number, y: number) {
     const movements: Movement[] = [];
     const pieceThatCaptures = this.getPiece(x, y);
 
@@ -151,7 +151,7 @@ export default class Chess {
     return movements;
   }
 
-  __getKingMoveMovements(x: number, y: number) {
+  private __getKingMoveMovements(x: number, y: number) {
     const movements: Movement[] = [];
 
     const kingPossibleMovs = [
@@ -172,7 +172,7 @@ export default class Chess {
     return movements;
   }
 
-  __addIfValidCapture(
+  private __addIfValidCapture(
     x: number,
     y: number,
     movements: object[],
@@ -191,7 +191,7 @@ export default class Chess {
     }
   }
 
-  __addIfValidMovement(x: number, y: number, movements: object[]) {
+  private __addIfValidMovement(x: number, y: number, movements: object[]) {
     if (!this.hasPiece(x, y) && this.isAValidPosition(x, y)) {
       movements.push({ x: x, y: y });
     }
@@ -240,7 +240,7 @@ export default class Chess {
     throw new Error('Invalid movement');
   }
 
-  __getPawnCaptureMovements(x: number, y: number) {
+  private __getPawnCaptureMovements(x: number, y: number) {
     const movements: Movement[] = [];
     const piece = this.getPiece(x, y);
 
@@ -295,7 +295,7 @@ export default class Chess {
     return movements;
   }
 
-  __getPawnMovements(x: number, y: number) {
+  private __getPawnMovements(x: number, y: number) {
     const pawnMovements = this.__getPawnMoveMovements(x, y);
     const captureMovements = this.__getPawnCaptureMovements(x, y);
     const allPawnMovements = pawnMovements.concat(captureMovements);
@@ -303,7 +303,7 @@ export default class Chess {
     return allPawnMovements;
   }
 
-  __getKingMovements(x: number, y: number) {
+  private __getKingMovements(x: number, y: number) {
     const kingMovements = this.__getKingMoveMovements(x, y);
     const captureMovements = this.__getKingCaptureMovements(x, y);
     const allKingMovements = kingMovements.concat(captureMovements);

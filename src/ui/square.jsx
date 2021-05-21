@@ -39,15 +39,4 @@ const styles = StyleSheet.create({
     ...baseStyle,
     backgroundColor: '#8E5431',
   },
-
-  view: {
-    width: '100%',
-    height: '100%',
-  },
-
-  highlightedView: {
-    backgroundColor: 'rgba(255,255,255,0.5)',
-    width: '100%',
-    height: '100%',
-  },
 });

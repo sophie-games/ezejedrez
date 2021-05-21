@@ -15,7 +15,8 @@ export default function Square({ x, y, piece }) {
       activeOpacity={1}
       onPress={() => {
         console.log(`Has presionado el cuadrado ${x} ${y}`);
-      }}>
+      }}
+    >
       {piece ? <Piece piece={piece} /> : null}
     </TouchableOpacity>
   );
@@ -37,5 +38,16 @@ const styles = StyleSheet.create({
   black: {
     ...baseStyle,
     backgroundColor: '#8E5431',
+  },
+
+  view: {
+    width: '100%',
+    height: '100%',
+  },
+
+  highlightedView: {
+    backgroundColor: 'rgba(255,255,255,0.5)',
+    width: '100%',
+    height: '100%',
   },
 });

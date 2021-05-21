@@ -88,10 +88,6 @@ export default class Chess {
 
   /**
    * Moves a Piece to a position without doing any validation
-   * @param {Number} fromX
-   * @param {Number} fromY
-   * @param {Number} toX
-   * @param {Number} toY
    */
   private __movePiece(fromX: number, fromY: number, toX: number, toY: number) {
     const board = this.getBoard();
@@ -331,7 +327,7 @@ export default class Chess {
   }
 
   /**
-   * Borra todas las piezas del tablero
+   * Removes all the pieces of the board
    */
   cleanBoard() {
     for (let i = 0; i < COLUMNS; i++) {
@@ -342,8 +338,7 @@ export default class Chess {
   }
 
   /**
-   * Borra el tablero actual y permite interactuar con el board interno en el callback para agregar piezas.
-   * @param {Function} callback
+   * Removes the actual board and allows to interact with the new board in the callback to add new pieces.
    */
   setBoard(callback: (board: Piece[][]) => void) {
     this.cleanBoard();

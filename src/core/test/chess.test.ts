@@ -19,7 +19,7 @@ describe('Chess', () => {
     });
 
     expect(
-      arrayBoard.filter((piece) => piece.pieceType === 'pawn').length,
+      arrayBoard.filter((piece) => piece && piece.pieceType === 'pawn').length
     ).toBe(16);
   });
 
@@ -35,7 +35,7 @@ describe('Chess', () => {
     expect(blackKing.color).toBe('black');
 
     expect(
-      arrayBoard.filter((piece) => piece.pieceType === 'king').length,
+      arrayBoard.filter((piece) => piece && piece.pieceType === 'king').length
     ).toBe(2);
   });
 
@@ -289,14 +289,16 @@ describe('Chess', () => {
 
       expect(
         arrayBoard.filter(
-          (piece) => piece.pieceType === 'pawn' && piece.color === 'black',
-        ).length,
+          (piece) =>
+            piece && piece.pieceType === 'pawn' && piece.color === 'black'
+        ).length
       ).toBe(8);
 
       expect(
         arrayBoard.filter(
-          (piece) => piece.pieceType === 'pawn' && piece.color === 'white',
-        ).length,
+          (piece) =>
+            piece && piece.pieceType === 'pawn' && piece.color === 'white'
+        ).length
       ).toBe(9);
     });
 
@@ -315,14 +317,16 @@ describe('Chess', () => {
 
       expect(
         arrayBoard.filter(
-          (piece) => piece.pieceType === 'pawn' && piece.color === 'black',
-        ).length,
+          (piece) =>
+            piece && piece.pieceType === 'pawn' && piece.color === 'black'
+        ).length
       ).toBe(9);
 
       expect(
         arrayBoard.filter(
-          (piece) => piece.pieceType === 'pawn' && piece.color === 'white',
-        ).length,
+          (piece) =>
+            piece && piece.pieceType === 'pawn' && piece.color === 'white'
+        ).length
       ).toBe(8);
     });
 

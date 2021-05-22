@@ -1,4 +1,5 @@
 import Chess from '../chess';
+import Piece from '../piece';
 
 describe('Chess', () => {
   test('Pawns should be in its correct place', () => {
@@ -99,10 +100,7 @@ describe('Chess', () => {
       const chess = new Chess();
 
       chess.setBoard((board) => {
-        board[4][4] = {
-          pieceType: 'pawn',
-          color: 'white',
-        };
+          board[4][4] = new Piece('pawn', 'white')
       });
 
       expect(chess.hasPiece(4, 4)).toBe(true);

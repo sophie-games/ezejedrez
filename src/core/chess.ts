@@ -2,7 +2,12 @@
 const COLUMNS = 8;
 const ROWS = 8;
 
-import Piece from './piece'
+import Piece from './pieces/piece' // TODO: eliminar
+
+import WhitePawn from './pieces/white_pawn'
+import BlackPawn from './pieces/black_pawn'
+import King from './pieces/king'
+
 import Movement from './movement'
 
 export default class Chess {
@@ -42,9 +47,9 @@ export default class Chess {
     });
 
     // Adding kings
-      board[4][0] = new Piece('king','white');
+      board[4][0] = new King('white');
 
-      board[4][7] = new Piece('king', 'black');
+      board[4][7] = new King('black');
 
     return board;
   }
@@ -100,10 +105,9 @@ export default class Chess {
     return pieces;
   }
 
-  addPiece(type: string, color: string, x: number, y: number) {
+  addPiece(newPiece: Piece, x: number, y: number) {
     const board = this.getBoard();
     const hasPiece = this.hasPiece(x, y);
-      const newPiece = new Piece(type, color);
 
     if (hasPiece) {
       throw new Error(`There's already a piece in that position`);
@@ -128,17 +132,6 @@ export default class Chess {
     const piece = this.getPiece(x, y);
 
       return piece.getMovements(x, y, this);
-      
-    // switch (piece.pieceType) {
-    //   case 'king':
-    //     return this.__getKingMovements(x, y);
-
-    //   case 'pawn':
-    //     return this.__getPawnMovements(x, y);
-
-    //   case 'doge':
-    //     return [];
-    // }
   }
 
   hasPiece(x: number, y: number) {

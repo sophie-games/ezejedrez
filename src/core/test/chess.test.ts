@@ -1,5 +1,6 @@
 import Chess from '../chess';
-import Piece from '../piece';
+import Piece from '../pieces/piece';
+import King from '../pieces/king';
 
 describe('Chess', () => {
   test('Pawns should be in its correct place', () => {
@@ -63,7 +64,7 @@ describe('Chess', () => {
 
       expect(chess.hasPiece(4, 3)).toBe(false);
 
-      chess.addPiece('king', 'white', 4, 3);
+        chess.addPiece(new King('white'), 4, 3);
 
       expect(chess.hasPiece(4, 3)).toBe(true);
 
@@ -78,7 +79,7 @@ describe('Chess', () => {
       const chess = new Chess();
 
       const t = () => {
-        chess.addPiece('king', 'white', 3, 1);
+          chess.addPiece(new King('white'), 3, 1);
       };
 
       expect(t).toThrow(`There's already a piece in that position`);
@@ -160,9 +161,9 @@ describe('Chess', () => {
 
       chess.cleanBoard();
 
-      chess.addPiece('king', 'white', 4, 3);
+      chess.addPiece(new King('white'), 4, 3);
 
-      chess.addPiece('doge', 'white', 3, 3);
+      chess.addPiece(new Piece('doge', 'white'), 3, 3);
 
       const movements = chess.getPieceMovements(4, 3);
 
@@ -174,16 +175,16 @@ describe('Chess', () => {
 
       chess.cleanBoard();
 
-      chess.addPiece('king', 'white', 4, 3);
+        chess.addPiece(new King('white'), 4, 3);
 
-      chess.addPiece('doge', 'black', 4, 4);
-      chess.addPiece('doge', 'black', 3, 4);
-      chess.addPiece('doge', 'black', 3, 3);
-      chess.addPiece('doge', 'black', 3, 2);
-      chess.addPiece('doge', 'black', 4, 2);
-      chess.addPiece('doge', 'black', 5, 2);
-      chess.addPiece('doge', 'black', 5, 3);
-      chess.addPiece('doge', 'black', 5, 4);
+        chess.addPiece(new Piece('doge', 'black'), 4, 4);
+        chess.addPiece(new Piece('doge', 'black'), 3, 4);
+        chess.addPiece(new Piece('doge', 'black'), 3, 3);
+        chess.addPiece(new Piece('doge', 'black'), 3, 2);
+        chess.addPiece(new Piece('doge', 'black'), 4, 2);
+        chess.addPiece(new Piece('doge', 'black'), 5, 2);
+        chess.addPiece(new Piece('doge', 'black'), 5, 3);
+        chess.addPiece(new Piece('doge', 'black'), 5, 4);
 
       const movements = chess.getPieceMovements(4, 3);
 
@@ -250,7 +251,7 @@ describe('Chess', () => {
     test('White pawn cannot move 2 squares if Y != 1', () => {
       const chess = new Chess();
 
-      chess.addPiece('pawn', 'white', 4, 2);
+        chess.addPiece(new Piece('pawn', 'white'), 4, 2);
 
       const t = () => {
         chess.move(4, 2, 4, 4);
@@ -263,7 +264,7 @@ describe('Chess', () => {
       const chess = new Chess();
 
       chess.move(7, 1, 7, 2);
-      chess.addPiece('pawn', 'black', 4, 5);
+        chess.addPiece(new Piece('pawn', 'black'), 4, 5);
 
       const t = () => {
         chess.move(4, 5, 4, 3);
@@ -275,8 +276,8 @@ describe('Chess', () => {
     test('White pawn can only capture diagonally forward one square to the left or right', () => {
       const chess = new Chess();
 
-      chess.addPiece('pawn', 'white', 3, 3);
-      chess.addPiece('pawn', 'black', 4, 4);
+        chess.addPiece(new Piece('pawn', 'white'), 3, 3);
+        chess.addPiece(new Piece('pawn', 'black'), 4, 4);
 
       chess.move(3, 3, 4, 4);
 
@@ -303,8 +304,8 @@ describe('Chess', () => {
     test('Black pawn can only capture diagonally forward one square to the left or right', () => {
       const chess = new Chess();
 
-      chess.addPiece('pawn', 'black', 4, 4);
-      chess.addPiece('pawn', 'white', 3, 3);
+        chess.addPiece(new Piece('pawn', 'black'), 4, 4);
+        chess.addPiece(new Piece('pawn', 'white'), 3, 3);
 
       chess.move(4, 4, 3, 3);
 
@@ -331,10 +332,10 @@ describe('Chess', () => {
     test('White pawn cannot move if it has a piece in front of it', () => {
       const chess = new Chess();
 
-      chess.addPiece('pawn', 'white', 3, 3);
+        chess.addPiece(new Piece('pawn', 'white'), 3, 3);
       expect(chess.hasPiece(3, 3)).toBe(true);
 
-      chess.addPiece('pawn', 'black', 3, 4);
+        chess.addPiece(new Piece('pawn', 'black'), 3, 4);
       expect(chess.hasPiece(3, 4)).toBe(true);
 
       const t = () => {
@@ -347,10 +348,10 @@ describe('Chess', () => {
     test('Black pawn cannot move if it has a piece in front of it', () => {
       const chess = new Chess();
 
-      chess.addPiece('pawn', 'white', 3, 3);
+        chess.addPiece(new Piece('pawn', 'white'), 3, 3);
       expect(chess.hasPiece(3, 3)).toBe(true);
 
-      chess.addPiece('pawn', 'black', 3, 4);
+        chess.addPiece(new Piece('pawn', 'black'), 3, 4);
       expect(chess.hasPiece(3, 4)).toBe(true);
 
       chess.move(7, 1, 7, 2);
@@ -365,7 +366,7 @@ describe('Chess', () => {
     test('A white pawn cannot overstep a piece', () => {
       const chess = new Chess();
 
-      chess.addPiece('pawn', 'white', 3, 2);
+        chess.addPiece(new Piece('pawn', 'white'), 3, 2);
 
       const t = () => {
         chess.move(3, 1, 3, 3);
@@ -379,7 +380,7 @@ describe('Chess', () => {
 
       chess.move(7, 1, 7, 2);
 
-      chess.addPiece('pawn', 'black', 3, 5);
+        chess.addPiece(new Piece('pawn', 'black'), 3, 5);
 
       const t = () => {
         chess.move(3, 6, 3, 4);
@@ -394,7 +395,7 @@ describe('Chess', () => {
 
       chess.cleanBoard();
 
-      chess.addPiece('king', 'white', 4, 3);
+        chess.addPiece(new King('white'), 4, 3);
 
       const movements = chess.getPieceMovements(4, 3);
 
@@ -414,7 +415,7 @@ describe('Chess', () => {
 
       chess.cleanBoard();
 
-      chess.addPiece('king', 'white', 4, 0);
+        chess.addPiece(new King('white'), 4, 0);
 
       const t = () => {
         chess.move(4, 0, 4, -1);
@@ -428,8 +429,8 @@ describe('Chess', () => {
 
       chess.cleanBoard();
 
-      chess.addPiece('pawn', 'white', 4, 3);
-      chess.addPiece('pawn', 'white', 5, 4);
+        chess.addPiece(new Piece('pawn', 'white'), 4, 3);
+        chess.addPiece(new Piece('pawn', 'white'), 5, 4);
 
       const t = () => {
         chess.move(4, 3, 5, 4);

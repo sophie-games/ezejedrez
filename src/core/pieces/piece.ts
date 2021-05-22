@@ -1,5 +1,5 @@
-import Movement from './movement'
-import Chess from './chess'
+import Movement from './../movement'
+import Chess from './../chess'
 
 export default class Piece {
     pieceType: string;
@@ -74,62 +74,6 @@ export default class Piece {
         return allPawnMovements;
     }
 
-    private __getKingMovements(x: number, y: number, chess: Chess) {
-        const kingMovements = this.__getKingMoveMovements(x, y, chess);
-        const captureMovements = this.__getKingCaptureMovements(x, y, chess);
-        const allKingMovements = kingMovements.concat(captureMovements);
-
-        return allKingMovements;
-    }
-
-
-    private __getKingMoveMovements(x: number, y: number, chess: Chess) {
-        const movements: Movement[] = [];
-
-        const kingPossibleMovs = [
-            { x: x, y: y + 1 },
-            { x: x - 1, y: y + 1 },
-            { x: x - 1, y: y },
-            { x: x - 1, y: y - 1 },
-            { x: x, y: y - 1 },
-            { x: x + 1, y: y - 1 },
-            { x: x + 1, y: y },
-            { x: x + 1, y: y + 1 },
-        ];
-
-        kingPossibleMovs.forEach((possibleMov) =>
-            this.__addIfValidMovement(possibleMov.x, possibleMov.y, movements, chess));
-
-        return movements;
-    }
-
-    private __getKingCaptureMovements(x: number, y: number, chess: Chess) {
-        const movements: Movement[] = [];
-        const pieceThatCaptures = this;
-
-        const kingPossibleCaptures = [
-            { x: x, y: y + 1 },
-            { x: x - 1, y: y + 1 },
-            { x: x - 1, y: y },
-            { x: x - 1, y: y - 1 },
-            { x: x, y: y - 1 },
-            { x: x + 1, y: y - 1 },
-            { x: x + 1, y: y },
-            { x: x + 1, y: y + 1 },
-        ];
-
-        kingPossibleCaptures.forEach((possibleCapture) =>
-            this.__addIfValidCapture(
-                possibleCapture.x,
-                possibleCapture.y,
-                movements,
-                pieceThatCaptures,
-                chess
-            ));
-
-        return movements;
-    }
-
     private __getPawnMoveMovements(x: number, y: number, chess: Chess) {
         const piece = this;
         const movements: Movement[] = [];
@@ -153,13 +97,13 @@ export default class Piece {
         return movements;
     }
 
-    private __addIfValidMovement(x: number, y: number, movements: Movement[], chess: Chess) {
+    protected __addIfValidMovement(x: number, y: number, movements: Movement[], chess: Chess) {
         if (!chess.hasPiece(x, y) && chess.isAValidPosition(x, y)) {
             movements.push({ x: x, y: y });
         }
     }
 
-    private __addIfValidCapture(
+    protected __addIfValidCapture(
         x: number,
         y: number,
         movements: Movement[],
@@ -179,16 +123,27 @@ export default class Piece {
         }
     }
 
-    getMovements(x: number, y: number, chess: Chess) {
-        switch (this.pieceType) {
-            case 'king':
-                return this.__getKingMovements(x, y, chess);
+    protected __getMoveMovements(x: number, y: number, chess: Chess) : Movement[] {
+        throw new Error('Implement in subclass');
+    }
 
+    protected __getCaptureMovements(x: number, y: number, chess: Chess) : Movement[] {
+        throw new Error('Implement in subclass');
+    }
+
+    getMovements(x: number, y: number, chess: Chess) {
+        // TODO: switch a eliminar
+        switch (this.pieceType) {
             case 'pawn':
                 return this.__getPawnMovements(x, y, chess);
 
             case 'doge':
                 return [];
         }
+
+        const movements = this.__getMoveMovements(x, y, chess);
+        const captureMovements = this.__getCaptureMovements(x, y, chess);
+        const allMovements = movements.concat(captureMovements);
+        return allMovements;
     }
 }

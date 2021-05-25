@@ -9,92 +9,6 @@ export default class Piece {
     this.color = color;
   }
 
-  private __getPawnCaptureMovements(x: number, y: number, chess: Chess) {
-    const movements: Movement[] = [];
-    const piece = this;
-
-    if (piece.color === 'white') {
-      if (
-        chess.isAValidPosition(x + 1, y + 1) &&
-        chess.getPiece(x + 1, y + 1) &&
-        chess.getPiece(x + 1, y + 1).color === 'black'
-      ) {
-        movements.push({
-          x: x + 1,
-          y: y + 1,
-        });
-      }
-
-      if (
-        chess.isAValidPosition(x - 1, y + 1) &&
-        chess.getPiece(x - 1, y + 1) &&
-        chess.getPiece(x - 1, y + 1).color === 'black'
-      ) {
-        movements.push({
-          x: x - 1,
-          y: y + 1,
-        });
-      }
-    }
-
-    if (piece.color === 'black') {
-      if (
-        chess.isAValidPosition(x - 1, y - 1) &&
-        chess.getPiece(x - 1, y - 1) &&
-        chess.getPiece(x - 1, y - 1).color === 'white'
-      ) {
-        movements.push({
-          x: x - 1,
-          y: y - 1,
-        });
-      }
-
-      if (
-        chess.isAValidPosition(x + 1, y - 1) &&
-        chess.getPiece(x + 1, y - 1) &&
-        chess.getPiece(x + 1, y - 1).color === 'white'
-      ) {
-        movements.push({
-          x: x + 1,
-          y: y - 1,
-        });
-      }
-    }
-
-    return movements;
-  }
-
-  private __getPawnMovements(x: number, y: number, chess: Chess) {
-    const pawnMovements = this.__getPawnMoveMovements(x, y, chess);
-    const captureMovements = this.__getPawnCaptureMovements(x, y, chess);
-    const allPawnMovements = pawnMovements.concat(captureMovements);
-
-    return allPawnMovements;
-  }
-
-  private __getPawnMoveMovements(x: number, y: number, chess: Chess) {
-    const piece = this;
-    const movements: Movement[] = [];
-
-    if (piece.color === 'white') {
-      this.__addIfValidMovement(x, y + 1, movements, chess);
-
-      if (y === 1 && !chess.hasPiece(x, y + 1)) {
-        this.__addIfValidMovement(x, y + 2, movements, chess);
-      }
-    }
-
-    if (piece.color === 'black') {
-      this.__addIfValidMovement(x, y - 1, movements, chess);
-
-      if (y === 6 && !chess.hasPiece(x, y - 1)) {
-        this.__addIfValidMovement(x, y - 2, movements, chess);
-      }
-    }
-
-    return movements;
-  }
-
   protected __addIfValidMovement(
     x: number,
     y: number,
@@ -139,13 +53,6 @@ export default class Piece {
   }
 
   getMovements(x: number, y: number, chess: Chess) {
-    // TODO: switch a eliminar
-
-    switch (this.pieceType) {
-      case 'pawn':
-        return this.__getPawnMovements(x, y, chess);
-    }
-
     const movements = this.__getMoveMovements(x, y, chess);
     const captureMovements = this.__getCaptureMovements(x, y, chess);
     const allMovements = movements.concat(captureMovements);

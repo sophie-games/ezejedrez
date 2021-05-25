@@ -3,9 +3,7 @@ const COLUMNS = 8;
 const ROWS = 8;
 
 import Piece from './pieces/piece'; // TODO: eliminar
-
-import WhitePawn from './pieces/white_pawn';
-import BlackPawn from './pieces/black_pawn';
+import Pawn from './pieces/pawn';
 import King from './pieces/king';
 
 import Movement from './movement';
@@ -42,7 +40,8 @@ export default class Chess {
 
     pawnLines.forEach((line) => {
       for (let i = 0; i < 8; i++) {
-        board[i][line.lineY] = new Piece('pawn', line.color);
+        board[i][line.lineY] = new Pawn(line.color);
+        board[i][line.lineY] = new Pawn(line.color);
       }
     });
 

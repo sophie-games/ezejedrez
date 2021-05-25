@@ -41,13 +41,11 @@ export default class Chess {
     pawnLines.forEach((line) => {
       for (let i = 0; i < 8; i++) {
         board[i][line.lineY] = new Pawn(line.color);
-        board[i][line.lineY] = new Pawn(line.color);
       }
     });
 
     // Adding kings
     board[4][0] = new King('white');
-
     board[4][7] = new King('black');
 
     return board;

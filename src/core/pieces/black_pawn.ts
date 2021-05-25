@@ -1,5 +1,3 @@
-import Piece './piece'
+import Piece from './piece';
 
-export default class BlackPawn extends Piece {
-    
-};
+export default class BlackPawn extends Piece {}

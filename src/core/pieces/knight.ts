@@ -1,27 +1,28 @@
 import Piece from './piece';
 import Chess from './../chess';
 import Movement from './../movement';
-export default class King extends Piece {
+
+export default class Knight extends Piece {
   constructor(color: string) {
     // code smell
-    super('king', color);
+    super('knight', color);
   }
 
   protected __getMoveMovements(x: number, y: number, chess: Chess) {
     const movements: Movement[] = [];
 
-    const kingPossibleMovs = [
-      { x: x, y: y + 1 },
-      { x: x - 1, y: y + 1 },
-      { x: x - 1, y: y },
-      { x: x - 1, y: y - 1 },
-      { x: x, y: y - 1 },
-      { x: x + 1, y: y - 1 },
-      { x: x + 1, y: y },
-      { x: x + 1, y: y + 1 },
+    const knightPossibleMovs = [
+      { x: x - 1, y: y + 2 },
+      { x: x - 2, y: y + 1 },
+      { x: x - 2, y: y - 1 },
+      { x: x - 1, y: y - 2 },
+      { x: x + 1, y: y - 2 },
+      { x: x + 2, y: y - 1 },
+      { x: x + 2, y: y + 1 },
+      { x: x + 1, y: y + 2 },
     ];
 
-    kingPossibleMovs.forEach((possibleMov) =>
+    knightPossibleMovs.forEach((possibleMov) =>
       this.__addIfValidMovement(possibleMov.x, possibleMov.y, movements, chess),
     );
 
@@ -32,18 +33,18 @@ export default class King extends Piece {
     const movements: Movement[] = [];
     const pieceThatCaptures = this;
 
-    const kingPossibleCaptures = [
-      { x: x, y: y + 1 },
-      { x: x - 1, y: y + 1 },
-      { x: x - 1, y: y },
-      { x: x - 1, y: y - 1 },
-      { x: x, y: y - 1 },
-      { x: x + 1, y: y - 1 },
-      { x: x + 1, y: y },
-      { x: x + 1, y: y + 1 },
+    const knightPossibleCaptures = [
+      { x: x - 1, y: y + 2 },
+      { x: x - 2, y: y + 1 },
+      { x: x - 2, y: y - 1 },
+      { x: x - 1, y: y - 2 },
+      { x: x + 1, y: y - 2 },
+      { x: x + 2, y: y - 1 },
+      { x: x + 2, y: y + 1 },
+      { x: x + 1, y: y + 2 },
     ];
 
-    kingPossibleCaptures.forEach((possibleCapture) =>
+    knightPossibleCaptures.forEach((possibleCapture) =>
       this.__addIfValidCapture(
         possibleCapture.x,
         possibleCapture.y,

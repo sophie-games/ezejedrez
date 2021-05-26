@@ -1,7 +1,6 @@
 import Piece from './piece';
 import Chess from './../chess';
 import Movement from './../movement';
-
 export default class Pawn extends Piece {
   constructor(color: string) {
     // code smell

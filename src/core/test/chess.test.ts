@@ -183,6 +183,26 @@ describe('Chess', () => {
       expect(movements.find((m) => m.x === 1 && m.y === 4)).not.toBe(undefined);
     });
 
+    test('The king can only move to a valid position', () => {
+      const chess = new Chess();
+
+      chess.cleanBoard();
+
+      chess.addPiece(new King('white'), 4, 3);
+
+      const movements = chess.getPieceMovements(4, 3);
+
+      expect(movements.length).toBe(8);
+      expect(movements.find((m) => m.x === 4 && m.y === 4)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 3 && m.y === 4)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 3 && m.y === 3)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 3 && m.y === 2)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 4 && m.y === 2)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 5 && m.y === 2)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 5 && m.y === 3)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 5 && m.y === 4)).not.toBe(undefined);
+    });
+
     test('A piece cannot move to a position that has a piece with the same color', () => {
       const chess = new Chess();
 
@@ -224,6 +244,26 @@ describe('Chess', () => {
       expect(movements.find((m) => m.x === 5 && m.y === 2)).not.toBe(undefined);
       expect(movements.find((m) => m.x === 5 && m.y === 3)).not.toBe(undefined);
       expect(movements.find((m) => m.x === 5 && m.y === 4)).not.toBe(undefined);
+    });
+
+    test('The knight can only move to a valid position', () => {
+      const chess = new Chess();
+
+      chess.cleanBoard();
+
+      chess.addPiece(new Knight('white'), 4, 3);
+
+      const movements = chess.getPieceMovements(4, 3);
+
+      expect(movements.length).toBe(8);
+      expect(movements.find((m) => m.x === 3 && m.y === 5)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 2 && m.y === 4)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 2 && m.y === 2)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 3 && m.y === 1)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 5 && m.y === 1)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 6 && m.y === 2)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 6 && m.y === 4)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 5 && m.y === 5)).not.toBe(undefined);
     });
 
     test('White Knight can jump over pieces to reach its destination', () => {
@@ -466,27 +506,6 @@ describe('Chess', () => {
       expect(t).toThrow('Invalid movement');
     });
 
-    // Kings moves
-    test('The king can only move to a valid position', () => {
-      const chess = new Chess();
-
-      chess.cleanBoard();
-
-      chess.addPiece(new King('white'), 4, 3);
-
-      const movements = chess.getPieceMovements(4, 3);
-
-      expect(movements.length).toBe(8);
-      expect(movements.find((m) => m.x === 4 && m.y === 4)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 3 && m.y === 4)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 3 && m.y === 3)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 3 && m.y === 2)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 4 && m.y === 2)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 5 && m.y === 2)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 5 && m.y === 3)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 5 && m.y === 4)).not.toBe(undefined);
-    });
-
     test('A piece cannot move out of the board', () => {
       const chess = new Chess();
 
@@ -514,27 +533,6 @@ describe('Chess', () => {
       };
 
       expect(t).toThrow('Invalid movement');
-    });
-
-    // Knight moves
-    test('The knight can only move to a valid position', () => {
-      const chess = new Chess();
-
-      chess.cleanBoard();
-
-      chess.addPiece(new Knight('white'), 4, 3);
-
-      const movements = chess.getPieceMovements(4, 3);
-
-      expect(movements.length).toBe(8);
-      expect(movements.find((m) => m.x === 3 && m.y === 5)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 2 && m.y === 4)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 2 && m.y === 2)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 3 && m.y === 1)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 5 && m.y === 1)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 6 && m.y === 2)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 6 && m.y === 4)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 5 && m.y === 5)).not.toBe(undefined);
     });
   });
 });

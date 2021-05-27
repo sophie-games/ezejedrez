@@ -265,6 +265,16 @@ describe('Chess', () => {
         undefined,
       );
     });
+
+    test('A piece cannot move out of the board', () => {
+      const chess = new Chess();
+
+      const movements = chess.getPieceMovements(1, 0);
+
+      expect(movements.length).toBe(2);
+      expect(movements.find((m) => m.x === 0 && m.y === 2)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 2 && m.y === 2)).not.toBe(undefined);
+    });
   });
 
   describe('.move(fromX, fromY, toX, toY)', () => {

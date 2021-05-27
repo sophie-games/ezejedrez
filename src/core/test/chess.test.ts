@@ -266,7 +266,7 @@ describe('Chess', () => {
       expect(movements.find((m) => m.x === 5 && m.y === 5)).not.toBe(undefined);
     });
 
-    test('White Knight can jump over pieces to reach its destination', () => {
+    test('A   Knight can jump over pieces to reach its destination', () => {
       const chess = new Chess();
 
       const movements = chess.getPieceMovements(1, 0);
@@ -282,26 +282,6 @@ describe('Chess', () => {
         undefined,
       );
       expect(movements2.find((m) => m.x === 7 && m.y === 2)).not.toBe(
-        undefined,
-      );
-    });
-
-    test('Black Knight can jump over pieces to reach its destination', () => {
-      const chess = new Chess();
-
-      const movements = chess.getPieceMovements(1, 7);
-
-      expect(movements.length).toBe(2);
-      expect(movements.find((m) => m.x === 0 && m.y === 5)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 2 && m.y === 5)).not.toBe(undefined);
-
-      const movements2 = chess.getPieceMovements(6, 7);
-
-      expect(movements2.length).toBe(2);
-      expect(movements2.find((m) => m.x === 5 && m.y === 5)).not.toBe(
-        undefined,
-      );
-      expect(movements2.find((m) => m.x === 7 && m.y === 5)).not.toBe(
         undefined,
       );
     });

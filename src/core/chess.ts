@@ -75,8 +75,6 @@ export default class Chess {
   getPiece(x: number, y: number) {
     const board = this.getBoard();
 
-    console.log('board', board, x, y);
-
     return board[x][y];
   }
 

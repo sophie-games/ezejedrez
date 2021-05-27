@@ -13,9 +13,9 @@ export default class Piece {
     x: number,
     y: number,
     movements: Movement[],
-    chess: Chess,
+    chess: Chess
   ) {
-    if (!chess.hasPiece(x, y) && chess.isAValidPosition(x, y)) {
+    if (chess.isAValidPosition(x, y) && !chess.hasPiece(x, y)) {
       movements.push({ x: x, y: y });
     }
   }
@@ -25,16 +25,12 @@ export default class Piece {
     y: number,
     movements: Movement[],
     pieceThatCaptures: Piece,
-    chess: Chess,
+    chess: Chess
   ) {
-    const hasPiece = chess.hasPiece(x, y);
-    const isAValidPosition = chess.isAValidPosition(x, y);
-    const pieceToCapture = chess.getPiece(x, y);
-
     if (
-      hasPiece &&
-      isAValidPosition &&
-      pieceThatCaptures.color !== pieceToCapture.color
+      chess.isAValidPosition(x, y) &&
+      chess.hasPiece(x, y) &&
+      chess.getPiece(x, y).color !== pieceThatCaptures.color
     ) {
       movements.push({ x: x, y: y });
     }
@@ -47,7 +43,7 @@ export default class Piece {
   protected __getCaptureMovements(
     x: number,
     y: number,
-    chess: Chess,
+    chess: Chess
   ): Movement[] {
     throw new Error('Implement in subclass');
   }

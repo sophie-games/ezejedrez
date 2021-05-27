@@ -2,13 +2,11 @@
 const COLUMNS = 8;
 const ROWS = 8;
 
-import Piece from './pieces/piece' // TODO: eliminar
+import Piece from './pieces/piece'; // TODO: eliminar
+import Pawn from './pieces/pawn';
+import King from './pieces/king';
 
-import WhitePawn from './pieces/white_pawn'
-import BlackPawn from './pieces/black_pawn'
-import King from './pieces/king'
-
-import Movement from './movement'
+import Movement from './movement';
 
 export default class Chess {
   private __board: Piece[][];
@@ -42,14 +40,15 @@ export default class Chess {
 
     pawnLines.forEach((line) => {
       for (let i = 0; i < 8; i++) {
-          board[i][line.lineY] = new Piece('pawn', line.color);
+        board[i][line.lineY] = new Pawn(line.color);
+        board[i][line.lineY] = new Pawn(line.color);
       }
     });
 
     // Adding kings
-      board[4][0] = new King('white');
+    board[4][0] = new King('white');
 
-      board[4][7] = new King('black');
+    board[4][7] = new King('black');
 
     return board;
   }
@@ -83,7 +82,7 @@ export default class Chess {
     const piece = this.getPiece(fromX, fromY);
 
     board[fromX][fromY] = null;
-      board[toX][toY] = piece;
+    board[toX][toY] = piece;
   }
 
   isAValidPosition(x: number, y: number) {
@@ -131,7 +130,7 @@ export default class Chess {
   getPieceMovements(x: number, y: number) {
     const piece = this.getPiece(x, y);
 
-      return piece.getMovements(x, y, this);
+    return piece.getMovements(x, y, this);
   }
 
   hasPiece(x: number, y: number) {

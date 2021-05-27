@@ -15,8 +15,11 @@ export default class App extends React.Component {
         screen: Dimensions.get('screen'),
       },
       board: null,
+      selectedPiece: null,
       selectedSquare: null,
       highlightedSquares: [],
+      whoPlays: '',
+      movePiece: [],
     };
 
     this.onDimensionsChange = ({ window, screen }) => {
@@ -25,9 +28,8 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    const chessBoard = this.__chess.getBoard();
-
-    this.setState({ board: chessBoard });
+    this.__chess.move(0, 1, 0, 3);
+    this.setState({ board: this.__chess.getBoard() });
 
     Dimensions.addEventListener('change', this.onDimensionsChange); // If Dimensions change, we update the dimensions state
   }

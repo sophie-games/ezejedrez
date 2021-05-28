@@ -18,6 +18,7 @@ export default class Chess {
   }
 
   get whoPlays() {
+    // TODO: sacar if
     return this.turnNumber % 2 === 0 ? 'black' : 'white';
   }
 

@@ -11,6 +11,7 @@ export default class Pawn extends Piece {
     const piece = this;
     const movements: Movement[] = [];
 
+    // TODO: sacar if
     if (piece.color === 'white') {
       this.__addIfValidMovement(x, y + 1, movements, chess);
 
@@ -19,6 +20,7 @@ export default class Pawn extends Piece {
       }
     }
 
+    // TODO: sacar if
     if (piece.color === 'black') {
       this.__addIfValidMovement(x, y - 1, movements, chess);
 
@@ -34,6 +36,7 @@ export default class Pawn extends Piece {
     const movements: Movement[] = [];
     const piece = this;
 
+    // TODO: sacar if
     if (piece.color === 'white') {
       if (
         chess.isAValidPosition(x + 1, y + 1) &&
@@ -58,6 +61,7 @@ export default class Pawn extends Piece {
       }
     }
 
+    // TODO: sacar if
     if (piece.color === 'black') {
       if (
         chess.isAValidPosition(x - 1, y - 1) &&

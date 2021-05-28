@@ -12,7 +12,7 @@ interface Player {
   color: string;
   yDirection: number;
   startPawnYLine: number;
-};
+}
 
 export default class Chess {
   private __board: Piece[][];
@@ -23,15 +23,18 @@ export default class Chess {
     this.__board = this.createBoard();
     this.turnNumber = 1;
 
-    this.__players = [{
-      color: 'white',
-      yDirection: 1,
-      startPawnYLine: 1,
-    } , {
-      color: 'black',
-      yDirection: - 1,
-      startPawnYLine: 6,
-    }];
+    this.__players = [
+      {
+        color: 'white',
+        yDirection: 1,
+        startPawnYLine: 1,
+      },
+      {
+        color: 'black',
+        yDirection: -1,
+        startPawnYLine: 6,
+      },
+    ];
   }
 
   get currentPlayer() {
@@ -45,7 +48,7 @@ export default class Chess {
   }
 
   getPlayer(color: string) {
-    return this.__players.find( player => player.color == color);
+    return this.__players.find((player) => player.color == color);
   }
 
   createBoard() {

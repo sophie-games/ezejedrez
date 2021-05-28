@@ -44,6 +44,8 @@ export default class Pawn extends Piece {
     const movements: Movement[] = [];
     const piece = this;
 
+    const piecePlayer = chess.getPlayer(this.color);
+
     function getDiagonalCaptureMovement(
       x: number,
       y: number,
@@ -64,17 +66,11 @@ export default class Pawn extends Piece {
       }
     }
 
-    // TODO: sacar if
-    if (piece.color === 'white') {
-      getDiagonalCaptureMovement(x, y, movements, 1, +1, 'black');
-      getDiagonalCaptureMovement(x, y, movements, -1, +1, 'black');
-    }
+    getDiagonalCaptureMovement(x, y, movements, 1, +1, piecePlayer.enemyColor);
+    getDiagonalCaptureMovement(x, y, movements, -1, +1, piecePlayer.enemyColor);
 
-    // TODO: sacar if
-    if (piece.color === 'black') {
-      getDiagonalCaptureMovement(x, y, movements, -1, -1, 'white');
-      getDiagonalCaptureMovement(x, y, movements, +1, -1, 'white');
-    }
+    getDiagonalCaptureMovement(x, y, movements, -1, -1, piecePlayer.enemyColor);
+    getDiagonalCaptureMovement(x, y, movements, +1, -1, piecePlayer.enemyColor);
 
     return movements;
   }

@@ -10,6 +10,7 @@ import Movement from './movement';
 
 interface Player {
   color: string;
+  enemyColor: string;
   yDirection: number;
   startPawnYLine: number;
 }
@@ -26,11 +27,13 @@ export default class Chess {
     this.__players = [
       {
         color: 'white',
+        enemyColor: 'black',
         yDirection: 1,
         startPawnYLine: 1,
       },
       {
         color: 'black',
+        enemyColor: 'white',
         yDirection: -1,
         startPawnYLine: 6,
       },

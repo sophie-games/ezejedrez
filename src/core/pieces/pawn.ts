@@ -7,27 +7,21 @@ export default class Pawn extends Piece {
     super('pawn', color);
   }
 
+  private __addMoveMovements(x: number, y: number, chess: Chess, movements: Movement[], yDirection: number, pawnLine: number) {
+    this.__addIfValidMovement(x, y + 1 * yDirection, movements, chess);
+
+    if (y === pawnLine && !chess.hasPiece(x, y + 1 * yDirection)) {
+      this.__addIfValidMovement(x, y + 2 * yDirection, movements, chess);
+    }
+  }
+
   protected __getMoveMovements(x: number, y: number, chess: Chess) {
     const piece = this;
     const movements: Movement[] = [];
 
-    // TODO: sacar if
-    if (piece.color === 'white') {
-      this.__addIfValidMovement(x, y + 1, movements, chess);
+    const piecePlayer = chess.getPlayer(this.color);
 
-      if (y === 1 && !chess.hasPiece(x, y + 1)) {
-        this.__addIfValidMovement(x, y + 2, movements, chess);
-      }
-    }
-
-    // TODO: sacar if
-    if (piece.color === 'black') {
-      this.__addIfValidMovement(x, y - 1, movements, chess);
-
-      if (y === 6 && !chess.hasPiece(x, y - 1)) {
-        this.__addIfValidMovement(x, y - 2, movements, chess);
-      }
-    }
+    this.__addMoveMovements(x, y, chess, movements, piecePlayer.yDirection, piecePlayer.startPawnYLine);
 
     return movements;
   }

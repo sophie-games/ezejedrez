@@ -8,18 +8,44 @@ import King from './pieces/king';
 import Knight from './pieces/knight';
 import Movement from './movement';
 
+interface Player {
+  color: string;
+  yDirection: number;
+  startPawnYLine: number;
+};
+
 export default class Chess {
   private __board: Piece[][];
+  private __players: Player[];
   turnNumber: number;
 
   constructor() {
     this.__board = this.createBoard();
     this.turnNumber = 1;
+
+    this.__players = [{
+      color: 'white',
+      yDirection: 1,
+      startPawnYLine: 1,
+    } , {
+      color: 'black',
+      yDirection: - 1,
+      startPawnYLine: 6,
+    }];
+  }
+
+  get currentPlayer() {
+    const idx = (this.turnNumber - 1) % 2;
+    return this.__players[idx];
   }
 
   get whoPlays() {
-    // TODO: sacar if
-    return this.turnNumber % 2 === 0 ? 'black' : 'white';
+    const idx = (this.turnNumber - 1) % 2;
+    return this.__players[idx].color;
+  }
+
+  getPlayer(color: string) {
+    return this.__players.find( player => player.color == color);
   }
 
   createBoard() {

@@ -66,11 +66,36 @@ export default class Pawn extends Piece {
       }
     }
 
-    getDiagonalCaptureMovement(x, y, movements, 1, +1, piecePlayer.enemyColor);
-    getDiagonalCaptureMovement(x, y, movements, -1, +1, piecePlayer.enemyColor);
+    // peon blanco: (x - 1, y + 1), (x + 1, y + 1).
+    // peon negro: (x - 1, y - 1), (x + 1, y - 1).
+    getDiagonalCaptureMovement(
+      x,
+      y,
+      movements,
+      1,
+      piecePlayer.yDirection,
+      piecePlayer.enemyColor,
+    );
+    getDiagonalCaptureMovement(
+      x,
+      y,
+      movements,
+      1,
+      piecePlayer.yDirection,
+      piecePlayer.enemyColor,
+    );
 
-    getDiagonalCaptureMovement(x, y, movements, -1, -1, piecePlayer.enemyColor);
-    getDiagonalCaptureMovement(x, y, movements, +1, -1, piecePlayer.enemyColor);
+    // TODO: sacar if
+    // if (piece.color === 'white') {
+    // getDiagonalCaptureMovement(x, y, movements, 1, 1, piecePlayer.enemyColor);
+    // getDiagonalCaptureMovement(x, y, movements, -1, 1, piecePlayer.enemyColor);
+    // }
+
+    // TODO: sacar if
+    // if (piece.color === 'black') {
+    //   getDiagonalCaptureMovement(x, y, movements, -1, -1, 'white');
+    //   getDiagonalCaptureMovement(x, y, movements, +1, -1, 'white');
+    // }
 
     return movements;
   }

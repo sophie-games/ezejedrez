@@ -3,71 +3,8 @@ import Piece from '../pieces/piece';
 import King from '../pieces/king';
 import Doge from '../pieces/doge';
 import Pawn from '.././pieces/pawn';
-import Knight from '../pieces/knight';
 
-describe('Chess', () => {
-  test('Pawns should be in its correct place', () => {
-    const chess = new Chess();
-    const arrayBoard = chess.getBoardAsArray();
-
-    const pawnLines = [
-      { lineY: 1, color: 'white' },
-      { lineY: 6, color: 'black' },
-    ];
-
-    pawnLines.forEach((line) => {
-      for (let i = 0; i < 8; i++) {
-        const pawn = chess.getPiece(i, line.lineY);
-        expect(pawn.pieceType).toBe('pawn');
-        expect(pawn.color).toBe(line.color);
-      }
-    });
-
-    expect(
-      arrayBoard.filter((piece) => piece && piece.pieceType === 'pawn').length,
-    ).toBe(16);
-  });
-
-  test('Kings should be in its correct place', () => {
-    const chess = new Chess();
-    const arrayBoard = chess.getBoardAsArray();
-    const whiteKing = chess.getPiece(4, 0);
-    const blackKing = chess.getPiece(4, 7);
-
-    expect(whiteKing.pieceType).toBe('king');
-    expect(blackKing.pieceType).toBe('king');
-    expect(whiteKing.color).toBe('white');
-    expect(blackKing.color).toBe('black');
-
-    expect(
-      arrayBoard.filter((piece) => piece && piece.pieceType === 'king').length,
-    ).toBe(2);
-  });
-
-  test('Knights should be in its correct place', () => {
-    const chess = new Chess();
-    const arrayBoard = chess.getBoardAsArray();
-    const whiteKnight1 = chess.getPiece(1, 0);
-    const whiteKnight2 = chess.getPiece(6, 0);
-    const blackKnight1 = chess.getPiece(1, 7);
-    const blackKnight2 = chess.getPiece(6, 7);
-
-    expect(whiteKnight1.pieceType).toBe('knight');
-    expect(blackKnight1.pieceType).toBe('knight');
-    expect(whiteKnight1.color).toBe('white');
-    expect(blackKnight1.color).toBe('black');
-
-    expect(whiteKnight2.pieceType).toBe('knight');
-    expect(blackKnight2.pieceType).toBe('knight');
-    expect(whiteKnight2.color).toBe('white');
-    expect(blackKnight2.color).toBe('black');
-
-    expect(
-      arrayBoard.filter((piece) => piece && piece.pieceType === 'knight')
-        .length,
-    ).toBe(4);
-  });
-
+describe('Chess suite', () => {
   describe('.whoPlays', () => {
     test('White should play first', () => {
       const chess = new Chess();
@@ -153,78 +90,6 @@ describe('Chess', () => {
   });
 
   describe('.getPieceMovements(x, y)', () => {
-    test('Pawns movements 1', () => {
-      const chess = new Chess();
-
-      const movements = chess.getPieceMovements(0, 1);
-
-      expect(movements.length).toBe(2);
-      expect(movements.find((m) => m.x === 0 && m.y === 2)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 0 && m.y === 3)).not.toBe(undefined);
-    });
-
-    test('Pawns movements 2', () => {
-      const chess = new Chess();
-
-      const movements = chess.getPieceMovements(1, 1);
-
-      expect(movements.length).toBe(2);
-      expect(movements.find((m) => m.x === 1 && m.y === 2)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 1 && m.y === 3)).not.toBe(undefined);
-    });
-
-    test('Pawns movements 3 (black)', () => {
-      const chess = new Chess();
-
-      const movements = chess.getPieceMovements(1, 6);
-
-      expect(movements.length).toBe(2);
-      expect(movements.find((m) => m.x === 1 && m.y === 5)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 1 && m.y === 4)).not.toBe(undefined);
-    });
-
-    test(`Pawns should capture only in their correctly directions`, () => {
-      const chess = new Chess();
-
-      chess.cleanBoard();
-
-      chess.addPiece(new Pawn('white'), 4, 3);
-      chess.addPiece(new Doge('black'), 3, 4);
-      chess.addPiece(new Doge('black'), 4, 4);
-      chess.addPiece(new Doge('black'), 5, 4);
-      chess.addPiece(new Doge('black'), 5, 3);
-      chess.addPiece(new Doge('black'), 5, 2);
-      chess.addPiece(new Doge('black'), 4, 2);
-      chess.addPiece(new Doge('black'), 3, 2);
-      chess.addPiece(new Doge('black'), 3, 3);
-
-      const movements = chess.getPieceMovements(4, 3);
-
-      expect(movements.length).toBe(2);
-      expect(movements.find((m) => m.x === 3 && m.y === 4)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 5 && m.y === 4)).not.toBe(undefined);
-    });
-
-    test('The king can only move to a valid position', () => {
-      const chess = new Chess();
-
-      chess.cleanBoard();
-
-      chess.addPiece(new King('white'), 4, 3);
-
-      const movements = chess.getPieceMovements(4, 3);
-
-      expect(movements.length).toBe(8);
-      expect(movements.find((m) => m.x === 4 && m.y === 4)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 3 && m.y === 4)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 3 && m.y === 3)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 3 && m.y === 2)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 4 && m.y === 2)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 5 && m.y === 2)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 5 && m.y === 3)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 5 && m.y === 4)).not.toBe(undefined);
-    });
-
     test('A piece cannot move to a position that has a piece with the same color', () => {
       const chess = new Chess();
 
@@ -266,46 +131,6 @@ describe('Chess', () => {
       expect(movements.find((m) => m.x === 5 && m.y === 2)).not.toBe(undefined);
       expect(movements.find((m) => m.x === 5 && m.y === 3)).not.toBe(undefined);
       expect(movements.find((m) => m.x === 5 && m.y === 4)).not.toBe(undefined);
-    });
-
-    test('The knight can only move to a valid position', () => {
-      const chess = new Chess();
-
-      chess.cleanBoard();
-
-      chess.addPiece(new Knight('white'), 4, 3);
-
-      const movements = chess.getPieceMovements(4, 3);
-
-      expect(movements.length).toBe(8);
-      expect(movements.find((m) => m.x === 3 && m.y === 5)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 2 && m.y === 4)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 2 && m.y === 2)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 3 && m.y === 1)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 5 && m.y === 1)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 6 && m.y === 2)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 6 && m.y === 4)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 5 && m.y === 5)).not.toBe(undefined);
-    });
-
-    test('A   Knight can jump over pieces to reach its destination', () => {
-      const chess = new Chess();
-
-      const movements = chess.getPieceMovements(1, 0);
-
-      expect(movements.length).toBe(2);
-      expect(movements.find((m) => m.x === 0 && m.y === 2)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 2 && m.y === 2)).not.toBe(undefined);
-
-      const movements2 = chess.getPieceMovements(6, 0);
-
-      expect(movements2.length).toBe(2);
-      expect(movements2.find((m) => m.x === 5 && m.y === 2)).not.toBe(
-        undefined,
-      );
-      expect(movements2.find((m) => m.x === 7 && m.y === 2)).not.toBe(
-        undefined,
-      );
     });
 
     test('A piece cannot move out of the board', () => {
@@ -408,15 +233,15 @@ describe('Chess', () => {
       expect(
         arrayBoard.filter(
           (piece) =>
-            piece && piece.pieceType === 'pawn' && piece.color === 'black',
-        ).length,
+            piece && piece.pieceType === 'pawn' && piece.color === 'black'
+        ).length
       ).toBe(8);
 
       expect(
         arrayBoard.filter(
           (piece) =>
-            piece && piece.pieceType === 'pawn' && piece.color === 'white',
-        ).length,
+            piece && piece.pieceType === 'pawn' && piece.color === 'white'
+        ).length
       ).toBe(9);
     });
 
@@ -436,15 +261,15 @@ describe('Chess', () => {
       expect(
         arrayBoard.filter(
           (piece) =>
-            piece && piece.pieceType === 'pawn' && piece.color === 'black',
-        ).length,
+            piece && piece.pieceType === 'pawn' && piece.color === 'black'
+        ).length
       ).toBe(9);
 
       expect(
         arrayBoard.filter(
           (piece) =>
-            piece && piece.pieceType === 'pawn' && piece.color === 'white',
-        ).length,
+            piece && piece.pieceType === 'pawn' && piece.color === 'white'
+        ).length
       ).toBe(8);
     });
 

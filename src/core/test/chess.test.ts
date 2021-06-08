@@ -183,6 +183,28 @@ describe('Chess', () => {
       expect(movements.find((m) => m.x === 1 && m.y === 4)).not.toBe(undefined);
     });
 
+    test(`Pawns should capture only in their correctly directions`, () => {
+      const chess = new Chess();
+
+      chess.cleanBoard();
+
+      chess.addPiece(new Pawn('white'), 4, 3);
+      chess.addPiece(new Doge('black'), 3, 4);
+      chess.addPiece(new Doge('black'), 4, 4);
+      chess.addPiece(new Doge('black'), 5, 4);
+      chess.addPiece(new Doge('black'), 5, 3);
+      chess.addPiece(new Doge('black'), 5, 2);
+      chess.addPiece(new Doge('black'), 4, 2);
+      chess.addPiece(new Doge('black'), 3, 2);
+      chess.addPiece(new Doge('black'), 3, 3);
+
+      const movements = chess.getPieceMovements(4, 3);
+
+      expect(movements.length).toBe(2);
+      expect(movements.find((m) => m.x === 3 && m.y === 4)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 5 && m.y === 4)).not.toBe(undefined);
+    });
+
     test('The king can only move to a valid position', () => {
       const chess = new Chess();
 

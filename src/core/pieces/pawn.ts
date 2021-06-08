@@ -7,25 +7,35 @@ export default class Pawn extends Piece {
     super('pawn', color);
   }
 
+  private __addMoveMovements(
+    x: number,
+    y: number,
+    chess: Chess,
+    movements: Movement[],
+    yDirection: number,
+    pawnLine: number,
+  ) {
+    this.__addIfValidMovement(x, y + 1 * yDirection, movements, chess);
+
+    if (y === pawnLine && !chess.hasPiece(x, y + 1 * yDirection)) {
+      this.__addIfValidMovement(x, y + 2 * yDirection, movements, chess);
+    }
+  }
+
   protected __getMoveMovements(x: number, y: number, chess: Chess) {
     const piece = this;
     const movements: Movement[] = [];
 
-    if (piece.color === 'white') {
-      this.__addIfValidMovement(x, y + 1, movements, chess);
+    const piecePlayer = chess.getPlayer(this.color);
 
-      if (y === 1 && !chess.hasPiece(x, y + 1)) {
-        this.__addIfValidMovement(x, y + 2, movements, chess);
-      }
-    }
-
-    if (piece.color === 'black') {
-      this.__addIfValidMovement(x, y - 1, movements, chess);
-
-      if (y === 6 && !chess.hasPiece(x, y - 1)) {
-        this.__addIfValidMovement(x, y - 2, movements, chess);
-      }
-    }
+    this.__addMoveMovements(
+      x,
+      y,
+      chess,
+      movements,
+      piecePlayer.yDirection,
+      piecePlayer.startPawnYLine,
+    );
 
     return movements;
   }
@@ -34,53 +44,58 @@ export default class Pawn extends Piece {
     const movements: Movement[] = [];
     const piece = this;
 
-    if (piece.color === 'white') {
-      if (
-        chess.isAValidPosition(x + 1, y + 1) &&
-        chess.getPiece(x + 1, y + 1) &&
-        chess.getPiece(x + 1, y + 1).color === 'black'
-      ) {
-        movements.push({
-          x: x + 1,
-          y: y + 1,
-        });
-      }
+    const piecePlayer = chess.getPlayer(this.color);
 
+    function getDiagonalCaptureMovement(
+      x: number,
+      y: number,
+      movements: Movement[],
+      xOffset: number,
+      yOffset: number,
+      enemyColor: string,
+    ) {
       if (
-        chess.isAValidPosition(x - 1, y + 1) &&
-        chess.getPiece(x - 1, y + 1) &&
-        chess.getPiece(x - 1, y + 1).color === 'black'
+        chess.isAValidPosition(x + xOffset, y + yOffset) &&
+        chess.hasPiece(x + xOffset, y + yOffset) &&
+        chess.getPiece(x + xOffset, y + yOffset).color === enemyColor
       ) {
         movements.push({
-          x: x - 1,
-          y: y + 1,
+          x: x + xOffset,
+          y: y + yOffset,
         });
       }
     }
 
-    if (piece.color === 'black') {
-      if (
-        chess.isAValidPosition(x - 1, y - 1) &&
-        chess.getPiece(x - 1, y - 1) &&
-        chess.getPiece(x - 1, y - 1).color === 'white'
-      ) {
-        movements.push({
-          x: x - 1,
-          y: y - 1,
-        });
-      }
+    // peon blanco: (x - 1, y + 1), (x + 1, y + 1).
+    // peon negro: (x - 1, y - 1), (x + 1, y - 1).
+    getDiagonalCaptureMovement(
+      x,
+      y,
+      movements,
+      1,
+      piecePlayer.yDirection,
+      piecePlayer.enemyColor,
+    );
+    getDiagonalCaptureMovement(
+      x,
+      y,
+      movements,
+      1,
+      piecePlayer.yDirection,
+      piecePlayer.enemyColor,
+    );
 
-      if (
-        chess.isAValidPosition(x + 1, y - 1) &&
-        chess.getPiece(x + 1, y - 1) &&
-        chess.getPiece(x + 1, y - 1).color === 'white'
-      ) {
-        movements.push({
-          x: x + 1,
-          y: y - 1,
-        });
-      }
-    }
+    // TODO: sacar if
+    // if (piece.color === 'white') {
+    // getDiagonalCaptureMovement(x, y, movements, 1, 1, piecePlayer.enemyColor);
+    // getDiagonalCaptureMovement(x, y, movements, -1, 1, piecePlayer.enemyColor);
+    // }
+
+    // TODO: sacar if
+    // if (piece.color === 'black') {
+    //   getDiagonalCaptureMovement(x, y, movements, -1, -1, 'white');
+    //   getDiagonalCaptureMovement(x, y, movements, +1, -1, 'white');
+    // }
 
     return movements;
   }

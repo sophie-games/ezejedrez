@@ -1,9 +1,10 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Dimensions } from 'react-native';
-import Board from './src/ui/board.jsx';
-import Chess from './src/core/chess';
-export default class App extends React.Component {
+import Board from '../components/board';
+import Chess from '../../core/chess';
+
+export default class GameView extends React.Component {
   constructor(props) {
     super(props);
 
@@ -58,7 +59,7 @@ export default class App extends React.Component {
             console.log(`Has presionado el cuadrado ${x} ${y}`);
           }}
         />
-        <StatusBar style='auto' />
+        <StatusBar style="auto" />
       </View>
     );
   }

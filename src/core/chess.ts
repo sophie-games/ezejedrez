@@ -2,11 +2,10 @@
 const COLUMNS = 8;
 const ROWS = 8;
 
-import Piece from './pieces/piece'; // TODO: eliminar
+import Piece from './pieces/piece';
 import Pawn from './pieces/pawn';
 import King from './pieces/king';
 import Knight from './pieces/knight';
-import Movement from './movement';
 
 interface Player {
   color: string;

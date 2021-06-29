@@ -13,7 +13,7 @@ export default class Pawn extends Piece {
     chess: Chess,
     movements: Movement[],
     yDirection: number,
-    pawnLine: number,
+    pawnLine: number
   ) {
     this.__addIfValidMovement(x, y + 1 * yDirection, movements, chess);
 
@@ -34,7 +34,7 @@ export default class Pawn extends Piece {
       chess,
       movements,
       piecePlayer.yDirection,
-      piecePlayer.startPawnYLine,
+      piecePlayer.startPawnYLine
     );
 
     return movements;
@@ -42,17 +42,16 @@ export default class Pawn extends Piece {
 
   protected __getCaptureMovements(x: number, y: number, chess: Chess) {
     const movements: Movement[] = [];
-    const piece = this;
 
     const piecePlayer = chess.getPlayer(this.color);
 
-    function getDiagonalCaptureMovement(
+    function addDiagonalCaptureMovement(
       x: number,
       y: number,
       movements: Movement[],
       xOffset: number,
       yOffset: number,
-      enemyColor: string,
+      enemyColor: string
     ) {
       if (
         chess.isAValidPosition(x + xOffset, y + yOffset) &&
@@ -66,36 +65,22 @@ export default class Pawn extends Piece {
       }
     }
 
-    // peon blanco: (x - 1, y + 1), (x + 1, y + 1).
-    // peon negro: (x - 1, y - 1), (x + 1, y - 1).
-    getDiagonalCaptureMovement(
+    addDiagonalCaptureMovement(
       x,
       y,
       movements,
       1,
       piecePlayer.yDirection,
-      piecePlayer.enemyColor,
+      piecePlayer.enemyColor
     );
-    getDiagonalCaptureMovement(
+    addDiagonalCaptureMovement(
       x,
       y,
       movements,
-      1,
+      -1,
       piecePlayer.yDirection,
-      piecePlayer.enemyColor,
+      piecePlayer.enemyColor
     );
-
-    // TODO: sacar if
-    // if (piece.color === 'white') {
-    // getDiagonalCaptureMovement(x, y, movements, 1, 1, piecePlayer.enemyColor);
-    // getDiagonalCaptureMovement(x, y, movements, -1, 1, piecePlayer.enemyColor);
-    // }
-
-    // TODO: sacar if
-    // if (piece.color === 'black') {
-    //   getDiagonalCaptureMovement(x, y, movements, -1, -1, 'white');
-    //   getDiagonalCaptureMovement(x, y, movements, +1, -1, 'white');
-    // }
 
     return movements;
   }

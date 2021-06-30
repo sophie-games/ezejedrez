@@ -65,7 +65,7 @@ describe('Rook suite', () => {
       expect(true).toBe(true);
     });
 
-    test('The rook cannot overstep enemy pieces, only capture the first', () => {
+    test('The rook cannot overstep enemy pieces, only capture the first ones that cross it in each direction', () => {
       // TODO
       expect(true).toBe(true);
     });

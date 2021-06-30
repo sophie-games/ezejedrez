@@ -17,7 +17,10 @@ export default class Piece {
   ) {
     if (chess.isAValidPosition(x, y) && !chess.hasPiece(x, y)) {
       movements.push({ x: x, y: y });
+      return true;
     }
+
+    return false;
   }
 
   protected __addIfValidCapture(

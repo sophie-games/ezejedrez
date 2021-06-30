@@ -14,29 +14,25 @@ export default class Rook extends Piece {
 
     // Top
     y2 = y + 1;
-    while (chess.isAValidPosition(x, y2)) {
-      this.__addIfValidMovement(x, y2, movements, chess);
+    while (this.__addIfValidMovement(x, y2, movements, chess)) {
       y2++;
     }
 
     // Bottom
     y2 = y - 1;
-    while (chess.isAValidPosition(x, y2)) {
-      this.__addIfValidMovement(x, y2, movements, chess);
+    while (this.__addIfValidMovement(x, y2, movements, chess)) {
       y2--;
     }
 
     // Left
     x2 = x - 1;
-    while (chess.isAValidPosition(x2, y)) {
-      this.__addIfValidMovement(x2, y, movements, chess);
+    while (this.__addIfValidMovement(x2, y, movements, chess)) {
       x2--;
     }
 
     // Right
     x2 = x + 1;
-    while (chess.isAValidPosition(x2, y)) {
-      this.__addIfValidMovement(x2, y, movements, chess);
+    while (this.__addIfValidMovement(x2, y, movements, chess)) {
       x2++;
     }
 

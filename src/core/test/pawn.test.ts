@@ -135,7 +135,6 @@ describe('Pawn suite', () => {
       expect(movements.length).toBe(2);
       expect(movements.find((m) => m.x === 2 && m.y === 4)).not.toBe(undefined);
       expect(movements.find((m) => m.x === 4 && m.y === 4)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 3 && m.y === 4)).toBe(undefined);
     });
 
     // BLACK PAWNS MOVES
@@ -185,7 +184,6 @@ describe('Pawn suite', () => {
       expect(movements.length).toBe(2);
       expect(movements.find((m) => m.x === 3 && m.y === 3)).not.toBe(undefined);
       expect(movements.find((m) => m.x === 5 && m.y === 3)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 4 && m.y === 3)).toBe(undefined);
     });
   });
 });

@@ -1,6 +1,7 @@
 import Chess from '../chess';
 import Doge from '../pieces/doge';
 import Pawn from '../pieces/pawn';
+import Piece from '../pieces/piece';
 
 describe('Pawn suite', () => {
   test('Pawns should be in its correct place', () => {
@@ -21,12 +22,42 @@ describe('Pawn suite', () => {
     });
 
     expect(
-      arrayBoard.filter((piece) => piece && piece.pieceType === 'pawn').length
+      arrayBoard.filter((piece) => piece && piece.pieceType === 'pawn').length,
     ).toBe(16);
   });
 
   describe('.getMovements(x,y)', () => {
-    test('Pawns movements 1', () => {
+    // GENERAL
+    test('A pawn cannot capture another piece that has the same color', () => {
+      const chess = new Chess();
+
+      chess.cleanBoard();
+
+      chess.addPiece(new Pawn('white'), 4, 3);
+      chess.addPiece(new Pawn('white'), 5, 4);
+
+      const movements = chess.getPieceMovements(4, 3);
+
+      expect(movements.length).toBe(1);
+
+      expect(movements.find((m) => m.x === 4 && m.y === 4)).not.toBe(undefined);
+    });
+
+    test('A pawn cannot overstep a piece if it is in its initial position', () => {
+      const chess = new Chess();
+
+      chess.cleanBoard();
+
+      chess.addPiece(new Pawn('white'), 4, 1);
+      chess.addPiece(new Pawn('white'), 4, 2);
+
+      const movements = chess.getPieceMovements(4, 1);
+
+      expect(movements.length).toBe(0);
+    });
+
+    // WHITE PAWNS MOVES
+    test('White pawns movements (initial position)', () => {
       const chess = new Chess();
 
       const movements = chess.getPieceMovements(0, 1);
@@ -36,7 +67,7 @@ describe('Pawn suite', () => {
       expect(movements.find((m) => m.x === 0 && m.y === 3)).not.toBe(undefined);
     });
 
-    test('Pawns movements 2', () => {
+    test('White pawns movements 2(initial position)', () => {
       const chess = new Chess();
 
       const movements = chess.getPieceMovements(1, 1);
@@ -46,16 +77,29 @@ describe('Pawn suite', () => {
       expect(movements.find((m) => m.x === 1 && m.y === 3)).not.toBe(undefined);
     });
 
-    test('Pawns movements 3 (black)', () => {
+    test("White pawns can only move 1 square forward if they aren't in initial position", () => {
       const chess = new Chess();
 
-      const movements = chess.getPieceMovements(1, 6);
+      chess.addPiece(new Pawn('white'), 2, 2);
 
-      expect(movements.length).toBe(2);
-      expect(movements.find((m) => m.x === 1 && m.y === 5)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 1 && m.y === 4)).not.toBe(undefined);
+      const movements = chess.getPieceMovements(2, 2);
+
+      expect(movements.length).toBe(1);
+      expect(movements.find((m) => m.x === 2 && m.y === 3)).not.toBe(undefined);
     });
 
+    test('A white pawn cannot move if it has a piece in front of it', () => {
+      const chess = new Chess();
+
+      chess.addPiece(new Pawn('white'), 3, 3);
+      chess.addPiece(new Pawn('black'), 3, 4);
+
+      const movements = chess.getPieceMovements(3, 3);
+
+      expect(movements.length).toBe(0);
+    });
+
+    // WHITE PAWNS CAPTURES
     test(`Pawns should capture only in their correctly directions`, () => {
       const chess = new Chess();
 
@@ -76,6 +120,70 @@ describe('Pawn suite', () => {
       expect(movements.length).toBe(2);
       expect(movements.find((m) => m.x === 3 && m.y === 4)).not.toBe(undefined);
       expect(movements.find((m) => m.x === 5 && m.y === 4)).not.toBe(undefined);
+    });
+
+    test('White pawn can only capture diagonally forward one square to the left or right', () => {
+      const chess = new Chess();
+
+      chess.addPiece(new Pawn('white'), 3, 3);
+      chess.addPiece(new Pawn('black'), 2, 4);
+      chess.addPiece(new Pawn('black'), 4, 4);
+      chess.addPiece(new Pawn('black'), 3, 4);
+
+      const movements = chess.getPieceMovements(3, 3);
+
+      expect(movements.length).toBe(2);
+      expect(movements.find((m) => m.x === 2 && m.y === 4)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 4 && m.y === 4)).not.toBe(undefined);
+    });
+
+    // BLACK PAWNS MOVES
+    test('Black pawns movements (initial position)', () => {
+      const chess = new Chess();
+
+      const movements = chess.getPieceMovements(1, 6);
+
+      expect(movements.length).toBe(2);
+      expect(movements.find((m) => m.x === 1 && m.y === 5)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 1 && m.y === 4)).not.toBe(undefined);
+    });
+
+    test("Black pawns can only move 1 square forward if they aren't in initial position", () => {
+      const chess = new Chess();
+
+      chess.addPiece(new Pawn('black'), 2, 5);
+
+      const movements = chess.getPieceMovements(2, 5);
+
+      expect(movements.length).toBe(1);
+      expect(movements.find((m) => m.x === 2 && m.y === 4)).not.toBe(undefined);
+    });
+
+    test('Black pawn cannot move if it has a piece in front of it', () => {
+      const chess = new Chess();
+
+      chess.addPiece(new Pawn('black'), 6, 4);
+      chess.addPiece(new Pawn('white'), 6, 3);
+
+      const movements = chess.getPieceMovements(6, 4);
+
+      expect(movements.length).toBe(0);
+    });
+
+    // BLACK PAWNS CAPUTURES
+    test('Black pawn can only capture diagonally forward one square to the left or right', () => {
+      const chess = new Chess();
+
+      chess.addPiece(new Pawn('black'), 4, 4);
+      chess.addPiece(new Pawn('white'), 3, 3);
+      chess.addPiece(new Pawn('white'), 5, 3);
+      chess.addPiece(new Pawn('white'), 4, 3);
+
+      const movements = chess.getPieceMovements(4, 4);
+
+      expect(movements.length).toBe(2);
+      expect(movements.find((m) => m.x === 3 && m.y === 3)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 5 && m.y === 3)).not.toBe(undefined);
     });
   });
 });

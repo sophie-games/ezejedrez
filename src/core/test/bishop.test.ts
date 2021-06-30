@@ -7,5 +7,7 @@ describe('Bishop suite', () => {
     expect(true).toBe(true);
   });
 
-  // TODO: the other tests
+  describe('.getMovements(x,y)', () => {
+    // TODO
+  });
 });

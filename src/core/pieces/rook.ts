@@ -10,7 +10,35 @@ export default class Rook extends Piece {
   protected __getMoveMovements(x: number, y: number, chess: Chess) {
     const movements: Movement[] = [];
 
-    // TODO
+    let x2, y2;
+
+    // Top
+    y2 = y + 1;
+    while (chess.isAValidPosition(x, y2)) {
+      this.__addIfValidMovement(x, y2, movements, chess);
+      y2++;
+    }
+
+    // Bottom
+    y2 = y - 1;
+    while (chess.isAValidPosition(x, y2)) {
+      this.__addIfValidMovement(x, y2, movements, chess);
+      y2--;
+    }
+
+    // Left
+    x2 = x - 1;
+    while (chess.isAValidPosition(x2, y)) {
+      this.__addIfValidMovement(x2, y, movements, chess);
+      x2--;
+    }
+
+    // Right
+    x2 = x + 1;
+    while (chess.isAValidPosition(x2, y)) {
+      this.__addIfValidMovement(x2, y, movements, chess);
+      x2++;
+    }
 
     return movements;
   }

@@ -6,6 +6,7 @@ import Piece from './pieces/piece';
 import Pawn from './pieces/pawn';
 import King from './pieces/king';
 import Knight from './pieces/knight';
+import Rook from './pieces/rook';
 
 interface Player {
   color: string;
@@ -85,6 +86,12 @@ export default class Chess {
     board[6][0] = new Knight('white');
     board[1][7] = new Knight('black');
     board[6][7] = new Knight('black');
+
+    // Adding rooks
+    board[0][0] = new Rook('white');
+    board[7][0] = new Rook('white');
+    board[0][7] = new Rook('black');
+    board[7][7] = new Rook('black');
 
     return board;
   }

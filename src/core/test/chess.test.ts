@@ -89,6 +89,32 @@ describe('Chess suite', () => {
     });
   });
 
+  describe('.isThereAllyPiece(piece, x, y)', () => {
+    test(`It has to return true if there's an ally piece`, () => {
+      const chess = new Chess();
+
+      const piece = chess.getPiece(0, 0);
+
+      expect(chess.isThereAllyPiece(piece, 0, 1)).toBe(true);
+    });
+
+    test(`It has to return false if there's not an ally piece`, () => {
+      const chess = new Chess();
+
+      const piece = chess.getPiece(0, 0);
+
+      expect(chess.isThereAllyPiece(piece, 0, 4)).toBe(false);
+    });
+
+    test(`It has to return false if there's an enemy piece`, () => {
+      const chess = new Chess();
+
+      const piece = chess.getPiece(0, 0);
+
+      expect(chess.isThereAllyPiece(piece, 0, 7)).toBe(false);
+    });
+  });
+
   describe('.getPieceMovements(x, y)', () => {
     test('A piece cannot move to a position that has a piece with the same color', () => {
       const chess = new Chess();

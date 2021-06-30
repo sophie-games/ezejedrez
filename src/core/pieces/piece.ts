@@ -17,7 +17,10 @@ export default class Piece {
   ) {
     if (chess.isAValidPosition(x, y) && !chess.hasPiece(x, y)) {
       movements.push({ x: x, y: y });
+      return true;
     }
+
+    return false;
   }
 
   protected __addIfValidCapture(
@@ -33,7 +36,10 @@ export default class Piece {
       chess.getPiece(x, y).color !== pieceThatCaptures.color
     ) {
       movements.push({ x: x, y: y });
+      return true;
     }
+
+    return false;
   }
 
   protected __getMoveMovements(x: number, y: number, chess: Chess): Movement[] {

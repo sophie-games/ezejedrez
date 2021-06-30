@@ -19,8 +19,6 @@ export default class GameView extends React.Component {
       selectedPiece: null,
       selectedSquare: null,
       highlightedSquares: [],
-      whoPlays: '',
-      movePiece: [],
     };
 
     this.onDimensionsChange = ({ window, screen }) => {

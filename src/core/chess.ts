@@ -158,6 +158,16 @@ export default class Chess {
     }
   }
 
+  isThereAllyPiece(piece: Piece, x: number, y: number) {
+    const possibleAlly = this.getPiece(x, y);
+
+    if (!possibleAlly) {
+      return false;
+    }
+
+    return piece.color === possibleAlly.color;
+  }
+
   move(fromX: number, fromY: number, toX: number, toY: number) {
     const pieceMovements = this.getPieceMovements(fromX, fromY);
 

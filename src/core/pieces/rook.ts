@@ -42,7 +42,47 @@ export default class Rook extends Piece {
   protected __getCaptureMovements(x: number, y: number, chess: Chess) {
     const movements: Movement[] = [];
 
-    // TODO
+    let x2, y2;
+
+    // Top
+    y2 = y + 1;
+    while (
+      chess.isAValidPosition(x, y2) &&
+      !chess.isThereAllyPiece(this, x, y2) &&
+      !this.__addIfValidCapture(x, y2, movements, this, chess)
+    ) {
+      y2++;
+    }
+
+    // Bottom
+    y2 = y - 1;
+    while (
+      chess.isAValidPosition(x, y2) &&
+      !chess.isThereAllyPiece(this, x, y2) &&
+      !this.__addIfValidCapture(x, y2, movements, this, chess)
+    ) {
+      y2--;
+    }
+
+    // Left
+    x2 = x - 1;
+    while (
+      chess.isAValidPosition(x2, y) &&
+      !chess.isThereAllyPiece(this, x2, y) &&
+      !this.__addIfValidCapture(x2, y, movements, this, chess)
+    ) {
+      x2--;
+    }
+
+    // Right
+    x2 = x + 1;
+    while (
+      chess.isAValidPosition(x2, y) &&
+      !chess.isThereAllyPiece(this, x2, y) &&
+      !this.__addIfValidCapture(x2, y, movements, this, chess)
+    ) {
+      x2++;
+    }
 
     return movements;
   }

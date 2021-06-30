@@ -101,8 +101,48 @@ describe('Rook suite', () => {
     });
 
     test('The rook cannot overstep enemy pieces, only capture the first ones that cross it in each direction', () => {
-      // TODO
-      expect(true).toBe(true);
+      const chess = new Chess();
+
+      chess.cleanBoard();
+
+      chess.addPiece(new Rook('white'), 4, 3);
+
+      // Top
+      chess.addPiece(new Doge('black'), 4, 7);
+      chess.addPiece(new Doge('black'), 4, 6);
+
+      // Bottom
+      chess.addPiece(new Doge('black'), 4, 2);
+      chess.addPiece(new Doge('white'), 4, 1);
+
+      // Left
+      chess.addPiece(new Doge('white'), 2, 3);
+      chess.addPiece(new Doge('black'), 1, 3);
+
+      // Right
+      chess.addPiece(new Doge('black'), 6, 3);
+      chess.addPiece(new Doge('white'), 7, 3);
+
+      const movements = chess.getPieceMovements(4, 3);
+
+      // Top
+      expect(movements.find((m) => m.x === 4 && m.y === 4)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 4 && m.y === 5)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 4 && m.y === 6)).not.toBe(undefined);
+
+      // Bottom
+      expect(movements.find((m) => m.x === 4 && m.y === 2)).not.toBe(undefined);
+
+      // Left
+      expect(movements.find((m) => m.x === 3 && m.y === 3)).not.toBe(undefined);
+
+      // Right
+      expect(movements.find((m) => m.x === 5 && m.y === 3)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 6 && m.y === 3)).not.toBe(undefined);
+
+      console.log(movements);
+
+      expect(movements.length).toBe(7);
     });
   });
 });

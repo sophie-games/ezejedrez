@@ -140,8 +140,6 @@ describe('Rook suite', () => {
       expect(movements.find((m) => m.x === 5 && m.y === 3)).not.toBe(undefined);
       expect(movements.find((m) => m.x === 6 && m.y === 3)).not.toBe(undefined);
 
-      console.log(movements);
-
       expect(movements.length).toBe(7);
     });
   });

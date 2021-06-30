@@ -1,6 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import { StyleSheet, View, Dimensions, Text } from 'react-native';
 import Board from '../components/board';
 import Chess from '../../core/chess';
 
@@ -29,7 +29,7 @@ export default class GameView extends React.Component {
   }
 
   componentDidMount() {
-    this.__chess.move(0, 1, 0, 3);
+    this.__chess.move(0, 1, 0, 3); // TODO: eliminar esta linea
     this.setState({ board: this.__chess.getBoard() });
 
     Dimensions.addEventListener('change', this.onDimensionsChange); // If Dimensions change, we update the dimensions state
@@ -42,10 +42,19 @@ export default class GameView extends React.Component {
   render() {
     const windowWidth = this.state.dimensions.window.width;
     const windowHeight = this.state.dimensions.window.height;
-    const boardSize = windowWidth < windowHeight ? windowWidth : windowHeight;
+    const boardSize =
+      windowWidth < windowHeight - topBarHeight
+        ? windowWidth
+        : windowHeight - topBarHeight;
 
     return (
       <View style={styles.container}>
+        <View style={styles.topBar}>
+          <Text style={styles.text}>
+            {playersDict[this.__chess.whoPlays]} plays!
+          </Text>
+        </View>
+
         <Board
           board={this.state.board}
           size={boardSize}
@@ -65,6 +74,7 @@ export default class GameView extends React.Component {
   }
 }
 
+const topBarHeight = 40;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -72,4 +82,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+
+  topBar: {
+    height: `${topBarHeight}px`,
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#222',
+  },
+
+  text: {
+    color: '#fff',
+  },
 });
+
+const playersDict = {
+  white: 'White',
+  black: 'Black',
+};

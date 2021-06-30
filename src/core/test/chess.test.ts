@@ -158,20 +158,5 @@ describe('Chess suite', () => {
 
       expect(t).toThrow('Invalid movement');
     });
-
-    test('A piece cannot capture another piece that has the same color', () => {
-      const chess = new Chess();
-
-      chess.cleanBoard();
-
-      chess.addPiece(new Pawn('white'), 4, 3);
-      chess.addPiece(new Pawn('white'), 5, 4);
-
-      const t = () => {
-        chess.move(4, 3, 5, 4);
-      };
-
-      expect(t).toThrow('Invalid movement');
-    });
   });
 });

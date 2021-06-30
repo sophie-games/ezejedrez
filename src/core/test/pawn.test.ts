@@ -38,12 +38,12 @@ describe('Pawn suite', () => {
 
       const movements = chess.getPieceMovements(4, 3);
 
-      expect(movements.length).toBe(0);
-      expect(movements.find((m) => m.x === 4 && m.y === 3)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 5 && m.y === 4)).not.toBe(undefined);
+      expect(movements.length).toBe(1);
+
+      expect(movements.find((m) => m.x === 4 && m.y === 4)).not.toBe(undefined);
     });
 
-    test("A pawn cannot overstep a piece if it is in it's initial position", () => {
+    test('A pawn cannot overstep a piece if it is in its initial position', () => {
       const chess = new Chess();
 
       chess.cleanBoard();
@@ -80,10 +80,12 @@ describe('Pawn suite', () => {
     test("White pawns can only move 1 square forward if they aren't in initial position", () => {
       const chess = new Chess();
 
-      const movements = chess.getPieceMovements(2, 1);
+      chess.addPiece(new Pawn('white'), 2, 2);
+
+      const movements = chess.getPieceMovements(2, 2);
 
       expect(movements.length).toBe(1);
-      expect(movements.find((m) => m.x === 2 && m.y === 2)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 2 && m.y === 3)).not.toBe(undefined);
     });
 
     test('A white pawn cannot move if it has a piece in front of it', () => {
@@ -124,33 +126,20 @@ describe('Pawn suite', () => {
       const chess = new Chess();
 
       chess.addPiece(new Pawn('white'), 3, 3);
+      chess.addPiece(new Pawn('black'), 2, 4);
       chess.addPiece(new Pawn('black'), 4, 4);
+      chess.addPiece(new Pawn('black'), 3, 4);
 
       const movements = chess.getPieceMovements(3, 3);
 
-      const arrayBoard = chess.getBoardAsArray();
-
-      expect(movements.length).toBe(1);
-      expect(chess.hasPiece(4, 4)).toBe(true);
-      expect(chess.getPiece(4, 4).color).toBe('white');
-
-      expect(
-        arrayBoard.filter(
-          (piece) =>
-            piece && piece.pieceType === 'pawn' && piece.color === 'black',
-        ).length,
-      ).toBe(8);
-
-      expect(
-        arrayBoard.filter(
-          (piece) =>
-            piece && piece.pieceType === 'pawn' && piece.color === 'white',
-        ).length,
-      ).toBe(9);
+      expect(movements.length).toBe(2);
+      expect(movements.find((m) => m.x === 2 && m.y === 4)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 4 && m.y === 4)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 3 && m.y === 4)).toBe(undefined);
     });
 
     // BLACK PAWNS MOVES
-    test('Black pawns movements (initial position after white player moves)', () => {
+    test('Black pawns movements (initial position)', () => {
       const chess = new Chess();
 
       const movements = chess.getPieceMovements(1, 6);
@@ -163,10 +152,12 @@ describe('Pawn suite', () => {
     test("Black pawns can only move 1 square forward if they aren't in initial position", () => {
       const chess = new Chess();
 
-      const movements = chess.getPieceMovements(2, 6);
+      chess.addPiece(new Pawn('black'), 2, 5);
+
+      const movements = chess.getPieceMovements(2, 5);
 
       expect(movements.length).toBe(1);
-      expect(movements.find((m) => m.x === 2 && m.y === 5)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 2 && m.y === 4)).not.toBe(undefined);
     });
 
     test('Black pawn cannot move if it has a piece in front of it', () => {
@@ -186,28 +177,15 @@ describe('Pawn suite', () => {
 
       chess.addPiece(new Pawn('black'), 4, 4);
       chess.addPiece(new Pawn('white'), 3, 3);
+      chess.addPiece(new Pawn('white'), 5, 3);
+      chess.addPiece(new Pawn('white'), 4, 3);
 
       const movements = chess.getPieceMovements(4, 4);
 
-      const arrayBoard = chess.getBoardAsArray();
-
-      expect(movements.length).toBe(1);
-      expect(chess.hasPiece(3, 3)).toBe(true);
-      expect(chess.getPiece(3, 3).color).toBe('black');
-
-      expect(
-        arrayBoard.filter(
-          (piece) =>
-            piece && piece.pieceType === 'pawn' && piece.color === 'black',
-        ).length,
-      ).toBe(9);
-
-      expect(
-        arrayBoard.filter(
-          (piece) =>
-            piece && piece.pieceType === 'pawn' && piece.color === 'white',
-        ).length,
-      ).toBe(8);
+      expect(movements.length).toBe(2);
+      expect(movements.find((m) => m.x === 3 && m.y === 3)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 5 && m.y === 3)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 4 && m.y === 3)).toBe(undefined);
     });
   });
 });

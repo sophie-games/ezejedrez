@@ -21,7 +21,8 @@ describe('Knight suite', () => {
     expect(blackKnight2.color).toBe('black');
 
     expect(
-      arrayBoard.filter((piece) => piece && piece.pieceType === 'knight').length
+      arrayBoard.filter((piece) => piece && piece.pieceType === 'knight')
+        .length,
     ).toBe(4);
   });
 
@@ -59,11 +60,39 @@ describe('Knight suite', () => {
 
       expect(movements2.length).toBe(2);
       expect(movements2.find((m) => m.x === 5 && m.y === 2)).not.toBe(
-        undefined
+        undefined,
       );
       expect(movements2.find((m) => m.x === 7 && m.y === 2)).not.toBe(
-        undefined
+        undefined,
       );
+    });
+
+    test('A black Knight can only capture white pieces', () => {
+      const chess = new Chess();
+
+      chess.cleanBoard();
+
+      chess.addPiece(new Knight('black'), 2, 5);
+
+      // Can caputure this pieces
+      chess.addPiece(new Knight('white'), 1, 7);
+      chess.addPiece(new Knight('white'), 3, 7);
+      chess.addPiece(new Knight('white'), 3, 3);
+      chess.addPiece(new Knight('white'), 1, 3);
+
+      // Can't caputure this pieces
+      chess.addPiece(new Knight('black'), 0, 6);
+      chess.addPiece(new Knight('black'), 0, 4);
+      chess.addPiece(new Knight('black'), 4, 6);
+      chess.addPiece(new Knight('black'), 4, 4);
+
+      const movements = chess.getPieceMovements(2, 5);
+
+      expect(movements.length).toBe(4);
+      expect(movements.find((m) => m.x === 1 && m.y === 7)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 3 && m.y === 7)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 3 && m.y === 3)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 1 && m.y === 3)).not.toBe(undefined);
     });
   });
 });

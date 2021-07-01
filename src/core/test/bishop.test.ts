@@ -28,48 +28,37 @@ describe('Bishop suite', () => {
   });
 
   describe('.getMovements(x,y)', () => {
-    test('The bishop cannot overstep enemy pieces, only capture the first ones that cross it in each direction', () => {
+    test('The bishop can only move diagonally forward or backward', () => {
       const chess = new Chess();
 
       chess.cleanBoard();
 
       chess.addPiece(new Bishop('white'), 4, 3);
 
-      // Forward top left
-      chess.addPiece(new Doge('black'), 1, 6);
-      chess.addPiece(new Doge('black'), 2, 5);
-
-      // Forward top right
-      chess.addPiece(new Doge('black'), 7, 6);
-      chess.addPiece(new Doge('black'), 6, 5);
-
-      // Backward bottom left
-      chess.addPiece(new Doge('black'), 1, 0);
-      chess.addPiece(new Doge('white'), 2, 1);
-
-      // Backward bottom right
-      chess.addPiece(new Doge('black'), 7, 0);
-      chess.addPiece(new Doge('black'), 6, 1);
-
       const movements = chess.getPieceMovements(4, 3);
 
       // Forward top left
       expect(movements.find((m) => m.x === 3 && m.y === 4)).not.toBe(undefined);
       expect(movements.find((m) => m.x === 2 && m.y === 5)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 1 && m.y === 6)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 0 && m.y === 7)).not.toBe(undefined);
 
       // Forward top right
       expect(movements.find((m) => m.x === 5 && m.y === 4)).not.toBe(undefined);
       expect(movements.find((m) => m.x === 6 && m.y === 5)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 7 && m.y === 6)).not.toBe(undefined);
 
       // Backward bottom left
       expect(movements.find((m) => m.x === 3 && m.y === 2)).not.toBe(undefined);
       expect(movements.find((m) => m.x === 2 && m.y === 1)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 1 && m.y === 0)).not.toBe(undefined);
 
       // Backward bottom right
       expect(movements.find((m) => m.x === 5 && m.y === 2)).not.toBe(undefined);
       expect(movements.find((m) => m.x === 6 && m.y === 1)).not.toBe(undefined);
+      expect(movements.find((m) => m.x === 7 && m.y === 0)).not.toBe(undefined);
 
-      expect(movements.length).toBe(8);
+      expect(movements.length).toBe(13);
     });
 
     test('The bishop cannot overstep ally pieces', () => {
@@ -108,37 +97,47 @@ describe('Bishop suite', () => {
       expect(movements.length).toBe(4);
     });
 
-    test('The bishop can only move diagonally forward or backward', () => {
+    test('The bishop cannot overstep enemy pieces, only capture the first ones that cross it in each direction', () => {
       const chess = new Chess();
 
       chess.cleanBoard();
 
       chess.addPiece(new Bishop('white'), 4, 3);
 
+      // Forward top left
+      chess.addPiece(new Doge('black'), 1, 6);
+      chess.addPiece(new Doge('black'), 2, 5);
+
+      // Forward top right
+      chess.addPiece(new Doge('black'), 7, 6);
+      chess.addPiece(new Doge('black'), 6, 5);
+
+      // Backward bottom left
+      chess.addPiece(new Doge('black'), 1, 0);
+      chess.addPiece(new Doge('white'), 2, 1);
+
+      // Backward bottom right
+      chess.addPiece(new Doge('black'), 7, 0);
+      chess.addPiece(new Doge('black'), 6, 1);
+
       const movements = chess.getPieceMovements(4, 3);
 
       // Forward top left
       expect(movements.find((m) => m.x === 3 && m.y === 4)).not.toBe(undefined);
       expect(movements.find((m) => m.x === 2 && m.y === 5)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 1 && m.y === 6)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 0 && m.y === 7)).not.toBe(undefined);
 
       // Forward top right
       expect(movements.find((m) => m.x === 5 && m.y === 4)).not.toBe(undefined);
       expect(movements.find((m) => m.x === 6 && m.y === 5)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 7 && m.y === 6)).not.toBe(undefined);
 
       // Backward bottom left
       expect(movements.find((m) => m.x === 3 && m.y === 2)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 2 && m.y === 1)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 1 && m.y === 0)).not.toBe(undefined);
 
       // Backward bottom right
       expect(movements.find((m) => m.x === 5 && m.y === 2)).not.toBe(undefined);
       expect(movements.find((m) => m.x === 6 && m.y === 1)).not.toBe(undefined);
-      expect(movements.find((m) => m.x === 7 && m.y === 0)).not.toBe(undefined);
 
-      expect(movements.length).toBe(13);
+      expect(movements.length).toBe(7);
     });
   });
 });

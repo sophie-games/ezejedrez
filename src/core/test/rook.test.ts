@@ -3,7 +3,7 @@ import Doge from '../pieces/doge';
 import Rook from '../pieces/rook';
 
 describe('Rook suite', () => {
-  test('Rook should be in its correct place', () => {
+  test('Rooks should be in its correct place', () => {
     const chess = new Chess();
     const arrayBoard = chess.getBoardAsArray();
     const whiteRook1 = chess.getPiece(0, 0);
@@ -22,7 +22,7 @@ describe('Rook suite', () => {
     expect(blackRook2.color).toBe('black');
 
     expect(
-      arrayBoard.filter((piece) => piece && piece.pieceType === 'rook').length
+      arrayBoard.filter((piece) => piece && piece.pieceType === 'rook').length,
     ).toBe(4);
   });
 

@@ -8,6 +8,7 @@ import King from './pieces/king';
 import Knight from './pieces/knight';
 import Rook from './pieces/rook';
 import Bishop from './pieces/bishop';
+import Queen from './pieces/queen';
 
 interface Player {
   color: string;
@@ -99,6 +100,11 @@ export default class Chess {
     board[5][0] = new Bishop('white');
     board[2][7] = new Bishop('black');
     board[5][7] = new Bishop('black');
+
+    // Adding queens
+
+    board[3][0] = new Queen('white');
+    board[3][7] = new Queen('black');
 
     return board;
   }

@@ -184,5 +184,16 @@ describe('Chess suite', () => {
 
       expect(t).toThrow('Invalid movement');
     });
+
+    test('A piece cannot move to a position that is not in its possible movements', () => {
+      // TODO: throw invalid movement if the piece move to a position that is not in the
+      // getMovements() array
+      expect(true).toBe(true);
+    });
+
+    test('A piece can move to a position that is in its possible movements', () => {
+      // TODO: expect that the piece has effectly moved
+      expect(true).toBe(true);
+    });
   });
 });

@@ -216,5 +216,27 @@ describe('Chess suite', () => {
       expect(chess.hasPiece(0, 1)).toBe(false);
       expect(chess.hasPiece(0, 3)).toBe(true);
     });
+
+    test('A white piece cannot move if black plays', () => {
+      const chess = new Chess();
+
+      chess.move(0, 1, 0, 2);
+
+      const t = () => {
+        chess.move(0, 2, 0, 3);
+      };
+
+      expect(t).toThrow('Invalid movement');
+    });
+
+    test('A black piece cannot move if white plays', () => {
+      const chess = new Chess();
+
+      const t = () => {
+        chess.move(0, 6, 0, 5);
+      };
+
+      expect(t).toThrow('Invalid movement');
+    });
   });
 });

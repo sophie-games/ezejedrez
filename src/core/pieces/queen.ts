@@ -1,10 +1,10 @@
-import Piece from "./piece";
-import Chess from "./../chess";
-import Movement from "./../movement";
+import Piece from './piece';
+import Chess from './../chess';
+import Movement from './../movement';
 export default class Queen extends Piece {
   constructor(color: string) {
     // code smell
-    super("queen", color);
+    super('queen', color);
   }
 
   protected __getMoveMovements(x: number, y: number, chess: Chess) {

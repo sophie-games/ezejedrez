@@ -2,13 +2,13 @@
 const COLUMNS = 8;
 const ROWS = 8;
 
-import Piece from "./pieces/piece";
-import Pawn from "./pieces/pawn";
-import King from "./pieces/king";
-import Knight from "./pieces/knight";
-import Rook from "./pieces/rook";
-import Bishop from "./pieces/bishop";
-import Queen from "./pieces/queen";
+import Piece from './pieces/piece';
+import Pawn from './pieces/pawn';
+import King from './pieces/king';
+import Knight from './pieces/knight';
+import Rook from './pieces/rook';
+import Bishop from './pieces/bishop';
+import Queen from './pieces/queen';
 
 interface Player {
   color: string;
@@ -28,14 +28,14 @@ export default class Chess {
 
     this.__players = [
       {
-        color: "white",
-        enemyColor: "black",
+        color: 'white',
+        enemyColor: 'black',
         yDirection: 1,
         startPawnYLine: 1,
       },
       {
-        color: "black",
-        enemyColor: "white",
+        color: 'black',
+        enemyColor: 'white',
         yDirection: -1,
         startPawnYLine: 6,
       },
@@ -69,8 +69,8 @@ export default class Chess {
 
     //Adding pawns
     const pawnLines = [
-      { lineY: 1, color: "white" },
-      { lineY: 6, color: "black" },
+      { lineY: 1, color: 'white' },
+      { lineY: 6, color: 'black' },
     ];
 
     pawnLines.forEach((line) => {
@@ -80,31 +80,31 @@ export default class Chess {
     });
 
     // Adding kings
-    board[4][0] = new King("white");
-    board[4][7] = new King("black");
+    board[4][0] = new King('white');
+    board[4][7] = new King('black');
 
     // Adding knights
-    board[1][0] = new Knight("white");
-    board[6][0] = new Knight("white");
-    board[1][7] = new Knight("black");
-    board[6][7] = new Knight("black");
+    board[1][0] = new Knight('white');
+    board[6][0] = new Knight('white');
+    board[1][7] = new Knight('black');
+    board[6][7] = new Knight('black');
 
     // Adding rooks
-    board[0][0] = new Rook("white");
-    board[7][0] = new Rook("white");
-    board[0][7] = new Rook("black");
-    board[7][7] = new Rook("black");
+    board[0][0] = new Rook('white');
+    board[7][0] = new Rook('white');
+    board[0][7] = new Rook('black');
+    board[7][7] = new Rook('black');
 
     // Adding bishops
-    board[2][0] = new Bishop("white");
-    board[5][0] = new Bishop("white");
-    board[2][7] = new Bishop("black");
-    board[5][7] = new Bishop("black");
+    board[2][0] = new Bishop('white');
+    board[5][0] = new Bishop('white');
+    board[2][7] = new Bishop('black');
+    board[5][7] = new Bishop('black');
 
     // Adding queens
 
-    board[3][0] = new Queen("white");
-    board[3][7] = new Queen("black");
+    board[3][0] = new Queen('white');
+    board[3][7] = new Queen('black');
 
     return board;
   }
@@ -190,7 +190,7 @@ export default class Chess {
       return;
     }
 
-    throw new Error("Invalid movement");
+    throw new Error('Invalid movement');
   }
 
   getPieceMovements(x: number, y: number) {

@@ -1,5 +1,4 @@
 import Chess from '../chess';
-import Piece from '../pieces/piece';
 import King from '../pieces/king';
 import Doge from '../pieces/doge';
 import Pawn from '.././pieces/pawn';
@@ -186,14 +185,36 @@ describe('Chess suite', () => {
     });
 
     test('A piece cannot move to a position that is not in its possible movements', () => {
-      // TODO: throw invalid movement if the piece move to a position that is not in the
-      // getMovements() array
-      expect(true).toBe(true);
+      const chess = new Chess();
+
+      const pieceMovements = chess.getPieceMovements(0, 1);
+
+      // The piece cannot go to (0,4)
+      expect(pieceMovements.find((m) => m.x === 0 && m.y === 4)).toBe(
+        undefined
+      );
+
+      const t = () => {
+        chess.move(0, 1, 0, 4);
+      };
+
+      expect(t).toThrow('Invalid movement');
     });
 
     test('A piece can move to a position that is in its possible movements', () => {
-      // TODO: expect that the piece has effectly moved
-      expect(true).toBe(true);
+      const chess = new Chess();
+
+      const pieceMovements = chess.getPieceMovements(0, 1);
+
+      // The piece can go to (0,3)
+      expect(pieceMovements.find((m) => m.x === 0 && m.y === 3)).not.toBe(
+        undefined
+      );
+
+      chess.move(0, 1, 0, 3);
+
+      expect(chess.hasPiece(0, 1)).toBe(false);
+      expect(chess.hasPiece(0, 3)).toBe(true);
     });
   });
 });

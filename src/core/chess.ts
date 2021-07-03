@@ -15,6 +15,7 @@ interface Player {
   enemyColor: string;
   yDirection: number;
   startPawnYLine: number;
+  lastPawnYLine: number;
 }
 
 export default class Chess {
@@ -32,12 +33,14 @@ export default class Chess {
         enemyColor: 'black',
         yDirection: 1,
         startPawnYLine: 1,
+        lastPawnYLine: 7,
       },
       {
         color: 'black',
         enemyColor: 'white',
         yDirection: -1,
         startPawnYLine: 6,
+        lastPawnYLine: 0,
       },
     ];
   }
@@ -171,6 +174,10 @@ export default class Chess {
     }
   }
 
+  removePiece(x: number, y: number) {
+    this.__board[x][y] = null;
+  }
+
   isThereAllyPiece(piece: Piece, x: number, y: number) {
     const possibleAlly = this.getPiece(x, y);
 
@@ -183,18 +190,27 @@ export default class Chess {
 
   move(fromX: number, fromY: number, toX: number, toY: number) {
     const piece = this.getPiece(fromX, fromY);
-    const pieceMovements = this.getPieceMovements(fromX, fromY);
 
-    if (
-      piece.color === this.whoPlays &&
-      pieceMovements.find((m) => m.x === toX && m.y === toY)
-    ) {
-      this.__movePiece(fromX, fromY, toX, toY);
-      this.turnNumber++;
-      return;
+    if (piece.color !== this.whoPlays) {
+      throw new Error('Invalid movement');
     }
 
-    throw new Error('Invalid movement');
+    const pieceMovements = this.getPieceMovements(fromX, fromY);
+
+    if (!pieceMovements.find((m) => m.x === toX && m.y === toY)) {
+      throw new Error('Invalid movement');
+    }
+
+    this.__movePiece(fromX, fromY, toX, toY);
+
+    const player = this.getPlayer(piece.color);
+
+    if (piece.pieceType === 'pawn' && toY === player.lastPawnYLine) {
+      this.removePiece(toX, toY);
+      this.addPiece(new Queen(piece.color), toX, toY);
+    }
+
+    this.turnNumber++;
   }
 
   getPieceMovements(x: number, y: number) {
@@ -213,7 +229,7 @@ export default class Chess {
   cleanBoard() {
     for (let i = 0; i < COLUMNS; i++) {
       for (let j = 0; j < ROWS; j++) {
-        this.__board[i][j] = null;
+        this.removePiece(i, j);
       }
     }
   }

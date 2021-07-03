@@ -49,6 +49,18 @@ describe('Chess suite', () => {
     });
   });
 
+  describe('.removePiece(x, y)', () => {
+    test('It should remove a piece effectly', () => {
+      const chess = new Chess();
+
+      expect(chess.hasPiece(0, 0)).toBe(true);
+
+      chess.removePiece(0, 0);
+
+      expect(chess.hasPiece(0, 0)).toBe(false);
+    });
+  });
+
   describe('.cleanBoard()', () => {
     test('cleanBoard just clears the board', () => {
       const chess = new Chess();
@@ -237,6 +249,18 @@ describe('Chess suite', () => {
       };
 
       expect(t).toThrow('Invalid movement');
+    });
+
+    test('If a pawn goes to the last line, it will become into a queen', () => {
+      const chess = new Chess();
+
+      chess.cleanBoard();
+
+      chess.addPiece(new Pawn('white'), 0, 6);
+
+      chess.move(0, 6, 0, 7);
+
+      expect(chess.getPiece(0, 7).pieceType).toBe('queen');
     });
   });
 });

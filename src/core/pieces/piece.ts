@@ -15,7 +15,7 @@ export default class Piece {
     movements: Movement[],
     chess: Chess
   ) {
-    if (chess.isAValidPosition(x, y) && !chess.hasPiece(x, y)) {
+    if (chess.isValidPosition(x, y) && !chess.hasPiece(x, y)) {
       movements.push({ x: x, y: y });
       return true;
     }
@@ -31,7 +31,7 @@ export default class Piece {
     chess: Chess
   ) {
     if (
-      chess.isAValidPosition(x, y) &&
+      chess.isValidPosition(x, y) &&
       chess.hasPiece(x, y) &&
       chess.getPiece(x, y).color !== pieceThatCaptures.color
     ) {

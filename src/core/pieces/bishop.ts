@@ -56,7 +56,7 @@ export default class Bishop extends Piece {
     x2 = x - 1;
     y2 = y + 1;
     while (
-      chess.isAValidPosition(x2, y2) &&
+      chess.isValidPosition(x2, y2) &&
       !chess.isThereAllyPiece(this, x2, y2) &&
       !this.__addIfValidCapture(x2, y2, movements, this, chess)
     ) {
@@ -68,7 +68,7 @@ export default class Bishop extends Piece {
     x2 = x + 1;
     y2 = y + 1;
     while (
-      chess.isAValidPosition(x2, y2) &&
+      chess.isValidPosition(x2, y2) &&
       !chess.isThereAllyPiece(this, x2, y2) &&
       !this.__addIfValidCapture(x2, y2, movements, this, chess)
     ) {
@@ -80,7 +80,7 @@ export default class Bishop extends Piece {
     x2 = x - 1;
     y2 = y - 1;
     while (
-      chess.isAValidPosition(x2, y2) &&
+      chess.isValidPosition(x2, y2) &&
       !chess.isThereAllyPiece(this, x2, y2) &&
       !this.__addIfValidCapture(x2, y2, movements, this, chess)
     ) {
@@ -92,7 +92,7 @@ export default class Bishop extends Piece {
     x2 = x + 1;
     y2 = y - 1;
     while (
-      chess.isAValidPosition(x2, y2) &&
+      chess.isValidPosition(x2, y2) &&
       !chess.isThereAllyPiece(this, x2, y2) &&
       !this.__addIfValidCapture(x2, y2, movements, this, chess)
     ) {

@@ -54,7 +54,7 @@ export default class Pawn extends Piece {
       enemyColor: string
     ) {
       if (
-        chess.isAValidPosition(x + xOffset, y + yOffset) &&
+        chess.isValidPosition(x + xOffset, y + yOffset) &&
         chess.hasPiece(x + xOffset, y + yOffset) &&
         chess.getPiece(x + xOffset, y + yOffset).color === enemyColor
       ) {

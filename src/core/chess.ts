@@ -143,7 +143,7 @@ export default class Chess {
     board[toX][toY] = piece;
   }
 
-  isAValidPosition(x: number, y: number) {
+  isValidPosition(x: number, y: number) {
     if (x < 0 || x > 7) {
       return false;
     }

@@ -10,8 +10,7 @@ export default function IndexView() {
       <View style={styles.mainMenu}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => history.push('/game')}
-        >
+          onPress={() => history.push('/game')}>
           <Text>Play</Text>
         </TouchableOpacity>
       </View>

@@ -105,7 +105,6 @@ export default class Chess {
     board[5][7] = new Bishop('black');
 
     // Adding queens
-
     board[3][0] = new Queen('white');
     board[3][7] = new Queen('black');
 

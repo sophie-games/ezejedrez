@@ -17,7 +17,6 @@ export default class GameView extends React.Component {
       },
       board: null,
       selectedPiece: null,
-      selectedSquare: null,
       highlightedSquares: [],
     };
 
@@ -27,7 +26,6 @@ export default class GameView extends React.Component {
   }
 
   componentDidMount() {
-    this.__chess.move(0, 1, 0, 3); // TODO: eliminar esta linea
     this.setState({ board: this.__chess.getBoard() });
 
     Dimensions.addEventListener('change', this.onDimensionsChange); // If Dimensions change, we update the dimensions state
@@ -45,6 +43,32 @@ export default class GameView extends React.Component {
         ? windowWidth
         : windowHeight - topBarHeight;
 
+    const onSquarePress = (x, y) => {
+      if (
+        this.state.selectedPiece &&
+        this.state.selectedPiece.color === this.__chess.whoPlays &&
+        this.state.highlightedSquares.find((sqr) => sqr.x === x && sqr.y === y)
+      ) {
+        this.__chess.move(
+          this.state.selectedPiece.x,
+          this.state.selectedPiece.y,
+          x,
+          y,
+        );
+
+        this.setState({
+          selectedPiece: null,
+          highlightedSquares: [],
+        });
+      } else if (this.__chess.hasPiece(x, y)) {
+        this.setState({
+          highlightedSquares: this.__chess.getPieceMovements(x, y),
+          selectedPiece: { x, y, color: this.__chess.getPiece(x, y).color },
+        });
+      }
+      console.log(`Has presionado el cuadrado ${x} ${y}`);
+    };
+
     return (
       <View style={styles.container}>
         <View style={styles.topBar}>
@@ -57,16 +81,9 @@ export default class GameView extends React.Component {
           board={this.state.board}
           size={boardSize}
           highlightedSquares={this.state.highlightedSquares}
-          onSquarePress={(x, y) => {
-            if (this.__chess.hasPiece(x, y)) {
-              this.setState({
-                highlightedSquares: this.__chess.getPieceMovements(x, y),
-              });
-            }
-            console.log(`Has presionado el cuadrado ${x} ${y}`);
-          }}
+          onSquarePress={onSquarePress}
         />
-        <StatusBar style="auto" />
+        <StatusBar style='auto' />
       </View>
     );
   }

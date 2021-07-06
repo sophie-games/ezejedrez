@@ -44,6 +44,7 @@ export default class GameView extends React.Component {
         : windowHeight - topBarHeight;
 
     const onSquarePress = (x, y) => {
+      // If there is a selected piece and it can move to that position, the piece will be moved to there
       if (
         this.state.selectedPiece &&
         this.state.selectedPiece.color === this.__chess.whoPlays &&
@@ -60,6 +61,8 @@ export default class GameView extends React.Component {
           selectedPiece: null,
           highlightedSquares: [],
         });
+
+        // Select a piece if none is selected
       } else if (this.__chess.hasPiece(x, y)) {
         this.setState({
           highlightedSquares: this.__chess.getPieceMovements(x, y),

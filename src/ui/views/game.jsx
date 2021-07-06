@@ -44,13 +44,6 @@ export default class GameView extends React.Component {
         : windowHeight - topBarHeight;
 
     const onSquarePress = (x, y) => {
-      if (this.__chess.hasPiece(x, y)) {
-        this.setState({
-          highlightedSquares: this.__chess.getPieceMovements(x, y),
-          selectedPiece: { x, y },
-        });
-      }
-
       if (
         this.state.selectedPiece &&
         this.state.highlightedSquares.find((sqr) => sqr.x === x && sqr.y === y)
@@ -65,6 +58,13 @@ export default class GameView extends React.Component {
         this.setState({
           selectedPiece: null,
           highlightedSquares: [],
+        });
+      }
+
+      if (this.__chess.hasPiece(x, y)) {
+        this.setState({
+          highlightedSquares: this.__chess.getPieceMovements(x, y),
+          selectedPiece: { x, y },
         });
       }
       console.log(`Has presionado el cuadrado ${x} ${y}`);

@@ -46,6 +46,7 @@ export default class GameView extends React.Component {
     const onSquarePress = (x, y) => {
       if (
         this.state.selectedPiece &&
+        this.state.selectedPiece.color === this.__chess.whoPlays &&
         this.state.highlightedSquares.find((sqr) => sqr.x === x && sqr.y === y)
       ) {
         this.__chess.move(
@@ -59,12 +60,10 @@ export default class GameView extends React.Component {
           selectedPiece: null,
           highlightedSquares: [],
         });
-      }
-
-      if (this.__chess.hasPiece(x, y)) {
+      } else if (this.__chess.hasPiece(x, y)) {
         this.setState({
           highlightedSquares: this.__chess.getPieceMovements(x, y),
-          selectedPiece: { x, y },
+          selectedPiece: { x, y, color: this.__chess.getPiece(x, y).color },
         });
       }
       console.log(`Has presionado el cuadrado ${x} ${y}`);

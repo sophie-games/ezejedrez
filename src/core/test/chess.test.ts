@@ -49,6 +49,18 @@ describe('Chess suite', () => {
     });
   });
 
+  describe('.removePiece(x, y)', () => {
+    test('It should remove a piece effectly', () => {
+      const chess = new Chess();
+
+      expect(chess.hasPiece(0, 0)).toBe(true);
+
+      chess.removePiece(0, 0);
+
+      expect(chess.hasPiece(0, 0)).toBe(false);
+    });
+  });
+
   describe('.cleanBoard()', () => {
     test('cleanBoard just clears the board', () => {
       const chess = new Chess();
@@ -215,6 +227,40 @@ describe('Chess suite', () => {
 
       expect(chess.hasPiece(0, 1)).toBe(false);
       expect(chess.hasPiece(0, 3)).toBe(true);
+    });
+
+    test('A white piece cannot move if black plays', () => {
+      const chess = new Chess();
+
+      chess.move(0, 1, 0, 2);
+
+      const t = () => {
+        chess.move(0, 2, 0, 3);
+      };
+
+      expect(t).toThrow('Invalid movement');
+    });
+
+    test('A black piece cannot move if white plays', () => {
+      const chess = new Chess();
+
+      const t = () => {
+        chess.move(0, 6, 0, 5);
+      };
+
+      expect(t).toThrow('Invalid movement');
+    });
+
+    test('If a pawn goes to the last line, it will become into a queen', () => {
+      const chess = new Chess();
+
+      chess.cleanBoard();
+
+      chess.addPiece(new Pawn('white'), 0, 6);
+
+      chess.move(0, 6, 0, 7);
+
+      expect(chess.getPiece(0, 7).pieceType).toBe('queen');
     });
   });
 });

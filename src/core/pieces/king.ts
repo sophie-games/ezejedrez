@@ -21,9 +21,16 @@ export default class King extends Piece {
       { x: x + 1, y: y + 1 },
     ];
 
-    kingPossibleMovs.forEach((possibleMov) =>
-      this.__addIfValidMovement(possibleMov.x, possibleMov.y, movements, chess),
-    );
+    kingPossibleMovs.forEach((possibleMov) => {
+      if (chess.isCheckedPosition(possibleMov.x, possibleMov.y, 'black')) {
+        this.__addIfValidMovement(
+          possibleMov.x,
+          possibleMov.y,
+          movements,
+          chess,
+        );
+      }
+    });
 
     return movements;
   }

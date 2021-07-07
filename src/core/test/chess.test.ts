@@ -203,7 +203,7 @@ describe('Chess suite', () => {
 
       // The piece cannot go to (0,4)
       expect(pieceMovements.find((m) => m.x === 0 && m.y === 4)).toBe(
-        undefined
+        undefined,
       );
 
       const t = () => {
@@ -220,7 +220,7 @@ describe('Chess suite', () => {
 
       // The piece can go to (0,3)
       expect(pieceMovements.find((m) => m.x === 0 && m.y === 3)).not.toBe(
-        undefined
+        undefined,
       );
 
       chess.move(0, 1, 0, 3);

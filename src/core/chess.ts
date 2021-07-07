@@ -155,6 +155,25 @@ export default class Chess {
     return true;
   }
 
+  isCheckedPosition(x: number, y: number, color: string) {
+    for (let c = 0; c < COLUMNS; c++) {
+      for (let r = 0; r < ROWS; r++) {
+        const piece = this.getPiece(c, r);
+        const pieceMovements = this.getPieceMovements(c, r);
+
+        if (
+          piece &&
+          piece.color === color &&
+          pieceMovements.find((m) => m.x === x && m.y === y)
+        ) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
   getPieces() {
     const arr = this.getBoardAsArray();
     const pieces = arr.filter((piece) => piece);

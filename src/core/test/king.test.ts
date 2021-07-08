@@ -20,7 +20,7 @@ describe('King suite', () => {
     ).toBe(2);
   });
 
-  describe('.getMovements(x,y)', () => {
+  describe('.getMovements()', () => {
     test('The king can only move to a valid position', () => {
       const chess = new Chess();
 

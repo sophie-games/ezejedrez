@@ -22,11 +22,11 @@ describe('Pawn suite', () => {
     });
 
     expect(
-      arrayBoard.filter((piece) => piece && piece.pieceType === 'pawn').length,
+      arrayBoard.filter((piece) => piece && piece.pieceType === 'pawn').length
     ).toBe(16);
   });
 
-  describe('.getMovements(x,y)', () => {
+  describe('.getMovements()', () => {
     // GENERAL
     test('A pawn cannot capture another piece that has the same color', () => {
       const chess = new Chess();
@@ -170,7 +170,7 @@ describe('Pawn suite', () => {
       expect(movements.length).toBe(0);
     });
 
-    // BLACK PAWNS CAPUTURES
+    // BLACK PAWNS CAPTURES
     test('Black pawn can only capture diagonally forward one square to the left or right', () => {
       const chess = new Chess();
 
@@ -185,5 +185,44 @@ describe('Pawn suite', () => {
       expect(movements.find((m) => m.x === 3 && m.y === 3)).not.toBe(undefined);
       expect(movements.find((m) => m.x === 5 && m.y === 3)).not.toBe(undefined);
     });
+  });
+
+  test("White pawn can capture 'in passing'", () => {
+    const chess = new Chess();
+
+    chess.cleanBoard();
+
+    chess.addPiece(new Pawn('white'), 1, 4);
+    chess.addPiece(new Pawn('black'), 0, 6);
+
+    // Change the turn so the black can move
+    chess.turnNumber = 2;
+
+    chess.move(0, 6, 0, 4);
+
+    const movements = chess.getPieceMovements(1, 4);
+    expect(movements.find((m) => m.x === 0 && m.y === 5)).not.toBe(undefined);
+
+    chess.move(1, 4, 0, 5);
+
+    expect(chess.hasPiece(0, 4)).toBe(false);
+  });
+
+  test("Black pawn can capture 'in passing'", () => {
+    const chess = new Chess();
+
+    chess.cleanBoard();
+
+    chess.addPiece(new Pawn('black'), 1, 3);
+    chess.addPiece(new Pawn('white'), 0, 1);
+
+    chess.move(0, 1, 0, 3);
+
+    const movements = chess.getPieceMovements(1, 3);
+    expect(movements.find((m) => m.x === 0 && m.y === 2)).not.toBe(undefined);
+
+    chess.move(1, 3, 0, 2);
+
+    expect(chess.hasPiece(0, 3)).toBe(false);
   });
 });

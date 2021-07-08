@@ -22,11 +22,11 @@ describe('Rook suite', () => {
     expect(blackRook2.color).toBe('black');
 
     expect(
-      arrayBoard.filter((piece) => piece && piece.pieceType === 'rook').length,
+      arrayBoard.filter((piece) => piece && piece.pieceType === 'rook').length
     ).toBe(4);
   });
 
-  describe('.getMovements(x,y)', () => {
+  describe('.getMovements()', () => {
     test('The rook can only move in straight lines', () => {
       const chess = new Chess();
 

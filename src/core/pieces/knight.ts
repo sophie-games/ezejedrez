@@ -23,7 +23,7 @@ export default class Knight extends Piece {
     ];
 
     knightPossibleMovs.forEach((possibleMov) =>
-      this.__addIfValidMovement(possibleMov.x, possibleMov.y, movements, chess),
+      this.__addIfValidMovement(possibleMov.x, possibleMov.y, movements, chess)
     );
 
     return movements;
@@ -50,8 +50,8 @@ export default class Knight extends Piece {
         possibleCapture.y,
         movements,
         pieceThatCaptures,
-        chess,
-      ),
+        chess
+      )
     );
 
     return movements;

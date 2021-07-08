@@ -169,6 +169,7 @@ export default class Chess {
 
         if (
           piece &&
+          piece.pieceType !== 'king' &&
           piece.color === color &&
           this.getPieceMovements(c, r).find((m) => m.x === x && m.y === y)
         ) {

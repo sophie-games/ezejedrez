@@ -21,7 +21,7 @@ describe('Chess suite', () => {
     });
   });
 
-  describe('.addPiece(pieceType, color, x, y)', () => {
+  describe('.addPiece()', () => {
     test(`It should be possible to add a piece in a valid position`, () => {
       const chess = new Chess();
       const piecesLength = chess.getPieces().length;
@@ -50,7 +50,7 @@ describe('Chess suite', () => {
     });
   });
 
-  describe('.removePiece(x, y)', () => {
+  describe('.removePiece()', () => {
     test('It should remove a piece effectly', () => {
       const chess = new Chess();
 
@@ -72,7 +72,7 @@ describe('Chess suite', () => {
     });
   });
 
-  describe('.setBoard(callback)', () => {
+  describe('.setBoard()', () => {
     test('setBoard should allow to create a custom board', () => {
       const chess = new Chess();
 
@@ -87,7 +87,7 @@ describe('Chess suite', () => {
     });
   });
 
-  describe('.hasPiece(x, y)', () => {
+  describe('.hasPiece()', () => {
     test(`It has to return true if there's a piece`, () => {
       const chess = new Chess();
 
@@ -101,7 +101,7 @@ describe('Chess suite', () => {
     });
   });
 
-  describe('.isThereAllyPiece(piece, x, y)', () => {
+  describe('.isThereAllyPiece()', () => {
     test(`It has to return true if there's an ally piece`, () => {
       const chess = new Chess();
 
@@ -127,8 +127,8 @@ describe('Chess suite', () => {
     });
   });
 
-  describe('.isCheckedPosition(x, y, color)', () => {
-    it('It must return the correct result for white', () => {
+  describe('.isCheckedPosition()', () => {
+    test('It must return the correct result for white', () => {
       const chess = new Chess();
 
       chess.cleanBoard();
@@ -140,7 +140,7 @@ describe('Chess suite', () => {
       expect(chess.isCheckedPosition(4, 4, 'white')).toBe(true);
     });
 
-    it('It must return the correct result for black', () => {
+    test('It must return the correct result for black', () => {
       const chess = new Chess();
 
       chess.cleanBoard();
@@ -153,7 +153,7 @@ describe('Chess suite', () => {
     });
   });
 
-  describe('.getPieceMovements(x, y)', () => {
+  describe('.getPieceMovements()', () => {
     test('A piece cannot move to a position that has a piece with the same color', () => {
       const chess = new Chess();
 
@@ -208,7 +208,7 @@ describe('Chess suite', () => {
     });
   });
 
-  describe('.move(fromX, fromY, toX, toY)', () => {
+  describe('.move()', () => {
     test('A piece cannot move out of the board', () => {
       const chess = new Chess();
 

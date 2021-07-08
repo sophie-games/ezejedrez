@@ -21,12 +21,11 @@ describe('Knight suite', () => {
     expect(blackKnight2.color).toBe('black');
 
     expect(
-      arrayBoard.filter((piece) => piece && piece.pieceType === 'knight')
-        .length,
+      arrayBoard.filter((piece) => piece && piece.pieceType === 'knight').length
     ).toBe(4);
   });
 
-  describe('.getMovements(x,y)', () => {
+  describe('.getMovements()', () => {
     test('The knight can only move to a valid position', () => {
       const chess = new Chess();
 
@@ -60,10 +59,10 @@ describe('Knight suite', () => {
 
       expect(movements2.length).toBe(2);
       expect(movements2.find((m) => m.x === 5 && m.y === 2)).not.toBe(
-        undefined,
+        undefined
       );
       expect(movements2.find((m) => m.x === 7 && m.y === 2)).not.toBe(
-        undefined,
+        undefined
       );
     });
 

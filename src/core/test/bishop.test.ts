@@ -22,12 +22,11 @@ describe('Bishop suite', () => {
     expect(blackBishop2.color).toBe('black');
 
     expect(
-      arrayBoard.filter((piece) => piece && piece.pieceType === 'bishop')
-        .length,
+      arrayBoard.filter((piece) => piece && piece.pieceType === 'bishop').length
     ).toBe(4);
   });
 
-  describe('.getMovements(x,y)', () => {
+  describe('.getMovements()', () => {
     test('The bishop can only move diagonally forward or backward', () => {
       const chess = new Chess();
 

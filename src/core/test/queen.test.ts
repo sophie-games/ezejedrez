@@ -16,11 +16,11 @@ describe('Queen suite', () => {
     expect(blackQueen.color).toBe('black');
 
     expect(
-      arrayBoard.filter((piece) => piece && piece.pieceType === 'queen').length,
+      arrayBoard.filter((piece) => piece && piece.pieceType === 'queen').length
     ).toBe(2);
   });
 
-  describe('.getMovements(x,y)', () => {
+  describe('.getMovements()', () => {
     test('The queen can be moved any number of unoccupied squares in a straight line vertically, horizontally, or diagonally', () => {
       const chess = new Chess();
 

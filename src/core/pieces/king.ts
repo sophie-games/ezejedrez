@@ -9,6 +9,7 @@ export default class King extends Piece {
 
   protected __getMoveMovements(x: number, y: number, chess: Chess) {
     const movements: Movement[] = [];
+    const player = chess.getPlayer(this.color);
 
     const kingPossibleMovs = [
       { x: x, y: y + 1 },
@@ -22,7 +23,6 @@ export default class King extends Piece {
     ];
 
     kingPossibleMovs.forEach((possibleMov) => {
-      const player = chess.getPlayer(this.color);
       const isChecked = chess.isCheckedPosition(
         possibleMov.x,
         possibleMov.y,

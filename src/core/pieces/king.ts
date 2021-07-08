@@ -22,12 +22,19 @@ export default class King extends Piece {
     ];
 
     kingPossibleMovs.forEach((possibleMov) => {
-      if (chess.isCheckedPosition(possibleMov.x, possibleMov.y, 'black')) {
+      const player = chess.getPlayer(this.color);
+      const isChecked = chess.isCheckedPosition(
+        possibleMov.x,
+        possibleMov.y,
+        player.enemyColor
+      );
+
+      if (!isChecked) {
         this.__addIfValidMovement(
           possibleMov.x,
           possibleMov.y,
           movements,
-          chess,
+          chess
         );
       }
     });
@@ -56,8 +63,8 @@ export default class King extends Piece {
         possibleCapture.y,
         movements,
         pieceThatCaptures,
-        chess,
-      ),
+        chess
+      )
     );
 
     return movements;

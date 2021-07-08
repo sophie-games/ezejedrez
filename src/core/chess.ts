@@ -155,16 +155,22 @@ export default class Chess {
     return true;
   }
 
+  /**
+   * Returns if a position is checked by a color
+   * @param x position x
+   * @param y position y
+   * @param color color
+   * @returns is checked?
+   */
   isCheckedPosition(x: number, y: number, color: string) {
     for (let c = 0; c < COLUMNS; c++) {
       for (let r = 0; r < ROWS; r++) {
         const piece = this.getPiece(c, r);
-        const pieceMovements = this.getPieceMovements(c, r);
 
         if (
           piece &&
           piece.color === color &&
-          pieceMovements.find((m) => m.x === x && m.y === y)
+          this.getPieceMovements(c, r).find((m) => m.x === x && m.y === y)
         ) {
           return true;
         }

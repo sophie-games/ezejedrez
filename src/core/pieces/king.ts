@@ -9,6 +9,7 @@ export default class King extends Piece {
 
   protected __getMoveMovements(x: number, y: number, chess: Chess) {
     const movements: Movement[] = [];
+    const player = chess.getPlayer(this.color);
 
     const kingPossibleMovs = [
       { x: x, y: y + 1 },
@@ -21,9 +22,22 @@ export default class King extends Piece {
       { x: x + 1, y: y + 1 },
     ];
 
-    kingPossibleMovs.forEach((possibleMov) =>
-      this.__addIfValidMovement(possibleMov.x, possibleMov.y, movements, chess),
-    );
+    kingPossibleMovs.forEach((possibleMov) => {
+      const isChecked = chess.isCheckedPosition(
+        possibleMov.x,
+        possibleMov.y,
+        player.enemyColor
+      );
+
+      if (!isChecked) {
+        this.__addIfValidMovement(
+          possibleMov.x,
+          possibleMov.y,
+          movements,
+          chess
+        );
+      }
+    });
 
     return movements;
   }
@@ -49,8 +63,8 @@ export default class King extends Piece {
         possibleCapture.y,
         movements,
         pieceThatCaptures,
-        chess,
-      ),
+        chess
+      )
     );
 
     return movements;

@@ -2,6 +2,7 @@ import Chess from '../chess';
 import King from '../pieces/king';
 import Doge from '../pieces/doge';
 import Pawn from '.././pieces/pawn';
+import Bishop from '../pieces/bishop';
 
 describe('Chess suite', () => {
   describe('.whoPlays', () => {
@@ -123,6 +124,32 @@ describe('Chess suite', () => {
       const piece = chess.getPiece(0, 0);
 
       expect(chess.isThereAllyPiece(piece, 0, 7)).toBe(false);
+    });
+  });
+
+  describe('.isCheckedPosition(x, y, color)', () => {
+    it('It must return the correct result for white', () => {
+      const chess = new Chess();
+
+      chess.cleanBoard();
+
+      chess.addPiece(new Bishop('white'), 3, 3);
+
+      expect(chess.isCheckedPosition(2, 4, 'white')).toBe(true);
+      expect(chess.isCheckedPosition(3, 4, 'white')).toBe(false);
+      expect(chess.isCheckedPosition(4, 4, 'white')).toBe(true);
+    });
+
+    it('It must return the correct result for black', () => {
+      const chess = new Chess();
+
+      chess.cleanBoard();
+
+      chess.addPiece(new Bishop('black'), 3, 3);
+
+      expect(chess.isCheckedPosition(2, 4, 'black')).toBe(true);
+      expect(chess.isCheckedPosition(3, 4, 'black')).toBe(false);
+      expect(chess.isCheckedPosition(4, 4, 'black')).toBe(true);
     });
   });
 

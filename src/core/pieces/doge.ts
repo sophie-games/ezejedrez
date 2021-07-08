@@ -13,4 +13,10 @@ export default class Doge extends Piece {
 
     return movements;
   }
+
+  protected __getCaptureMovements(x: number, y: number, chess: Chess) {
+    const movements: Movement[] = [];
+
+    return movements;
+  }
 }

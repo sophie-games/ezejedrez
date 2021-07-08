@@ -127,7 +127,7 @@ describe('Chess suite', () => {
     });
   });
 
-  describe('.isCheckedPosition(x, y, color, excludeX, excludeY)', () => {
+  describe('.isCheckedPosition(x, y, color)', () => {
     it('It must return the correct result for white', () => {
       const chess = new Chess();
 

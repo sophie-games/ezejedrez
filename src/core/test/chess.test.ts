@@ -151,6 +151,20 @@ describe('Chess suite', () => {
       expect(chess.isCheckedPosition(3, 4, 'black')).toBe(false);
       expect(chess.isCheckedPosition(4, 4, 'black')).toBe(true);
     });
+
+    it('King should be able to move', () => {
+      const chess = new Chess();
+
+      // Move pawns
+      chess.move(4, 1, 4, 3);
+      chess.move(4, 6, 4, 4);
+
+      // King should be able to move
+      chess.move(4, 0, 4, 1);
+
+      expect(chess.hasPiece(4, 1)).toBe(true);
+      expect(chess.getPiece(4, 1).pieceType).toBe('king');
+    });
   });
 
   describe('.getPieceMovements(x, y)', () => {

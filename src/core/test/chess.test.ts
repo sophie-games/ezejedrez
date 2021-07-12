@@ -306,7 +306,7 @@ describe('Chess suite', () => {
   });
 
   describe('.copyBoard()', () => {
-    test('Modifyieng the copy should not modify the original board', () => {
+    test('Modifying the copy should not modify the original board', () => {
       const chess = new Chess();
       const copy = chess.copyBoard();
 
@@ -315,7 +315,7 @@ describe('Chess suite', () => {
 
       copy[0][0] = null;
 
-      expect(copy[0][0]).toBe(null);
+      expect(chess.getPiece(0, 0).pieceType).toBe('rook');
     });
 
     test('Copy should has the actual state of the chess', () => {

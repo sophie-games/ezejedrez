@@ -146,7 +146,7 @@ export default class Chess {
   }
 
   /**
-   *  Copies the actual board and it state.
+   *  Copies the actual board and its state.
    */
   copyBoard() {
     const copy = new Array(COLUMNS);
@@ -166,7 +166,9 @@ export default class Chess {
     return board[x][y];
   }
 
-  //Moves a Piece to a position without doing any validation.
+  /**
+   * Moves a Piece to a position without doing any validation.
+   */
   private __movePiece(fromX: number, fromY: number, toX: number, toY: number) {
     const board = this.getBoard();
     const piece = this.getPiece(fromX, fromY);

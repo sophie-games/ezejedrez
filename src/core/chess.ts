@@ -156,6 +156,7 @@ export default class Chess {
         copy[x][y] = this.__board[x][y];
       }
     }
+
     return copy;
   }
 

@@ -329,5 +329,15 @@ describe('Chess suite', () => {
 
       expect(copy[0][3].pieceType).toBe('pawn');
     });
+
+    test('Moving a piece in diagonal in the original board should not affect the copy', () => {
+      const chess = new Chess();
+      const copy = chess.copyBoard();
+
+      chess.move(1, 0, 0, 2);
+
+      expect(copy[1][0].pieceType).toBe('knight');
+      expect(copy[0][2]).toBe(null);
+    });
   });
 });

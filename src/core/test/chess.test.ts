@@ -244,7 +244,7 @@ describe('Chess suite', () => {
 
       // The piece cannot go to (0,4)
       expect(pieceMovements.find((m) => m.x === 0 && m.y === 4)).toBe(
-        undefined
+        undefined,
       );
 
       const t = () => {
@@ -261,7 +261,7 @@ describe('Chess suite', () => {
 
       // The piece can go to (0,3)
       expect(pieceMovements.find((m) => m.x === 0 && m.y === 3)).not.toBe(
-        undefined
+        undefined,
       );
 
       chess.move(0, 1, 0, 3);
@@ -302,6 +302,32 @@ describe('Chess suite', () => {
       chess.move(0, 6, 0, 7);
 
       expect(chess.getPiece(0, 7).pieceType).toBe('queen');
+    });
+  });
+
+  describe('.copyBoard()', () => {
+    test('Modifyieng the copy should not modify the original board', () => {
+      const chess = new Chess();
+      const copy = chess.copyBoard();
+
+      expect(chess.getPiece(0, 0).pieceType).toBe('rook');
+      expect(copy[0][0].pieceType).toBe('rook');
+
+      copy[0][0] = null;
+
+      expect(copy[0][0]).toBe(null);
+    });
+
+    test('Copy should has the actual state of the chess', () => {
+      const chess = new Chess();
+
+      expect(chess.getPiece(0, 1).pieceType).toBe('pawn');
+
+      chess.move(0, 1, 0, 3);
+
+      const copy = chess.copyBoard();
+
+      expect(copy[0][3].pieceType).toBe('pawn');
     });
   });
 });

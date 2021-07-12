@@ -126,15 +126,40 @@ export default class Chess {
     return arrayBoard;
   }
 
+  //Removes all the pieces of the board.
+  cleanBoard() {
+    for (let i = 0; i < COLUMNS; i++) {
+      for (let j = 0; j < ROWS; j++) {
+        this.removePiece(i, j);
+      }
+    }
+  }
+
+  // Removes the actual board and allows to interact with the new board in the callback to add new pieces.
+  setBoard(callback: (board: Piece[][]) => void) {
+    this.cleanBoard();
+    callback(this.__board);
+  }
+
+  // Copies the actual board and it state.
+  copyBoard() {
+    const copy = new Array(COLUMNS);
+    for (let x = 0; x < COLUMNS; x++) {
+      copy[x] = new Array(ROWS);
+      for (let y = 0; y < ROWS; y++) {
+        copy[x][y] = this.__board[x][y];
+      }
+    }
+    return copy;
+  }
+
   getPiece(x: number, y: number) {
     const board = this.getBoard();
 
     return board[x][y];
   }
 
-  /**
-   * Moves a Piece to a position without doing any validation
-   */
+  //Moves a Piece to a position without doing any validation.
   private __movePiece(fromX: number, fromY: number, toX: number, toY: number) {
     const board = this.getBoard();
     const piece = this.getPiece(fromX, fromY);
@@ -246,24 +271,5 @@ export default class Chess {
 
   hasPiece(x: number, y: number) {
     return this.getPiece(x, y) ? true : false;
-  }
-
-  /**
-   * Removes all the pieces of the board
-   */
-  cleanBoard() {
-    for (let i = 0; i < COLUMNS; i++) {
-      for (let j = 0; j < ROWS; j++) {
-        this.removePiece(i, j);
-      }
-    }
-  }
-
-  /**
-   * Removes the actual board and allows to interact with the new board in the callback to add new pieces.
-   */
-  setBoard(callback: (board: Piece[][]) => void) {
-    this.cleanBoard();
-    callback(this.__board);
   }
 }

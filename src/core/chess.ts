@@ -126,7 +126,9 @@ export default class Chess {
     return arrayBoard;
   }
 
-  //Removes all the pieces of the board.
+  /**
+   * Removes all the pieces of the board.
+   */
   cleanBoard() {
     for (let i = 0; i < COLUMNS; i++) {
       for (let j = 0; j < ROWS; j++) {
@@ -135,13 +137,17 @@ export default class Chess {
     }
   }
 
-  // Removes the actual board and allows to interact with the new board in the callback to add new pieces.
+  /**
+   * Removes the actual board and allows to interact with the new board in the callback to add new pieces.
+   */
   setBoard(callback: (board: Piece[][]) => void) {
     this.cleanBoard();
     callback(this.__board);
   }
 
-  // Copies the actual board and it state.
+  /**
+   *  Copies the actual board and it state.
+   */
   copyBoard() {
     const copy = new Array(COLUMNS);
     for (let x = 0; x < COLUMNS; x++) {

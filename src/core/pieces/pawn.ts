@@ -64,7 +64,6 @@ export default class Pawn extends Piece {
       xOffset: number,
       yOffset: number,
       enemyColor: string,
-      board: Piece[][] = this.__board,
     ) {
       if (
         chess.isValidPosition(x + xOffset, y + yOffset) &&
@@ -85,7 +84,6 @@ export default class Pawn extends Piece {
       1,
       piecePlayer.yDirection,
       piecePlayer.enemyColor,
-      board,
     );
     addDiagonalCaptureMovement(
       x,
@@ -94,7 +92,6 @@ export default class Pawn extends Piece {
       -1,
       piecePlayer.yDirection,
       piecePlayer.enemyColor,
-      board,
     );
 
     return movements;

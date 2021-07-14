@@ -7,7 +7,12 @@ export default class Bishop extends Piece {
     super('bishop', color);
   }
 
-  protected __getMoveMovements(x: number, y: number, chess: Chess) {
+  protected __getMoveMovements(
+    x: number,
+    y: number,
+    chess: Chess,
+    board: Piece[][],
+  ) {
     const movements: Movement[] = [];
 
     let x2, y2;
@@ -15,7 +20,7 @@ export default class Bishop extends Piece {
     // Forward top left
     x2 = x - 1;
     y2 = y + 1;
-    while (this.__addIfValidMovement(x2, y2, movements, chess)) {
+    while (this.__addIfValidMovement(x2, y2, movements, chess, board)) {
       x2--;
       y2++;
     }
@@ -23,7 +28,7 @@ export default class Bishop extends Piece {
     // Forward top right
     x2 = x + 1;
     y2 = y + 1;
-    while (this.__addIfValidMovement(x2, y2, movements, chess)) {
+    while (this.__addIfValidMovement(x2, y2, movements, chess, board)) {
       x2++;
       y2++;
     }
@@ -31,7 +36,7 @@ export default class Bishop extends Piece {
     // Backward bottom left
     x2 = x - 1;
     y2 = y - 1;
-    while (this.__addIfValidMovement(x2, y2, movements, chess)) {
+    while (this.__addIfValidMovement(x2, y2, movements, chess, board)) {
       x2--;
       y2--;
     }
@@ -39,7 +44,7 @@ export default class Bishop extends Piece {
     // Backward bottom right
     x2 = x + 1;
     y2 = y - 1;
-    while (this.__addIfValidMovement(x2, y2, movements, chess)) {
+    while (this.__addIfValidMovement(x2, y2, movements, chess, board)) {
       x2++;
       y2--;
     }
@@ -47,7 +52,12 @@ export default class Bishop extends Piece {
     return movements;
   }
 
-  protected __getCaptureMovements(x: number, y: number, chess: Chess) {
+  protected __getCaptureMovements(
+    x: number,
+    y: number,
+    chess: Chess,
+    board: Piece[][],
+  ) {
     const movements: Movement[] = [];
 
     let x2, y2;
@@ -56,9 +66,9 @@ export default class Bishop extends Piece {
     x2 = x - 1;
     y2 = y + 1;
     while (
-      chess.isValidPosition(x2, y2) &&
-      !chess.isThereAllyPiece(this, x2, y2) &&
-      !this.__addIfValidCapture(x2, y2, movements, this, chess)
+      chess.isValidPosition(x2, y2, board) &&
+      !chess.isThereAllyPiece(this, x2, y2, board) &&
+      !this.__addIfValidCapture(x2, y2, movements, this, chess, board)
     ) {
       x2--;
       y2++;
@@ -68,9 +78,9 @@ export default class Bishop extends Piece {
     x2 = x + 1;
     y2 = y + 1;
     while (
-      chess.isValidPosition(x2, y2) &&
-      !chess.isThereAllyPiece(this, x2, y2) &&
-      !this.__addIfValidCapture(x2, y2, movements, this, chess)
+      chess.isValidPosition(x2, y2, board) &&
+      !chess.isThereAllyPiece(this, x2, y2, board) &&
+      !this.__addIfValidCapture(x2, y2, movements, this, chess, board)
     ) {
       x2++;
       y2++;
@@ -80,9 +90,9 @@ export default class Bishop extends Piece {
     x2 = x - 1;
     y2 = y - 1;
     while (
-      chess.isValidPosition(x2, y2) &&
-      !chess.isThereAllyPiece(this, x2, y2) &&
-      !this.__addIfValidCapture(x2, y2, movements, this, chess)
+      chess.isValidPosition(x2, y2, board) &&
+      !chess.isThereAllyPiece(this, x2, y2, board) &&
+      !this.__addIfValidCapture(x2, y2, movements, this, chess, board)
     ) {
       x2--;
       y2--;
@@ -92,9 +102,9 @@ export default class Bishop extends Piece {
     x2 = x + 1;
     y2 = y - 1;
     while (
-      chess.isValidPosition(x2, y2) &&
-      !chess.isThereAllyPiece(this, x2, y2) &&
-      !this.__addIfValidCapture(x2, y2, movements, this, chess)
+      chess.isValidPosition(x2, y2, board) &&
+      !chess.isThereAllyPiece(this, x2, y2, board) &&
+      !this.__addIfValidCapture(x2, y2, movements, this, chess, board)
     ) {
       x2++;
       y2--;

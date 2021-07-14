@@ -55,7 +55,7 @@ export default class Chess {
     return this.__players[idx].color;
   }
 
-  getPlayer(color: string) {
+  getPlayer(color: string, board: Piece[][] = this.__board) {
     return this.__players.find((player) => player.color == color);
   }
 
@@ -160,9 +160,7 @@ export default class Chess {
     return copy;
   }
 
-  getPiece(x: number, y: number) {
-    const board = this.getBoard();
-
+  getPiece(x: number, y: number, board: Piece[][] = this.__board) {
     return board[x][y];
   }
 
@@ -177,7 +175,7 @@ export default class Chess {
     board[toX][toY] = piece;
   }
 
-  isValidPosition(x: number, y: number) {
+  isValidPosition(x: number, y: number, board: Piece[][] = this.__board) {
     if (x < 0 || x > 7) {
       return false;
     }
@@ -196,7 +194,12 @@ export default class Chess {
    * @param color color
    * @returns is checked?
    */
-  isCheckedPosition(x: number, y: number, color: string) {
+  isCheckedPosition(
+    x: number,
+    y: number,
+    color: string,
+    board: Piece[][] = this.__board,
+  ) {
     for (let c = 0; c < COLUMNS; c++) {
       for (let r = 0; r < ROWS; r++) {
         const piece = this.getPiece(c, r);
@@ -237,8 +240,13 @@ export default class Chess {
     this.__board[x][y] = null;
   }
 
-  isThereAllyPiece(piece: Piece, x: number, y: number) {
-    const possibleAlly = this.getPiece(x, y);
+  isThereAllyPiece(
+    piece: Piece,
+    x: number,
+    y: number,
+    board: Piece[][] = this.__board,
+  ) {
+    const possibleAlly = this.getPiece(x, y, board);
 
     if (!possibleAlly) {
       return false;
@@ -247,8 +255,14 @@ export default class Chess {
     return piece.color === possibleAlly.color;
   }
 
-  move(fromX: number, fromY: number, toX: number, toY: number) {
-    const piece = this.getPiece(fromX, fromY);
+  move(
+    fromX: number,
+    fromY: number,
+    toX: number,
+    toY: number,
+    board: Piece[][] = this.__board,
+  ) {
+    const piece = this.getPiece(fromX, fromY, board);
 
     if (piece.color !== this.whoPlays) {
       throw new Error('Invalid movement');
@@ -272,13 +286,13 @@ export default class Chess {
     this.turnNumber++;
   }
 
-  getPieceMovements(x: number, y: number) {
-    const piece = this.getPiece(x, y);
+  getPieceMovements(x: number, y: number, board: Piece[][] = this.__board) {
+    const piece = this.getPiece(x, y, board);
 
-    return piece.getMovements(x, y, this);
+    return piece.getMovements(x, y, this, board);
   }
 
-  hasPiece(x: number, y: number) {
-    return this.getPiece(x, y) ? true : false;
+  hasPiece(x: number, y: number, board: Piece[][] = this.__board) {
+    return this.getPiece(x, y, board) ? true : false;
   }
 }

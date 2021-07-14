@@ -7,7 +7,12 @@ export default class King extends Piece {
     super('king', color);
   }
 
-  protected __getMoveMovements(x: number, y: number, chess: Chess) {
+  protected __getMoveMovements(
+    x: number,
+    y: number,
+    chess: Chess,
+    board: Piece[][],
+  ) {
     const movements: Movement[] = [];
     const player = chess.getPlayer(this.color);
 
@@ -26,7 +31,8 @@ export default class King extends Piece {
       const isChecked = chess.isCheckedPosition(
         possibleMov.x,
         possibleMov.y,
-        player.enemyColor
+        player.enemyColor,
+        board,
       );
 
       if (!isChecked) {
@@ -34,15 +40,36 @@ export default class King extends Piece {
           possibleMov.x,
           possibleMov.y,
           movements,
-          chess
+          chess,
+          board,
         );
       }
     });
 
-    return movements;
+    return movements.filter((possibleMov) => {
+      const copy = chess.copyBoard();
+
+      // Simulates the movement of the possibleMov in the copy.
+      copy[possibleMov.x][possibleMov.y] = copy[x][y];
+      copy[x][y] = null;
+
+      const isChecked = chess.isCheckedPosition(
+        possibleMov.x,
+        possibleMov.y,
+        player.enemyColor,
+        copy,
+      );
+
+      return !isChecked;
+    });
   }
 
-  protected __getCaptureMovements(x: number, y: number, chess: Chess) {
+  protected __getCaptureMovements(
+    x: number,
+    y: number,
+    chess: Chess,
+    board: Piece[][],
+  ) {
     const movements: Movement[] = [];
     const pieceThatCaptures = this;
 
@@ -63,8 +90,9 @@ export default class King extends Piece {
         possibleCapture.y,
         movements,
         pieceThatCaptures,
-        chess
-      )
+        chess,
+        board,
+      ),
     );
 
     return movements;

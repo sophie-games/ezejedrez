@@ -8,7 +8,12 @@ export default class Knight extends Piece {
     super('knight', color);
   }
 
-  protected __getMoveMovements(x: number, y: number, chess: Chess) {
+  protected __getMoveMovements(
+    x: number,
+    y: number,
+    chess: Chess,
+    board: Piece[][],
+  ) {
     const movements: Movement[] = [];
 
     const knightPossibleMovs = [
@@ -23,13 +28,24 @@ export default class Knight extends Piece {
     ];
 
     knightPossibleMovs.forEach((possibleMov) =>
-      this.__addIfValidMovement(possibleMov.x, possibleMov.y, movements, chess)
+      this.__addIfValidMovement(
+        possibleMov.x,
+        possibleMov.y,
+        movements,
+        chess,
+        board,
+      ),
     );
 
     return movements;
   }
 
-  protected __getCaptureMovements(x: number, y: number, chess: Chess) {
+  protected __getCaptureMovements(
+    x: number,
+    y: number,
+    chess: Chess,
+    board: Piece[][],
+  ) {
     const movements: Movement[] = [];
     const pieceThatCaptures = this;
 
@@ -50,8 +66,9 @@ export default class Knight extends Piece {
         possibleCapture.y,
         movements,
         pieceThatCaptures,
-        chess
-      )
+        chess,
+        board,
+      ),
     );
 
     return movements;

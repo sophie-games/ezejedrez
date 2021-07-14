@@ -13,16 +13,22 @@ export default class Pawn extends Piece {
     chess: Chess,
     movements: Movement[],
     yDirection: number,
-    pawnLine: number
+    pawnLine: number,
+    board: Piece[][],
   ) {
-    this.__addIfValidMovement(x, y + 1 * yDirection, movements, chess);
+    this.__addIfValidMovement(x, y + 1 * yDirection, movements, chess, board);
 
-    if (y === pawnLine && !chess.hasPiece(x, y + 1 * yDirection)) {
-      this.__addIfValidMovement(x, y + 2 * yDirection, movements, chess);
+    if (y === pawnLine && !chess.hasPiece(x, y + 1 * yDirection, board)) {
+      this.__addIfValidMovement(x, y + 2 * yDirection, movements, chess, board);
     }
   }
 
-  protected __getMoveMovements(x: number, y: number, chess: Chess) {
+  protected __getMoveMovements(
+    x: number,
+    y: number,
+    chess: Chess,
+    board: Piece[][],
+  ) {
     const piece = this;
     const movements: Movement[] = [];
 
@@ -34,13 +40,19 @@ export default class Pawn extends Piece {
       chess,
       movements,
       piecePlayer.yDirection,
-      piecePlayer.startPawnYLine
+      piecePlayer.startPawnYLine,
+      board,
     );
 
     return movements;
   }
 
-  protected __getCaptureMovements(x: number, y: number, chess: Chess) {
+  protected __getCaptureMovements(
+    x: number,
+    y: number,
+    chess: Chess,
+    board: Piece[][],
+  ) {
     const movements: Movement[] = [];
 
     const piecePlayer = chess.getPlayer(this.color);
@@ -51,12 +63,12 @@ export default class Pawn extends Piece {
       movements: Movement[],
       xOffset: number,
       yOffset: number,
-      enemyColor: string
+      enemyColor: string,
     ) {
       if (
         chess.isValidPosition(x + xOffset, y + yOffset) &&
-        chess.hasPiece(x + xOffset, y + yOffset) &&
-        chess.getPiece(x + xOffset, y + yOffset).color === enemyColor
+        chess.hasPiece(x + xOffset, y + yOffset, board) &&
+        chess.getPiece(x + xOffset, y + yOffset, board).color === enemyColor
       ) {
         movements.push({
           x: x + xOffset,
@@ -71,7 +83,7 @@ export default class Pawn extends Piece {
       movements,
       1,
       piecePlayer.yDirection,
-      piecePlayer.enemyColor
+      piecePlayer.enemyColor,
     );
     addDiagonalCaptureMovement(
       x,
@@ -79,7 +91,7 @@ export default class Pawn extends Piece {
       movements,
       -1,
       piecePlayer.yDirection,
-      piecePlayer.enemyColor
+      piecePlayer.enemyColor,
     );
 
     return movements;

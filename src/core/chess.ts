@@ -160,9 +160,7 @@ export default class Chess {
     return copy;
   }
 
-  getPiece(x: number, y: number) {
-    const board = this.getBoard();
-
+  getPiece(x: number, y: number, board: Piece[][] = this.__board) {
     return board[x][y];
   }
 
@@ -196,7 +194,12 @@ export default class Chess {
    * @param color color
    * @returns is checked?
    */
-  isCheckedPosition(x: number, y: number, color: string) {
+  isCheckedPosition(
+    x: number,
+    y: number,
+    color: string,
+    board: Piece[][] = this.__board,
+  ) {
     for (let c = 0; c < COLUMNS; c++) {
       for (let r = 0; r < ROWS; r++) {
         const piece = this.getPiece(c, r);
@@ -205,7 +208,9 @@ export default class Chess {
           piece &&
           piece.pieceType !== 'king' &&
           piece.color === color &&
-          this.getPieceMovements(c, r).find((m) => m.x === x && m.y === y)
+          this.getPieceMovements(c, r, board).find(
+            (m) => m.x === x && m.y === y,
+          )
         ) {
           return true;
         }
@@ -237,8 +242,13 @@ export default class Chess {
     this.__board[x][y] = null;
   }
 
-  isThereAllyPiece(piece: Piece, x: number, y: number) {
-    const possibleAlly = this.getPiece(x, y);
+  isThereAllyPiece(
+    piece: Piece,
+    x: number,
+    y: number,
+    board: Piece[][] = this.__board,
+  ) {
+    const possibleAlly = this.getPiece(x, y, board);
 
     if (!possibleAlly) {
       return false;
@@ -272,13 +282,13 @@ export default class Chess {
     this.turnNumber++;
   }
 
-  getPieceMovements(x: number, y: number) {
-    const piece = this.getPiece(x, y);
+  getPieceMovements(x: number, y: number, board: Piece[][] = this.__board) {
+    const piece = this.getPiece(x, y, board);
 
-    return piece.getMovements(x, y, this);
+    return piece.getMovements(x, y, this, board);
   }
 
-  hasPiece(x: number, y: number) {
-    return this.getPiece(x, y) ? true : false;
+  hasPiece(x: number, y: number, board: Piece[][] = this.__board) {
+    return this.getPiece(x, y, board) ? true : false;
   }
 }

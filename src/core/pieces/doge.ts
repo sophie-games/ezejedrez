@@ -8,13 +8,23 @@ export default class Doge extends Piece {
     super('doge', color);
   }
 
-  protected __getMoveMovements(x: number, y: number, chess: Chess) {
+  protected __getMoveMovements(
+    x: number,
+    y: number,
+    chess: Chess,
+    board: Piece[][],
+  ) {
     const movements: Movement[] = [];
 
     return movements;
   }
 
-  protected __getCaptureMovements(x: number, y: number, chess: Chess) {
+  protected __getCaptureMovements(
+    x: number,
+    y: number,
+    chess: Chess,
+    board: Piece[][],
+  ) {
     const movements: Movement[] = [];
 
     return movements;

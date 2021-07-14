@@ -13,9 +13,10 @@ export default class Piece {
     x: number,
     y: number,
     movements: Movement[],
-    chess: Chess
+    chess: Chess,
+    board: Piece[][],
   ) {
-    if (chess.isValidPosition(x, y) && !chess.hasPiece(x, y)) {
+    if (chess.isValidPosition(x, y) && !chess.hasPiece(x, y, board)) {
       movements.push({ x: x, y: y });
       return true;
     }
@@ -28,12 +29,13 @@ export default class Piece {
     y: number,
     movements: Movement[],
     pieceThatCaptures: Piece,
-    chess: Chess
+    chess: Chess,
+    board: Piece[][],
   ) {
     if (
       chess.isValidPosition(x, y) &&
-      chess.hasPiece(x, y) &&
-      chess.getPiece(x, y).color !== pieceThatCaptures.color
+      chess.hasPiece(x, y, board) &&
+      chess.getPiece(x, y, board).color !== pieceThatCaptures.color
     ) {
       movements.push({ x: x, y: y });
       return true;
@@ -42,21 +44,31 @@ export default class Piece {
     return false;
   }
 
-  protected __getMoveMovements(x: number, y: number, chess: Chess): Movement[] {
+  protected __getMoveMovements(
+    x: number,
+    y: number,
+    chess: Chess,
+    board: Piece[][],
+  ): Movement[] {
     throw new Error('Implement in subclass');
   }
 
   protected __getCaptureMovements(
     x: number,
     y: number,
-    chess: Chess
+    chess: Chess,
+    board: Piece[][],
   ): Movement[] {
     throw new Error('Implement in subclass');
   }
 
-  getMovements(x: number, y: number, chess: Chess) {
-    const movements = this.__getMoveMovements(x, y, chess);
-    const captureMovements = this.__getCaptureMovements(x, y, chess);
+  getMovements(x: number, y: number, chess: Chess, board?: Piece[][]) {
+    if (!board) {
+      board = chess.getBoard();
+    }
+
+    const movements = this.__getMoveMovements(x, y, chess, board);
+    const captureMovements = this.__getCaptureMovements(x, y, chess, board);
     const allMovements = movements.concat(captureMovements);
     return allMovements;
   }

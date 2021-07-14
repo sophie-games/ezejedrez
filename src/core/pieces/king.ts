@@ -11,7 +11,7 @@ export default class King extends Piece {
     x: number,
     y: number,
     chess: Chess,
-    board: Piece[][],
+    board: Piece[][]
   ) {
     const movements: Movement[] = [];
     const player = chess.getPlayer(this.color);
@@ -28,22 +28,13 @@ export default class King extends Piece {
     ];
 
     kingPossibleMovs.forEach((possibleMov) => {
-      const isChecked = chess.isCheckedPosition(
+      this.__addIfValidMovement(
         possibleMov.x,
         possibleMov.y,
-        player.enemyColor,
-        board,
+        movements,
+        chess,
+        board
       );
-
-      if (!isChecked) {
-        this.__addIfValidMovement(
-          possibleMov.x,
-          possibleMov.y,
-          movements,
-          chess,
-          board,
-        );
-      }
     });
 
     return movements.filter((possibleMov) => {
@@ -57,7 +48,7 @@ export default class King extends Piece {
         possibleMov.x,
         possibleMov.y,
         player.enemyColor,
-        copy,
+        copy
       );
 
       return !isChecked;
@@ -68,7 +59,7 @@ export default class King extends Piece {
     x: number,
     y: number,
     chess: Chess,
-    board: Piece[][],
+    board: Piece[][]
   ) {
     const movements: Movement[] = [];
     const pieceThatCaptures = this;
@@ -86,23 +77,14 @@ export default class King extends Piece {
     ];
 
     kingPossibleCaptures.forEach((possibleCapture) => {
-      const isChecked = chess.isCheckedPosition(
+      this.__addIfValidCapture(
         possibleCapture.x,
         possibleCapture.y,
-        player.enemyColor,
-        board,
+        movements,
+        pieceThatCaptures,
+        chess,
+        board
       );
-
-      if (!isChecked) {
-        this.__addIfValidCapture(
-          possibleCapture.x,
-          possibleCapture.y,
-          movements,
-          pieceThatCaptures,
-          chess,
-          board,
-        );
-      }
     });
 
     return movements.filter((possibleCapture) => {
@@ -116,7 +98,7 @@ export default class King extends Piece {
         possibleCapture.x,
         possibleCapture.y,
         player.enemyColor,
-        copy,
+        copy
       );
 
       return !isChecked;

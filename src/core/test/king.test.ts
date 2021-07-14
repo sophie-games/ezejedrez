@@ -69,21 +69,21 @@ describe('King suite', () => {
     expect(movements.find((m) => m.x === 4 && m.y === 4)).toBe(undefined);
   });
 
-  // test('King cannot capture a pawn defended by an other enemy pawn', () => {
-  //   const chess = new Chess();
+  test('King cannot capture a pawn defended by an other enemy pawn', () => {
+    const chess = new Chess();
 
-  //   chess.cleanBoard();
+    chess.cleanBoard();
 
-  //   chess.addPiece(new King('white'), 4, 3);
-  //   chess.addPiece(new Pawn('black'), 4, 4);
+    chess.addPiece(new King('white'), 4, 3);
+    chess.addPiece(new Pawn('black'), 4, 4);
 
-  //   // Defender
-  //   chess.addPiece(new Pawn('black'), 3, 5);
+    // Defender
+    chess.addPiece(new Pawn('black'), 3, 5);
 
-  //   const movements = chess.getPieceMovements(4, 3);
+    const movements = chess.getPieceMovements(4, 3);
 
-  //   expect(movements.find((m) => m.x === 4 && m.y === 4)).toBe(undefined);
-  // });
+    expect(movements.find((m) => m.x === 4 && m.y === 4)).toBe(undefined);
+  });
 
   // test('King cannot be moved beside of the enemy king', () => {
   //   const chess = new Chess();

@@ -55,7 +55,7 @@ export default class Chess {
     return this.__players[idx].color;
   }
 
-  getPlayer(color: string, board: Piece[][] = this.__board) {
+  getPlayer(color: string) {
     return this.__players.find((player) => player.color == color);
   }
 
@@ -175,7 +175,7 @@ export default class Chess {
     board[toX][toY] = piece;
   }
 
-  isValidPosition(x: number, y: number, board: Piece[][] = this.__board) {
+  isValidPosition(x: number, y: number) {
     if (x < 0 || x > 7) {
       return false;
     }
@@ -208,7 +208,9 @@ export default class Chess {
           piece &&
           piece.pieceType !== 'king' &&
           piece.color === color &&
-          this.getPieceMovements(c, r).find((m) => m.x === x && m.y === y)
+          this.getPieceMovements(c, r, board).find(
+            (m) => m.x === x && m.y === y,
+          )
         ) {
           return true;
         }
@@ -255,14 +257,8 @@ export default class Chess {
     return piece.color === possibleAlly.color;
   }
 
-  move(
-    fromX: number,
-    fromY: number,
-    toX: number,
-    toY: number,
-    board: Piece[][] = this.__board,
-  ) {
-    const piece = this.getPiece(fromX, fromY, board);
+  move(fromX: number, fromY: number, toX: number, toY: number) {
+    const piece = this.getPiece(fromX, fromY);
 
     if (piece.color !== this.whoPlays) {
       throw new Error('Invalid movement');

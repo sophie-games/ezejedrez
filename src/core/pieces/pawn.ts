@@ -32,7 +32,7 @@ export default class Pawn extends Piece {
     const piece = this;
     const movements: Movement[] = [];
 
-    const piecePlayer = chess.getPlayer(this.color, board);
+    const piecePlayer = chess.getPlayer(this.color);
 
     this.__addMoveMovements(
       x,
@@ -55,7 +55,7 @@ export default class Pawn extends Piece {
   ) {
     const movements: Movement[] = [];
 
-    const piecePlayer = chess.getPlayer(this.color, board);
+    const piecePlayer = chess.getPlayer(this.color);
 
     function addDiagonalCaptureMovement(
       x: number,
@@ -67,7 +67,7 @@ export default class Pawn extends Piece {
       board: Piece[][] = this.__board,
     ) {
       if (
-        chess.isValidPosition(x + xOffset, y + yOffset, board) &&
+        chess.isValidPosition(x + xOffset, y + yOffset) &&
         chess.hasPiece(x + xOffset, y + yOffset, board) &&
         chess.getPiece(x + xOffset, y + yOffset, board).color === enemyColor
       ) {

@@ -89,7 +89,7 @@ export default class Queen extends Piece {
     // Top
     y2 = y + 1;
     while (
-      chess.isValidPosition(x, y2, board) &&
+      chess.isValidPosition(x, y2) &&
       !chess.isThereAllyPiece(this, x, y2, board) &&
       !this.__addIfValidCapture(x, y2, movements, this, chess, board)
     ) {
@@ -99,7 +99,7 @@ export default class Queen extends Piece {
     // Bottom
     y2 = y - 1;
     while (
-      chess.isValidPosition(x, y2, board) &&
+      chess.isValidPosition(x, y2) &&
       !chess.isThereAllyPiece(this, x, y2, board) &&
       !this.__addIfValidCapture(x, y2, movements, this, chess, board)
     ) {
@@ -109,7 +109,7 @@ export default class Queen extends Piece {
     // Left
     x2 = x - 1;
     while (
-      chess.isValidPosition(x2, y, board) &&
+      chess.isValidPosition(x2, y) &&
       !chess.isThereAllyPiece(this, x2, y, board) &&
       !this.__addIfValidCapture(x2, y, movements, this, chess, board)
     ) {
@@ -119,7 +119,7 @@ export default class Queen extends Piece {
     // Right
     x2 = x + 1;
     while (
-      chess.isValidPosition(x2, y, board) &&
+      chess.isValidPosition(x2, y) &&
       !chess.isThereAllyPiece(this, x2, y, board) &&
       !this.__addIfValidCapture(x2, y, movements, this, chess, board)
     ) {
@@ -130,7 +130,7 @@ export default class Queen extends Piece {
     x2 = x - 1;
     y2 = y + 1;
     while (
-      chess.isValidPosition(x2, y2, board) &&
+      chess.isValidPosition(x2, y2) &&
       !chess.isThereAllyPiece(this, x2, y2, board) &&
       !this.__addIfValidCapture(x2, y2, movements, this, chess, board)
     ) {
@@ -142,7 +142,7 @@ export default class Queen extends Piece {
     x2 = x + 1;
     y2 = y + 1;
     while (
-      chess.isValidPosition(x2, y2, board) &&
+      chess.isValidPosition(x2, y2) &&
       !chess.isThereAllyPiece(this, x2, y2, board) &&
       !this.__addIfValidCapture(x2, y2, movements, this, chess, board)
     ) {
@@ -154,7 +154,7 @@ export default class Queen extends Piece {
     x2 = x - 1;
     y2 = y - 1;
     while (
-      chess.isValidPosition(x2, y2, board) &&
+      chess.isValidPosition(x2, y2) &&
       !chess.isThereAllyPiece(this, x2, y2, board) &&
       !this.__addIfValidCapture(x2, y2, movements, this, chess, board)
     ) {
@@ -166,7 +166,7 @@ export default class Queen extends Piece {
     x2 = x + 1;
     y2 = y - 1;
     while (
-      chess.isValidPosition(x2, y2, board) &&
+      chess.isValidPosition(x2, y2) &&
       !chess.isThereAllyPiece(this, x2, y2, board) &&
       !this.__addIfValidCapture(x2, y2, movements, this, chess, board)
     ) {

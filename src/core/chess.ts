@@ -198,18 +198,18 @@ export default class Chess {
     x: number,
     y: number,
     color: string,
-    board: Piece[][] = this.__board,
+    board: Piece[][] = this.__board
   ) {
     for (let c = 0; c < COLUMNS; c++) {
       for (let r = 0; r < ROWS; r++) {
-        const piece = this.getPiece(c, r);
+        const piece = this.getPiece(c, r, board);
 
         if (
           piece &&
           piece.pieceType !== 'king' &&
           piece.color === color &&
           this.getPieceMovements(c, r, board).find(
-            (m) => m.x === x && m.y === y,
+            (m) => m.x === x && m.y === y
           )
         ) {
           return true;
@@ -246,7 +246,7 @@ export default class Chess {
     piece: Piece,
     x: number,
     y: number,
-    board: Piece[][] = this.__board,
+    board: Piece[][] = this.__board
   ) {
     const possibleAlly = this.getPiece(x, y, board);
 

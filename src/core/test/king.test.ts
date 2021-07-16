@@ -16,7 +16,7 @@ describe('King suite', () => {
     expect(blackKing.color).toBe('black');
 
     expect(
-      arrayBoard.filter((piece) => piece && piece.pieceType === 'king').length
+      arrayBoard.filter((piece) => piece && piece.pieceType === 'king').length,
     ).toBe(2);
   });
 
@@ -85,18 +85,18 @@ describe('King suite', () => {
     expect(movements.find((m) => m.x === 4 && m.y === 4)).toBe(undefined);
   });
 
-  // test('King cannot be moved beside of the enemy king', () => {
-  //   const chess = new Chess();
+  test('King cannot be moved beside of the enemy king', () => {
+    const chess = new Chess();
 
-  //   chess.cleanBoard();
+    chess.cleanBoard();
 
-  //   chess.addPiece(new King('white'), 4, 4);
-  //   chess.addPiece(new King('black'), 4, 6);
+    chess.addPiece(new King('white'), 4, 4);
+    chess.addPiece(new King('black'), 4, 6);
 
-  //   const movements = chess.getPieceMovements(4, 4);
+    const movements = chess.getPieceMovements(4, 4);
 
-  //   expect(movements.find((m) => m.x === 4 && m.y === 5)).toBe(undefined);
-  // });
+    expect(movements.find((m) => m.x === 4 && m.y === 5)).toBe(undefined);
+  });
 
   // test('King cannot capture a pawn defended by the enemy king', () => {
   //   const chess = new Chess();
@@ -112,21 +112,21 @@ describe('King suite', () => {
   //   expect(movements.find((m) => m.x === 4 && m.y === 5)).toBe(undefined);
   // });
 
-  test('A player cannot move a piece if, doing this, let his king checked', () => {
-    const chess = new Chess();
+  // test('A player cannot move a piece if, doing this, let his king checked', () => {
+  //   const chess = new Chess();
 
-    chess.cleanBoard();
+  //   chess.cleanBoard();
 
-    chess.addPiece(new King('white'), 4, 3);
-    chess.addPiece(new Bishop('black'), 1, 6);
+  //   chess.addPiece(new King('white'), 4, 3);
+  //   chess.addPiece(new Bishop('black'), 1, 6);
 
-    // This pawn is covering the king from the bishop,
-    // so it cannot move
-    chess.addPiece(new Pawn('white'), 3, 4);
+  //   // This pawn is covering the king from the bishop,
+  //   // so it cannot move
+  //   chess.addPiece(new Pawn('white'), 3, 4);
 
-    const movements = chess.getPieceMovements(3, 4);
+  //   const movements = chess.getPieceMovements(3, 4);
 
-    // The pawn cannot advance because it will let the king unprotected
-    expect(movements.find((m) => m.x === 3 && m.y === 5)).toBe(undefined);
-  });
+  //   // The pawn cannot advance because it will let the king unprotected
+  //   expect(movements.find((m) => m.x === 3 && m.y === 5)).toBe(undefined);
+  // });
 });

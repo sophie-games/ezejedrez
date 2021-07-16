@@ -49,6 +49,7 @@ export default class Piece {
     y: number,
     chess: Chess,
     board: Piece[][],
+    noCalculateIsChecked?: boolean,
   ): Movement[] {
     throw new Error('Implement in subclass');
   }
@@ -58,17 +59,36 @@ export default class Piece {
     y: number,
     chess: Chess,
     board: Piece[][],
+    noCalculateIsChecked?: boolean,
   ): Movement[] {
     throw new Error('Implement in subclass');
   }
 
-  getMovements(x: number, y: number, chess: Chess, board?: Piece[][]) {
+  getMovements(
+    x: number,
+    y: number,
+    chess: Chess,
+    board?: Piece[][],
+    noCalculateIsChecked?: boolean,
+  ) {
     if (!board) {
       board = chess.getBoard();
     }
 
-    const movements = this.__getMoveMovements(x, y, chess, board);
-    const captureMovements = this.__getCaptureMovements(x, y, chess, board);
+    const movements = this.__getMoveMovements(
+      x,
+      y,
+      chess,
+      board,
+      noCalculateIsChecked,
+    );
+    const captureMovements = this.__getCaptureMovements(
+      x,
+      y,
+      chess,
+      board,
+      noCalculateIsChecked,
+    );
     const allMovements = movements.concat(captureMovements);
     return allMovements;
   }

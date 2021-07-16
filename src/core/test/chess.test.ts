@@ -3,6 +3,7 @@ import King from '../pieces/king';
 import Doge from '../pieces/doge';
 import Pawn from '.././pieces/pawn';
 import Bishop from '../pieces/bishop';
+import Queen from '../pieces/queen';
 
 describe('Chess suite', () => {
   describe('.whoPlays', () => {
@@ -244,7 +245,7 @@ describe('Chess suite', () => {
 
       // The piece cannot go to (0,4)
       expect(pieceMovements.find((m) => m.x === 0 && m.y === 4)).toBe(
-        undefined,
+        undefined
       );
 
       const t = () => {
@@ -261,7 +262,7 @@ describe('Chess suite', () => {
 
       // The piece can go to (0,3)
       expect(pieceMovements.find((m) => m.x === 0 && m.y === 3)).not.toBe(
-        undefined,
+        undefined
       );
 
       chess.move(0, 1, 0, 3);
@@ -338,6 +339,34 @@ describe('Chess suite', () => {
 
       expect(copy[1][0].pieceType).toBe('knight');
       expect(copy[0][2]).toBe(null);
+    });
+  });
+
+  describe('Checkmate', () => {
+    test('Checkmate case 1', () => {
+      const chess = new Chess();
+
+      // Mock the finish callback
+      const onFinish = jest.fn();
+      chess.onFinish = onFinish;
+
+      chess.cleanBoard();
+
+      chess.addPiece(new King('black'), 3, 7);
+
+      chess.addPiece(new King('white'), 3, 5);
+      chess.addPiece(new Queen('white'), 7, 6);
+
+      // Move the queen and checkmate
+      chess.move(7, 6, 3, 6);
+
+      // The mock function is called once
+      expect(onFinish.mock.calls.length).toBe(1);
+
+      // The return value of the onFinish must equal:
+      expect(onFinish.mock.results[0].value).toEqual({
+        winner: 'white',
+      });
     });
   });
 });

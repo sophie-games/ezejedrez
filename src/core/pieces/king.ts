@@ -11,7 +11,8 @@ export default class King extends Piece {
     x: number,
     y: number,
     chess: Chess,
-    board: Piece[][]
+    board: Piece[][],
+    noCalculateIsChecked?: boolean,
   ) {
     const movements: Movement[] = [];
     const player = chess.getPlayer(this.color);
@@ -33,9 +34,13 @@ export default class King extends Piece {
         possibleMov.y,
         movements,
         chess,
-        board
+        board,
       );
     });
+
+    if (noCalculateIsChecked) {
+      return movements;
+    }
 
     return movements.filter((possibleMov) => {
       const copy = chess.copyBoard();
@@ -48,7 +53,7 @@ export default class King extends Piece {
         possibleMov.x,
         possibleMov.y,
         player.enemyColor,
-        copy
+        copy,
       );
 
       return !isChecked;
@@ -59,7 +64,8 @@ export default class King extends Piece {
     x: number,
     y: number,
     chess: Chess,
-    board: Piece[][]
+    board: Piece[][],
+    noCalculateIsChecked?: boolean,
   ) {
     const movements: Movement[] = [];
     const pieceThatCaptures = this;
@@ -83,9 +89,13 @@ export default class King extends Piece {
         movements,
         pieceThatCaptures,
         chess,
-        board
+        board,
       );
     });
+
+    if (noCalculateIsChecked) {
+      return movements;
+    }
 
     return movements.filter((possibleCapture) => {
       const copy = chess.copyBoard();
@@ -98,7 +108,7 @@ export default class King extends Piece {
         possibleCapture.x,
         possibleCapture.y,
         player.enemyColor,
-        copy
+        copy,
       );
 
       return !isChecked;

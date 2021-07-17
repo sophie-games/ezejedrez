@@ -17,7 +17,7 @@ describe('King suite', () => {
     expect(blackKing.color).toBe('black');
 
     expect(
-      arrayBoard.filter((piece) => piece && piece.pieceType === 'king').length,
+      arrayBoard.filter((piece) => piece && piece.pieceType === 'king').length
     ).toBe(2);
   });
 
@@ -42,7 +42,7 @@ describe('King suite', () => {
       expect(movements.find((m) => m.x === 5 && m.y === 4)).not.toBe(undefined);
     });
 
-    test('King cannot be moved to cheked positions', () => {
+    test('King cannot be moved to checked positions', () => {
       const chess = new Chess();
 
       chess.cleanBoard();

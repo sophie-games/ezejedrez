@@ -198,7 +198,7 @@ export default class Chess {
     x: number,
     y: number,
     color: string,
-    board: Piece[][] = this.__board,
+    board: Piece[][] = this.__board
   ) {
     for (let c = 0; c < COLUMNS; c++) {
       for (let r = 0; r < ROWS; r++) {
@@ -208,7 +208,7 @@ export default class Chess {
           piece &&
           piece.color === color &&
           this.getPieceMovements(c, r, board, true).find(
-            (m) => m.x === x && m.y === y,
+            (m) => m.x === x && m.y === y
           )
         ) {
           return true;
@@ -217,6 +217,20 @@ export default class Chess {
     }
 
     return false;
+  }
+
+  getKingPosition(color: string) {
+    for (let c = 0; c < COLUMNS; c++) {
+      for (let r = 0; r < ROWS; r++) {
+        const piece = this.getPiece(c, r);
+
+        if (piece && piece.pieceType === 'king' && piece.color === color) {
+          return { x: c, y: r };
+        }
+      }
+    }
+
+    return null;
   }
 
   getPieces() {
@@ -245,7 +259,7 @@ export default class Chess {
     piece: Piece,
     x: number,
     y: number,
-    board: Piece[][] = this.__board,
+    board: Piece[][] = this.__board
   ) {
     const possibleAlly = this.getPiece(x, y, board);
 
@@ -285,7 +299,7 @@ export default class Chess {
     x: number,
     y: number,
     board: Piece[][] = this.__board,
-    noCalculateIsChecked?: boolean,
+    noCalculateIsChecked?: boolean
   ) {
     const piece = this.getPiece(x, y, board);
 

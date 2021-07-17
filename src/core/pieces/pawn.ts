@@ -14,7 +14,7 @@ export default class Pawn extends Piece {
     movements: Movement[],
     yDirection: number,
     pawnLine: number,
-    board: Piece[][],
+    board: Piece[][]
   ) {
     this.__addIfValidMovement(x, y + 1 * yDirection, movements, chess, board);
 
@@ -28,23 +28,50 @@ export default class Pawn extends Piece {
     y: number,
     chess: Chess,
     board: Piece[][],
+    noCalculateIsChecked?: boolean
   ) {
     const piece = this;
     const movements: Movement[] = [];
 
-    const piecePlayer = chess.getPlayer(this.color);
+    const player = chess.getPlayer(this.color);
 
     this.__addMoveMovements(
       x,
       y,
       chess,
       movements,
-      piecePlayer.yDirection,
-      piecePlayer.startPawnYLine,
-      board,
+      player.yDirection,
+      player.startPawnYLine,
+      board
     );
 
-    return movements;
+    if (noCalculateIsChecked) {
+      return movements;
+    }
+
+    const myKingPosition = chess.getKingPosition(this.color);
+
+    // Workaround: Some tests does not have king
+    if (!myKingPosition) {
+      return movements;
+    }
+
+    return movements.filter((possibleCapture) => {
+      const copy = chess.copyBoard();
+
+      // Simulates the movement of the possibleCapture in the copy.
+      copy[possibleCapture.x][possibleCapture.y] = copy[x][y];
+      copy[x][y] = null;
+
+      const isChecked = chess.isCheckedPosition(
+        myKingPosition.x,
+        myKingPosition.y,
+        player.enemyColor,
+        copy
+      );
+
+      return !isChecked;
+    });
   }
 
   protected __getCaptureMovements(
@@ -52,10 +79,11 @@ export default class Pawn extends Piece {
     y: number,
     chess: Chess,
     board: Piece[][],
+    noCalculateIsChecked?: boolean
   ) {
     const movements: Movement[] = [];
 
-    const piecePlayer = chess.getPlayer(this.color);
+    const player = chess.getPlayer(this.color);
 
     function addDiagonalCaptureMovement(
       x: number,
@@ -63,7 +91,7 @@ export default class Pawn extends Piece {
       movements: Movement[],
       xOffset: number,
       yOffset: number,
-      enemyColor: string,
+      enemyColor: string
     ) {
       if (
         chess.isValidPosition(x + xOffset, y + yOffset) &&
@@ -82,18 +110,44 @@ export default class Pawn extends Piece {
       y,
       movements,
       1,
-      piecePlayer.yDirection,
-      piecePlayer.enemyColor,
+      player.yDirection,
+      player.enemyColor
     );
     addDiagonalCaptureMovement(
       x,
       y,
       movements,
       -1,
-      piecePlayer.yDirection,
-      piecePlayer.enemyColor,
+      player.yDirection,
+      player.enemyColor
     );
 
-    return movements;
+    if (noCalculateIsChecked) {
+      return movements;
+    }
+
+    const myKingPosition = chess.getKingPosition(this.color);
+
+    // Workaround: Some tests does not have king
+    if (!myKingPosition) {
+      return movements;
+    }
+
+    return movements.filter((possibleCapture) => {
+      const copy = chess.copyBoard();
+
+      // Simulates the movement of the possibleCapture in the copy.
+      copy[possibleCapture.x][possibleCapture.y] = copy[x][y];
+      copy[x][y] = null;
+
+      const isChecked = chess.isCheckedPosition(
+        myKingPosition.x,
+        myKingPosition.y,
+        player.enemyColor,
+        copy
+      );
+
+      return !isChecked;
+    });
   }
 }

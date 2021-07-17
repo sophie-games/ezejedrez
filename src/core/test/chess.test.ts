@@ -365,11 +365,9 @@ describe('Chess suite', () => {
 
   describe('Checkmate', () => {
     test('Basic checkmate', () => {
-      const chess = new Chess();
-
       // Mock the finish game callback
       const onFinish = jest.fn();
-      chess.onFinish = onFinish;
+      const chess = new Chess(onFinish);
 
       chess.cleanBoard();
 
@@ -392,11 +390,9 @@ describe('Chess suite', () => {
     });
 
     test('Discovered checkmate', () => {
-      const chess = new Chess();
-
       // Mock the finish game callback
       const onFinish = jest.fn();
-      chess.onFinish = onFinish;
+      const chess = new Chess(onFinish);
 
       chess.cleanBoard();
 
@@ -423,11 +419,9 @@ describe('Chess suite', () => {
 
   describe('Draw', () => {
     test('Draw case 1', () => {
-      const chess = new Chess();
-
       // Mock the finish game callback
       const onFinish = jest.fn();
-      chess.onFinish = onFinish;
+      const chess = new Chess(onFinish);
 
       chess.cleanBoard();
 
@@ -453,11 +447,9 @@ describe('Chess suite', () => {
     });
 
     test('Draw case 2', () => {
-      const chess = new Chess();
-
       // Mock the finish game callback
       const onFinish = jest.fn();
-      chess.onFinish = onFinish;
+      const chess = new Chess(onFinish);
 
       chess.cleanBoard();
 

@@ -22,10 +22,12 @@ export default class Chess {
   private __board: Piece[][];
   private __players: Player[];
   turnNumber: number;
+  onFinish?: () => any; // This function is called when the game ends
 
-  constructor() {
+  constructor(onFinish?: () => any) {
     this.__board = this.createBoard();
     this.turnNumber = 1;
+    this.onFinish = onFinish;
 
     this.__players = [
       {

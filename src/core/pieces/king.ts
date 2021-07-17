@@ -12,6 +12,7 @@ export default class King extends Piece {
     y: number,
     chess: Chess,
     board: Piece[][],
+    noCalculateIsChecked?: boolean,
   ) {
     const movements: Movement[] = [];
     const player = chess.getPlayer(this.color);
@@ -28,23 +29,18 @@ export default class King extends Piece {
     ];
 
     kingPossibleMovs.forEach((possibleMov) => {
-      const isChecked = chess.isCheckedPosition(
+      this.__addIfValidMovement(
         possibleMov.x,
         possibleMov.y,
-        player.enemyColor,
+        movements,
+        chess,
         board,
       );
-
-      if (!isChecked) {
-        this.__addIfValidMovement(
-          possibleMov.x,
-          possibleMov.y,
-          movements,
-          chess,
-          board,
-        );
-      }
     });
+
+    if (noCalculateIsChecked) {
+      return movements;
+    }
 
     return movements.filter((possibleMov) => {
       const copy = chess.copyBoard();
@@ -69,9 +65,11 @@ export default class King extends Piece {
     y: number,
     chess: Chess,
     board: Piece[][],
+    noCalculateIsChecked?: boolean,
   ) {
     const movements: Movement[] = [];
     const pieceThatCaptures = this;
+    const player = chess.getPlayer(this.color);
 
     const kingPossibleCaptures = [
       { x: x, y: y + 1 },
@@ -84,7 +82,7 @@ export default class King extends Piece {
       { x: x + 1, y: y + 1 },
     ];
 
-    kingPossibleCaptures.forEach((possibleCapture) =>
+    kingPossibleCaptures.forEach((possibleCapture) => {
       this.__addIfValidCapture(
         possibleCapture.x,
         possibleCapture.y,
@@ -92,9 +90,28 @@ export default class King extends Piece {
         pieceThatCaptures,
         chess,
         board,
-      ),
-    );
+      );
+    });
 
-    return movements;
+    if (noCalculateIsChecked) {
+      return movements;
+    }
+
+    return movements.filter((possibleCapture) => {
+      const copy = chess.copyBoard();
+
+      // Simulates the movement of the possibleCapture in the copy.
+      copy[possibleCapture.x][possibleCapture.y] = copy[x][y];
+      copy[x][y] = null;
+
+      const isChecked = chess.isCheckedPosition(
+        possibleCapture.x,
+        possibleCapture.y,
+        player.enemyColor,
+        copy,
+      );
+
+      return !isChecked;
+    });
   }
 }

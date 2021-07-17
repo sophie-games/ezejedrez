@@ -202,13 +202,12 @@ export default class Chess {
   ) {
     for (let c = 0; c < COLUMNS; c++) {
       for (let r = 0; r < ROWS; r++) {
-        const piece = this.getPiece(c, r);
+        const piece = this.getPiece(c, r, board);
 
         if (
           piece &&
-          piece.pieceType !== 'king' &&
           piece.color === color &&
-          this.getPieceMovements(c, r, board).find(
+          this.getPieceMovements(c, r, board, true).find(
             (m) => m.x === x && m.y === y,
           )
         ) {
@@ -282,10 +281,15 @@ export default class Chess {
     this.turnNumber++;
   }
 
-  getPieceMovements(x: number, y: number, board: Piece[][] = this.__board) {
+  getPieceMovements(
+    x: number,
+    y: number,
+    board: Piece[][] = this.__board,
+    noCalculateIsChecked?: boolean,
+  ) {
     const piece = this.getPiece(x, y, board);
 
-    return piece.getMovements(x, y, this, board);
+    return piece.getMovements(x, y, this, board, noCalculateIsChecked);
   }
 
   hasPiece(x: number, y: number, board: Piece[][] = this.__board) {

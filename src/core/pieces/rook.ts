@@ -12,8 +12,10 @@ export default class Rook extends Piece {
     y: number,
     chess: Chess,
     board: Piece[][],
+    noCalculateIsChecked?: boolean,
   ) {
     const movements: Movement[] = [];
+    const player = chess.getPlayer(this.color);
 
     let x2, y2;
 
@@ -41,7 +43,33 @@ export default class Rook extends Piece {
       x2++;
     }
 
-    return movements;
+    if (noCalculateIsChecked) {
+      return movements;
+    }
+
+    const myKingPosition = chess.getKingPosition(this.color);
+
+    // Workaround: Some tests does not have king
+    if (!myKingPosition) {
+      return movements;
+    }
+
+    return movements.filter((possibleMov) => {
+      const copy = chess.copyBoard();
+
+      // Simulates the movement of the possibleCapture in the copy.
+      copy[possibleMov.x][possibleMov.y] = copy[x][y];
+      copy[x][y] = null;
+
+      const isChecked = chess.isCheckedPosition(
+        myKingPosition.x,
+        myKingPosition.y,
+        player.enemyColor,
+        copy,
+      );
+
+      return !isChecked;
+    });
   }
 
   protected __getCaptureMovements(
@@ -49,8 +77,10 @@ export default class Rook extends Piece {
     y: number,
     chess: Chess,
     board: Piece[][],
+    noCalculateIsChecked?: boolean,
   ) {
     const movements: Movement[] = [];
+    const player = chess.getPlayer(this.color);
 
     let x2, y2;
 
@@ -94,6 +124,32 @@ export default class Rook extends Piece {
       x2++;
     }
 
-    return movements;
+    if (noCalculateIsChecked) {
+      return movements;
+    }
+
+    const myKingPosition = chess.getKingPosition(this.color);
+
+    // Workaround: Some tests does not have king
+    if (!myKingPosition) {
+      return movements;
+    }
+
+    return movements.filter((possibleCapture) => {
+      const copy = chess.copyBoard();
+
+      // Simulates the movement of the possibleCapture in the copy.
+      copy[possibleCapture.x][possibleCapture.y] = copy[x][y];
+      copy[x][y] = null;
+
+      const isChecked = chess.isCheckedPosition(
+        myKingPosition.x,
+        myKingPosition.y,
+        player.enemyColor,
+        copy,
+      );
+
+      return !isChecked;
+    });
   }
 }

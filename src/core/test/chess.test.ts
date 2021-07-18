@@ -4,6 +4,7 @@ import Doge from '../pieces/doge';
 import Pawn from '.././pieces/pawn';
 import Bishop from '../pieces/bishop';
 import Queen from '../pieces/queen';
+import Knight from '../pieces/knight';
 
 describe('Chess suite', () => {
   describe('.whoPlays', () => {
@@ -362,31 +363,119 @@ describe('Chess suite', () => {
     });
   });
 
-  // describe('Checkmate', () => {
-  //   test('Checkmate case 1', () => {
-  //     const chess = new Chess();
+  describe('Checkmate', () => {
+    test('Basic checkmate', () => {
+      // Mock the finish game callback
+      const onFinish = jest.fn();
+      const chess = new Chess(onFinish);
 
-  //     // Mock the finish callback
-  //     const onFinish = jest.fn();
-  //     chess.onFinish = onFinish;
+      chess.cleanBoard();
 
-  //     chess.cleanBoard();
+      chess.addPiece(new King('black'), 3, 7);
 
-  //     chess.addPiece(new King('black'), 3, 7);
+      chess.addPiece(new King('white'), 3, 5);
+      chess.addPiece(new Queen('white'), 7, 6);
 
-  //     chess.addPiece(new King('white'), 3, 5);
-  //     chess.addPiece(new Queen('white'), 7, 6);
+      // Move the queen and checkmate
+      chess.move(7, 6, 3, 6);
 
-  //     // Move the queen and checkmate
-  //     chess.move(7, 6, 3, 6);
+      // The onFinish chess function should be called once
+      expect(onFinish.mock.calls.length).toBe(1);
 
-  //     // The mock function is called once
-  //     expect(onFinish.mock.calls.length).toBe(1);
+      // The return value of the onFinish must equal:
+      expect(onFinish.mock.results[0].value).toEqual({
+        winner: 'white', // White is the winner
+        draw: false, // It is not draw
+      });
+    });
 
-  //     // The return value of the onFinish must equal:
-  //     expect(onFinish.mock.results[0].value).toEqual({
-  //       winner: 'white',
-  //     });
-  //   });
-  // });
+    test('Discovered checkmate', () => {
+      // Mock the finish game callback
+      const onFinish = jest.fn();
+      const chess = new Chess(onFinish);
+
+      chess.cleanBoard();
+
+      chess.addPiece(new King('black'), 0, 0);
+
+      chess.addPiece(new Queen('white'), 0, 2);
+      chess.addPiece(new King('white'), 1, 2);
+      chess.addPiece(new Knight('white'), 2, 2);
+      chess.addPiece(new Bishop('white'), 0, 1);
+
+      // Move the bishop and make a discovered checkmate with the queen
+      chess.move(0, 1, 1, 0);
+
+      // The onFinish chess function should be called once
+      expect(onFinish.mock.calls.length).toBe(1);
+
+      // The return value of the onFinish must equal:
+      expect(onFinish.mock.results[0].value).toEqual({
+        winner: 'white', // White is the winner
+        draw: false, // It is not draw
+      });
+    });
+  });
+
+  describe('Draw', () => {
+    test('Draw case 1', () => {
+      // Mock the finish game callback
+      const onFinish = jest.fn();
+      const chess = new Chess(onFinish);
+
+      chess.cleanBoard();
+
+      chess.addPiece(new Pawn('black'), 0, 1);
+      chess.addPiece(new King('black'), 0, 3);
+
+      // The white king is cornered
+      chess.addPiece(new King('white'), 0, 0);
+
+      chess.turnNumber++; // Pass the turn so the black can play
+
+      // Move the black king and drown the white king
+      chess.move(0, 3, 0, 2);
+
+      // The onFinish chess function should be called once
+      expect(onFinish.mock.calls.length).toBe(1);
+
+      // The return value of the onFinish must equal:
+      expect(onFinish.mock.results[0].value).toEqual({
+        winner: null, // There is no winner
+        draw: true, // It is draw
+      });
+    });
+
+    test('Draw case 2', () => {
+      // Mock the finish game callback
+      const onFinish = jest.fn();
+      const chess = new Chess(onFinish);
+
+      chess.cleanBoard();
+
+      chess.addPiece(new Pawn('black'), 0, 1);
+      chess.addPiece(new King('black'), 0, 3);
+
+      // The white king is cornered
+      chess.addPiece(new King('white'), 0, 0);
+
+      // Add some pieces paralyzed out there
+      chess.addPiece(new Pawn('black'), 7, 4);
+      chess.addPiece(new Pawn('white'), 7, 3);
+
+      chess.turnNumber++; // Pass the turn so the black can play
+
+      // Move the black king and drown the white king
+      chess.move(0, 3, 0, 2);
+
+      // The onFinish chess function should be called once
+      expect(onFinish.mock.calls.length).toBe(1);
+
+      // The return value of the onFinish must equal:
+      expect(onFinish.mock.results[0].value).toEqual({
+        winner: null, // There is no winner
+        draw: true, // It is draw
+      });
+    });
+  });
 });

@@ -8,7 +8,16 @@ export default class GameView extends React.Component {
   constructor(props) {
     super(props);
 
-    this.__chess = new Chess();
+    const onFinish = (result) => {
+      if (result.draw) {
+        console.log('Hubo un empate');
+        return;
+      }
+
+      console.log(result.winner, 'ganó');
+    };
+
+    this.__chess = new Chess(onFinish);
 
     this.state = {
       dimensions: {
@@ -54,7 +63,7 @@ export default class GameView extends React.Component {
           this.state.selectedPiece.x,
           this.state.selectedPiece.y,
           x,
-          y,
+          y
         );
 
         this.setState({

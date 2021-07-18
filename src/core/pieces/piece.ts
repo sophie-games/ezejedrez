@@ -97,7 +97,7 @@ export default class Piece {
 
     const myKingPosition = chess.getKingPosition(this.color);
 
-    // Workaround: Some tests does not have king
+    // Workaround: Some tests have no king
     if (!myKingPosition) {
       return allMovements;
     }

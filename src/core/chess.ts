@@ -10,12 +10,16 @@ import Rook from './pieces/rook';
 import Bishop from './pieces/bishop';
 import Queen from './pieces/queen';
 
+import Movement from './movement';
+import Castling, { Castle } from './castling';
+
 interface Player {
   color: string;
   enemyColor: string;
   yDirection: number;
   startPawnYLine: number;
   lastPawnYLine: number;
+  castling: Castling;
 }
 
 export default class Chess {
@@ -36,6 +40,29 @@ export default class Chess {
         yDirection: 1,
         startPawnYLine: 1,
         lastPawnYLine: 7,
+        castling: {
+          short: {
+            positions: [
+              { x: 5, y: 0 },
+              { x: 6, y: 0 },
+            ],
+            kingStartPosition: { x: 4, y: 0 },
+            kingFinalPosition: { x: 6, y: 0 },
+            rookStartPosition: { x: 7, y: 0 },
+            rookFinalPosition: { x: 5, y: 0 },
+          },
+          long: {
+            positions: [
+              { x: 3, y: 0 },
+              { x: 2, y: 0 },
+              { x: 1, y: 0 },
+            ],
+            kingStartPosition: { x: 4, y: 0 },
+            kingFinalPosition: { x: 2, y: 0 },
+            rookStartPosition: { x: 0, y: 0 },
+            rookFinalPosition: { x: 3, y: 0 },
+          },
+        },
       },
       {
         color: 'black',
@@ -43,6 +70,29 @@ export default class Chess {
         yDirection: -1,
         startPawnYLine: 6,
         lastPawnYLine: 0,
+        castling: {
+          short: {
+            positions: [
+              { x: 5, y: 7 },
+              { x: 6, y: 7 },
+            ],
+            kingStartPosition: { x: 4, y: 7 },
+            kingFinalPosition: { x: 6, y: 7 },
+            rookStartPosition: { x: 7, y: 7 },
+            rookFinalPosition: { x: 5, y: 7 },
+          },
+          long: {
+            positions: [
+              { x: 3, y: 7 },
+              { x: 2, y: 7 },
+              { x: 1, y: 7 },
+            ],
+            kingStartPosition: { x: 4, y: 7 },
+            kingFinalPosition: { x: 2, y: 7 },
+            rookStartPosition: { x: 0, y: 7 },
+            rookFinalPosition: { x: 3, y: 7 },
+          },
+        },
       },
     ];
   }
@@ -175,6 +225,8 @@ export default class Chess {
 
     board[fromX][fromY] = null;
     board[toX][toY] = piece;
+
+    piece.hasMoved = true;
   }
 
   isValidPosition(x: number, y: number) {
@@ -280,14 +332,28 @@ export default class Chess {
     }
 
     const pieceMovements = this.getPieceMovements(fromX, fromY);
+    const movement = pieceMovements.find((m) => m.x === toX && m.y === toY);
 
-    if (!pieceMovements.find((m) => m.x === toX && m.y === toY)) {
+    if (!movement) {
       throw new Error('Invalid movement');
     }
 
     this.__movePiece(fromX, fromY, toX, toY);
 
     const player = this.getPlayer(piece.color);
+
+    if (movement.castle) {
+      for (const [castleType, castle] of Object.entries(player.castling)) {
+        if (movement.castle === castleType) {
+          this.__movePiece(
+            castle.rookStartPosition.x,
+            castle.rookStartPosition.y,
+            castle.rookFinalPosition.x,
+            castle.rookFinalPosition.y
+          );
+        }
+      }
+    }
 
     if (piece.pieceType === 'pawn' && toY === player.lastPawnYLine) {
       this.removePiece(toX, toY);
@@ -310,5 +376,72 @@ export default class Chess {
 
   hasPiece(x: number, y: number, board: Piece[][] = this.__board) {
     return this.getPiece(x, y, board) ? true : false;
+  }
+
+  canCastle(color: string, castle: Castle) {
+    const king = this.getPiece(
+      castle.kingStartPosition.x,
+      castle.kingStartPosition.y
+    );
+    const rook = this.getPiece(
+      castle.rookStartPosition.x,
+      castle.rookStartPosition.y
+    );
+
+    if (!king || !rook) {
+      return false;
+    }
+
+    if (king.pieceType !== 'king' || rook.pieceType !== 'rook') {
+      return false;
+    }
+
+    if (king.color !== color || rook.color !== color) {
+      return false;
+    }
+
+    // If the king or the rook has moved, the player cannot castle
+    if (king.hasMoved || rook.hasMoved) {
+      return false;
+    }
+
+    const player = this.getPlayer(color);
+
+    // Positions between the king and the rook
+    for (const position of castle.positions) {
+      // There should be no pieces between the king and the rook to castle
+      if (this.hasPiece(position.x, position.y)) {
+        return false;
+      }
+
+      // There should be no attacked positions between the king and the rook to castle
+      if (this.isCheckedPosition(position.x, position.y, player.enemyColor)) {
+        return false;
+      }
+    }
+
+    // The king position must not be under attack to castle
+    if (
+      this.isCheckedPosition(
+        castle.kingStartPosition.x,
+        castle.kingStartPosition.y,
+        player.enemyColor
+      )
+    ) {
+      return false;
+    }
+
+    // The rook position must not be under attack to castle
+    if (
+      this.isCheckedPosition(
+        castle.rookStartPosition.x,
+        castle.rookStartPosition.y,
+        player.enemyColor
+      )
+    ) {
+      return false;
+    }
+
+    return true;
   }
 }

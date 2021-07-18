@@ -3,10 +3,12 @@ import Chess from './../chess';
 export default class Piece {
   pieceType: string;
   color: string;
+  hasMoved: boolean;
 
   constructor(pieceType: string, color: string) {
     this.pieceType = pieceType;
     this.color = color;
+    this.hasMoved = false;
   }
 
   protected __addIfValidMovement(

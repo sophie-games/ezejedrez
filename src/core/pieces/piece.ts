@@ -14,7 +14,7 @@ export default class Piece {
     y: number,
     movements: Movement[],
     chess: Chess,
-    board: Piece[][],
+    board: Piece[][]
   ) {
     if (chess.isValidPosition(x, y) && !chess.hasPiece(x, y, board)) {
       movements.push({ x: x, y: y });
@@ -30,7 +30,7 @@ export default class Piece {
     movements: Movement[],
     pieceThatCaptures: Piece,
     chess: Chess,
-    board: Piece[][],
+    board: Piece[][]
   ) {
     if (
       chess.isValidPosition(x, y) &&
@@ -49,7 +49,7 @@ export default class Piece {
     y: number,
     chess: Chess,
     board: Piece[][],
-    noCalculateIsChecked?: boolean,
+    noCalculateIsChecked?: boolean
   ): Movement[] {
     throw new Error('Implement in subclass');
   }
@@ -59,7 +59,7 @@ export default class Piece {
     y: number,
     chess: Chess,
     board: Piece[][],
-    noCalculateIsChecked?: boolean,
+    noCalculateIsChecked?: boolean
   ): Movement[] {
     throw new Error('Implement in subclass');
   }
@@ -69,27 +69,65 @@ export default class Piece {
     y: number,
     chess: Chess,
     board?: Piece[][],
-    noCalculateIsChecked?: boolean,
+    noCalculateIsChecked?: boolean
   ) {
     if (!board) {
       board = chess.getBoard();
     }
 
-    const movements = this.__getMoveMovements(
+    const moveMovements = this.__getMoveMovements(
       x,
       y,
       chess,
       board,
-      noCalculateIsChecked,
+      noCalculateIsChecked
     );
     const captureMovements = this.__getCaptureMovements(
       x,
       y,
       chess,
       board,
-      noCalculateIsChecked,
+      noCalculateIsChecked
     );
-    const allMovements = movements.concat(captureMovements);
-    return allMovements;
+    const movements = moveMovements.concat(captureMovements);
+
+    if (noCalculateIsChecked) {
+      return movements;
+    }
+
+    const myKingPosition = chess.getKingPosition(this.color);
+
+    // Workaround: Some tests have no king
+    if (!myKingPosition) {
+      return movements;
+    }
+
+    const player = chess.getPlayer(this.color);
+
+    return movements.filter((possibleMov) => {
+      const copy = chess.copyBoard();
+
+      // Simulates the movement of the possibleCapture in the copy.
+      copy[possibleMov.x][possibleMov.y] = copy[x][y];
+      copy[x][y] = null;
+
+      // If this piece is the king, the possible position of the king if
+      // this movement is executed will be possibleMov. If not,
+      // the possible king position will be the normal king position.
+      const kingPossiblePosition = {
+        x: this.pieceType === 'king' ? possibleMov.x : myKingPosition.x,
+        y: this.pieceType === 'king' ? possibleMov.y : myKingPosition.y,
+      };
+
+      const isChecked = chess.isCheckedPosition(
+        kingPossiblePosition.x,
+        kingPossiblePosition.y,
+        player.enemyColor,
+        copy
+      );
+
+      // The pieces cannot go to positions that leave their king unprotected
+      return !isChecked;
+    });
   }
 }

@@ -75,7 +75,7 @@ export default class Piece {
       board = chess.getBoard();
     }
 
-    const movements = this.__getMoveMovements(
+    const moveMovements = this.__getMoveMovements(
       x,
       y,
       chess,
@@ -89,22 +89,22 @@ export default class Piece {
       board,
       noCalculateIsChecked
     );
-    const allMovements = movements.concat(captureMovements);
+    const movements = moveMovements.concat(captureMovements);
 
     if (noCalculateIsChecked) {
-      return allMovements;
+      return movements;
     }
 
     const myKingPosition = chess.getKingPosition(this.color);
 
     // Workaround: Some tests have no king
     if (!myKingPosition) {
-      return allMovements;
+      return movements;
     }
 
     const player = chess.getPlayer(this.color);
 
-    return allMovements.filter((possibleMov) => {
+    return movements.filter((possibleMov) => {
       const copy = chess.copyBoard();
 
       // Simulates the movement of the possibleCapture in the copy.

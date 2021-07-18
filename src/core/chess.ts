@@ -72,7 +72,7 @@ export default class Chess {
       }
     }
 
-    //Adding pawns
+    // Adding pawns
     const pawnLines = [
       { lineY: 1, color: 'white' },
       { lineY: 6, color: 'black' },

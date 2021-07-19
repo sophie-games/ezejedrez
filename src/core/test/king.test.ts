@@ -173,6 +173,19 @@ describe('King suite', () => {
       expect(chess.hasPiece(7, 0)).toBe(false);
     });
 
+    test('Short castling white negative case', () => {
+      const chess = new Chess();
+
+      // We remove the bishop but not the knight
+      // so the king cannot castle
+      chess.removePiece(5, 0);
+
+      const movements = chess.getPieceMovements(4, 0);
+
+      // The king will not be able to castle to (6,0)
+      expect(movements.find((m) => m.x === 6 && m.y === 0)).toBe(undefined);
+    });
+
     test('Long castling white', () => {
       const chess = new Chess();
 
@@ -195,6 +208,20 @@ describe('King suite', () => {
 
       // At (0,0), where it was the rook, there should be no pieces now
       expect(chess.hasPiece(0, 0)).toBe(false);
+    });
+
+    test('Long castling white negative case', () => {
+      const chess = new Chess();
+
+      // We remove the queen and the knight but not the bishop
+      // so the king cannot castle
+      chess.removePiece(3, 0);
+      chess.removePiece(1, 0);
+
+      const movements = chess.getPieceMovements(4, 0);
+
+      // The king will not be able to castle to (2,0)
+      expect(movements.find((m) => m.x === 2 && m.y === 0)).toBe(undefined);
     });
 
     test('Short castling black', () => {
@@ -223,6 +250,22 @@ describe('King suite', () => {
       expect(chess.hasPiece(7, 7)).toBe(false);
     });
 
+    test('Short castling black negative case', () => {
+      const chess = new Chess();
+
+      // Pass the turn so the black can play now
+      chess.turnNumber++;
+
+      // We remove the knight but not the bishop
+      // so the king cannot castle
+      chess.removePiece(6, 7);
+
+      const movements = chess.getPieceMovements(4, 7);
+
+      // The king will not be able to castle to (6,7)
+      expect(movements.find((m) => m.x === 6 && m.y === 7)).toBe(undefined);
+    });
+
     test('Long castling black', () => {
       const chess = new Chess();
 
@@ -248,6 +291,23 @@ describe('King suite', () => {
 
       // At (0,7), where it was the rook, there should be no pieces now
       expect(chess.hasPiece(0, 7)).toBe(false);
+    });
+
+    test('Long castling black negative case', () => {
+      const chess = new Chess();
+
+      // Pass the turn so the black can play now
+      chess.turnNumber++;
+
+      // We remove the bishop and the knight but not the queen
+      // so the king can castle
+      chess.removePiece(2, 7);
+      chess.removePiece(1, 7);
+
+      const movements = chess.getPieceMovements(4, 7);
+
+      // The king will not be able to castle to (2,7)
+      expect(movements.find((m) => m.x === 2 && m.y === 7)).toBe(undefined);
     });
 
     /*

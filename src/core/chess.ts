@@ -344,7 +344,10 @@ export default class Chess {
 
     if (movement.castle) {
       for (const [castleType, castle] of Object.entries(player.castling)) {
-        if (movement.castle === castleType) {
+        if (
+          movement.x === castle.kingFinalPosition.x &&
+          movement.y === castle.kingFinalPosition.y
+        ) {
           this.__movePiece(
             castle.rookStartPosition.x,
             castle.rookStartPosition.y,

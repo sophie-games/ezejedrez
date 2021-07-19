@@ -99,7 +99,7 @@ export default class King extends Piece {
         movements.push({
           x: castle.kingFinalPosition.x,
           y: castle.kingFinalPosition.y,
-          castle: castleType,
+          castle: true, // It is a castle movement
         });
       }
     }

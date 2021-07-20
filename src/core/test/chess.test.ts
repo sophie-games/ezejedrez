@@ -377,7 +377,6 @@ describe('Chess suite', () => {
       chess.addPiece(new Queen('white'), 7, 6);
 
       // Move the queen and checkmate
-      console.log('hola');
       chess.move(7, 6, 3, 6);
 
       // The onFinish chess function should be called once

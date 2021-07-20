@@ -246,7 +246,7 @@ describe('Chess suite', () => {
 
       // The piece cannot go to (0,4)
       expect(pieceMovements.find((m) => m.x === 0 && m.y === 4)).toBe(
-        undefined
+        undefined,
       );
 
       const t = () => {
@@ -263,7 +263,7 @@ describe('Chess suite', () => {
 
       // The piece can go to (0,3)
       expect(pieceMovements.find((m) => m.x === 0 && m.y === 3)).not.toBe(
-        undefined
+        undefined,
       );
 
       chess.move(0, 1, 0, 3);
@@ -382,9 +382,9 @@ describe('Chess suite', () => {
       // The onFinish chess function should be called once
       expect(onFinish.mock.calls.length).toBe(1);
 
-      // The return value of the onFinish must equal:
+      // The returned value of the onFinish must be equal to:
       expect(onFinish.mock.results[0].value).toEqual({
-        winner: 'white', // White is the winner
+        winner: 'white', // White wins
         draw: false, // It is not draw
       });
     });
@@ -409,9 +409,9 @@ describe('Chess suite', () => {
       // The onFinish chess function should be called once
       expect(onFinish.mock.calls.length).toBe(1);
 
-      // The return value of the onFinish must equal:
+      // The returned value of the onFinish must be equal to:
       expect(onFinish.mock.results[0].value).toEqual({
-        winner: 'white', // White is the winner
+        winner: 'white', // White wins
         draw: false, // It is not draw
       });
     });
@@ -439,7 +439,7 @@ describe('Chess suite', () => {
       // The onFinish chess function should be called once
       expect(onFinish.mock.calls.length).toBe(1);
 
-      // The return value of the onFinish must equal:
+      // The returned value of the onFinish must be equal to:
       expect(onFinish.mock.results[0].value).toEqual({
         winner: null, // There is no winner
         draw: true, // It is draw
@@ -471,7 +471,7 @@ describe('Chess suite', () => {
       // The onFinish chess function should be called once
       expect(onFinish.mock.calls.length).toBe(1);
 
-      // The return value of the onFinish must equal:
+      // The returned value of the onFinish must be equal to:
       expect(onFinish.mock.results[0].value).toEqual({
         winner: null, // There is no winner
         draw: true, // It is draw

@@ -13,6 +13,10 @@ import Queen from './pieces/queen';
 import Movement from './movement';
 import Castling, { Castle } from './castling';
 
+interface Result {
+  winner: string;
+  draw: boolean;
+}
 interface Player {
   color: string;
   enemyColor: string;
@@ -26,7 +30,7 @@ export default class Chess {
   private __board: Piece[][];
   private __players: Player[];
   turnNumber: number;
-  onFinish?: () => any; // This function is called when the game ends
+  onFinish?: (result: Result) => any; // This function is called when the game ends
 
   constructor(onFinish?: () => any) {
     this.__board = this.createBoard();
@@ -229,6 +233,24 @@ export default class Chess {
     piece.hasMoved = true;
   }
 
+  private __canMove(color: string, board: Piece[][] = this.__board) {
+    for (let c = 0; c < COLUMNS; c++) {
+      for (let r = 0; r < ROWS; r++) {
+        const piece = this.getPiece(c, r, board);
+
+        if (
+          piece &&
+          piece.color === color &&
+          this.getPieceMovements(c, r, board, true).length
+        ) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
   isValidPosition(x: number, y: number) {
     if (x < 0 || x > 7) {
       return false;
@@ -252,7 +274,7 @@ export default class Chess {
     x: number,
     y: number,
     color: string,
-    board: Piece[][] = this.__board
+    board: Piece[][] = this.__board,
   ) {
     for (let c = 0; c < COLUMNS; c++) {
       for (let r = 0; r < ROWS; r++) {
@@ -262,7 +284,7 @@ export default class Chess {
           piece &&
           piece.color === color &&
           this.getPieceMovements(c, r, board, true).find(
-            (m) => m.x === x && m.y === y
+            (m) => m.x === x && m.y === y,
           )
         ) {
           return true;
@@ -313,7 +335,7 @@ export default class Chess {
     piece: Piece,
     x: number,
     y: number,
-    board: Piece[][] = this.__board
+    board: Piece[][] = this.__board,
   ) {
     const possibleAlly = this.getPiece(x, y, board);
 
@@ -340,6 +362,30 @@ export default class Chess {
 
     this.__movePiece(fromX, fromY, toX, toY);
 
+    const currentColor = this.currentPlayer.color;
+    const enemyColor = this.currentPlayer.enemyColor;
+    const canMove = this.__canMove(currentColor);
+    const getKingPosition = this.getKingPosition(currentColor);
+    const isCheckedKingPosition = this.isCheckedPosition(
+      getKingPosition.x,
+      getKingPosition.y,
+      enemyColor,
+    );
+
+    if (!canMove) {
+      if (isCheckedKingPosition) {
+        return this.onFinish({
+          winner: enemyColor,
+          draw: false,
+        });
+      } else {
+        return this.onFinish({
+          winner: null,
+          draw: true,
+        });
+      }
+    }
+
     const player = this.getPlayer(piece.color);
 
     if (movement.castle) {
@@ -352,7 +398,7 @@ export default class Chess {
             castle.rookStartPosition.x,
             castle.rookStartPosition.y,
             castle.rookFinalPosition.x,
-            castle.rookFinalPosition.y
+            castle.rookFinalPosition.y,
           );
         }
       }
@@ -370,7 +416,7 @@ export default class Chess {
     x: number,
     y: number,
     board: Piece[][] = this.__board,
-    noCalculateIsChecked?: boolean
+    noCalculateIsChecked?: boolean,
   ) {
     const piece = this.getPiece(x, y, board);
 
@@ -384,11 +430,11 @@ export default class Chess {
   canCastle(color: string, castle: Castle) {
     const king = this.getPiece(
       castle.kingStartPosition.x,
-      castle.kingStartPosition.y
+      castle.kingStartPosition.y,
     );
     const rook = this.getPiece(
       castle.rookStartPosition.x,
-      castle.rookStartPosition.y
+      castle.rookStartPosition.y,
     );
 
     if (!king || !rook) {
@@ -428,7 +474,7 @@ export default class Chess {
       this.isCheckedPosition(
         castle.kingStartPosition.x,
         castle.kingStartPosition.y,
-        player.enemyColor
+        player.enemyColor,
       )
     ) {
       return false;
@@ -439,7 +485,7 @@ export default class Chess {
       this.isCheckedPosition(
         castle.rookStartPosition.x,
         castle.rookStartPosition.y,
-        player.enemyColor
+        player.enemyColor,
       )
     ) {
       return false;

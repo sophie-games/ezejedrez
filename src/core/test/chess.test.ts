@@ -382,9 +382,9 @@ describe('Chess suite', () => {
       // The onFinish chess function should be called once
       expect(onFinish.mock.calls.length).toBe(1);
 
-      // The return value of the onFinish must equal:
-      expect(onFinish.mock.results[0].value).toEqual({
-        winner: 'white', // White is the winner
+      // The returned value of the onFinish must be equal to:
+      expect(onFinish.mock.calls[0][0]).toEqual({
+        winner: 'white', // White wins
         draw: false, // It is not draw
       });
     });
@@ -409,9 +409,9 @@ describe('Chess suite', () => {
       // The onFinish chess function should be called once
       expect(onFinish.mock.calls.length).toBe(1);
 
-      // The return value of the onFinish must equal:
-      expect(onFinish.mock.results[0].value).toEqual({
-        winner: 'white', // White is the winner
+      // The returned value of the onFinish must be equal to:
+      expect(onFinish.mock.calls[0][0]).toEqual({
+        winner: 'white', // White wins
         draw: false, // It is not draw
       });
     });
@@ -439,8 +439,8 @@ describe('Chess suite', () => {
       // The onFinish chess function should be called once
       expect(onFinish.mock.calls.length).toBe(1);
 
-      // The return value of the onFinish must equal:
-      expect(onFinish.mock.results[0].value).toEqual({
+      // The returned value of the onFinish must be equal to:
+      expect(onFinish.mock.calls[0][0]).toEqual({
         winner: null, // There is no winner
         draw: true, // It is draw
       });
@@ -471,8 +471,8 @@ describe('Chess suite', () => {
       // The onFinish chess function should be called once
       expect(onFinish.mock.calls.length).toBe(1);
 
-      // The return value of the onFinish must equal:
-      expect(onFinish.mock.results[0].value).toEqual({
+      // The returned value of the onFinish must be equal to:
+      expect(onFinish.mock.calls[0][0]).toEqual({
         winner: null, // There is no winner
         draw: true, // It is draw
       });

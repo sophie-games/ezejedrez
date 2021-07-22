@@ -14,7 +14,7 @@ export default class Pawn extends Piece {
     movements: Movement[],
     yDirection: number,
     pawnLine: number,
-    board: Piece[][]
+    board: Piece[][],
   ) {
     this.__addIfValidMovement(x, y + 1 * yDirection, movements, chess, board);
 
@@ -27,7 +27,7 @@ export default class Pawn extends Piece {
     x: number,
     y: number,
     chess: Chess,
-    board: Piece[][]
+    board: Piece[][],
   ) {
     const movements: Movement[] = [];
 
@@ -40,7 +40,7 @@ export default class Pawn extends Piece {
       movements,
       player.yDirection,
       player.startPawnYLine,
-      board
+      board,
     );
 
     return movements;
@@ -50,7 +50,7 @@ export default class Pawn extends Piece {
     x: number,
     y: number,
     chess: Chess,
-    board: Piece[][]
+    board: Piece[][],
   ) {
     const movements: Movement[] = [];
 
@@ -62,7 +62,7 @@ export default class Pawn extends Piece {
       movements: Movement[],
       xOffset: number,
       yOffset: number,
-      enemyColor: string
+      enemyColor: string,
     ) {
       if (
         chess.isValidPosition(x + xOffset, y + yOffset) &&
@@ -76,13 +76,48 @@ export default class Pawn extends Piece {
       }
     }
 
+    function addOnPassingCaptureMovement(
+      x: number,
+      y: number,
+      movements: Movement[],
+      xOffset: number,
+      yOffset: number,
+      enemyColor: string,
+    ) {
+      if (
+        chess.isValidPosition(x + xOffset, y + yOffset) &&
+        chess.hasPiece(x - 1, y + 2, board) &&
+        chess.getPiece(x - 1, y + 2, board).pieceType === 'pawn' &&
+        chess.getPiece(x - 1, y + 2, board).color === enemyColor
+      ) {
+        movements.push({
+          x: x + xOffset,
+          y: y + yOffset,
+        });
+      } else if (
+        chess.isValidPosition(x + xOffset, y + yOffset) &&
+        chess.hasPiece(x - 1, y - 2, board) &&
+        chess.getPiece(x - 1, y - 2, board).pieceType === 'pawn' &&
+        chess.getPiece(x - 1, y - 2, board).color === enemyColor
+      ) {
+        movements.push({
+          x: x + xOffset,
+          y: y + yOffset,
+        });
+      }
+    }
+
+    addOnPassingCaptureMovement(x, y, movements, -1, +1, player.enemyColor);
+
+    addOnPassingCaptureMovement(x, y, movements, -1, -1, player.enemyColor);
+
     addDiagonalCaptureMovement(
       x,
       y,
       movements,
       1,
       player.yDirection,
-      player.enemyColor
+      player.enemyColor,
     );
     addDiagonalCaptureMovement(
       x,
@@ -90,7 +125,7 @@ export default class Pawn extends Piece {
       movements,
       -1,
       player.yDirection,
-      player.enemyColor
+      player.enemyColor,
     );
 
     return movements;

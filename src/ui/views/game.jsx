@@ -72,7 +72,10 @@ class GameView extends React.Component {
         });
 
         // Select a piece if none is selected
-      } else if (this.__chess.hasPiece(x, y)) {
+      } else if (
+        this.__chess.hasPiece(x, y) &&
+        this.__chess.getPiece(x, y).color === this.__chess.currentPlayer.color
+      ) {
         this.setState({
           highlightedSquares: this.__chess.getPieceMovements(x, y),
           selectedPiece: { x, y, color: this.__chess.getPiece(x, y).color },

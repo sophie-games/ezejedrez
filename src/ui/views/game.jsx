@@ -3,18 +3,18 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Dimensions, Text } from 'react-native';
 import Board from '../components/board';
 import Chess from '../../core/chess';
+import { withRouter } from 'react-router-dom';
+import en from './../languages/en.json';
 
-export default class GameView extends React.Component {
+class GameView extends React.Component {
   constructor(props) {
     super(props);
 
     const onFinish = (result) => {
-      if (result.draw) {
-        console.log('Hubo un empate');
-        return;
-      }
-
-      console.log(result.winner, 'ganó');
+      this.props.history.push({
+        pathname: '/game-result',
+        state: { result },
+      });
     };
 
     this.__chess = new Chess(onFinish);
@@ -72,21 +72,22 @@ export default class GameView extends React.Component {
         });
 
         // Select a piece if none is selected
-      } else if (this.__chess.hasPiece(x, y)) {
+      } else if (
+        this.__chess.hasPiece(x, y) &&
+        this.__chess.getPiece(x, y).color === this.__chess.currentPlayer.color
+      ) {
         this.setState({
           highlightedSquares: this.__chess.getPieceMovements(x, y),
           selectedPiece: { x, y, color: this.__chess.getPiece(x, y).color },
         });
       }
-      console.log(`Has presionado el cuadrado ${x} ${y}`);
+      console.log(`(${x}, ${y}) pressed`);
     };
 
     return (
       <View style={styles.container}>
         <View style={styles.topBar}>
-          <Text style={styles.text}>
-            {playersDict[this.__chess.whoPlays]} plays!
-          </Text>
+          <Text style={styles.text}>{en[`${this.__chess.whoPlays}Plays`]}</Text>
         </View>
 
         <Board
@@ -100,6 +101,8 @@ export default class GameView extends React.Component {
     );
   }
 }
+
+export default withRouter(GameView);
 
 const topBarHeight = 40;
 const styles = StyleSheet.create({
@@ -123,8 +126,3 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
 });
-
-const playersDict = {
-  white: 'White',
-  black: 'Black',
-};

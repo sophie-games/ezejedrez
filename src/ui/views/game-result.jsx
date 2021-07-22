@@ -1,19 +1,28 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import en from './../languages/en.json';
 
-export default function IndexView() {
+export default function GameResultView() {
   const history = useHistory();
+  const location = useLocation();
+
+  const result = location.state.result;
 
   return (
     <View style={styles.container}>
       <View style={styles.mainMenu}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.text}>
+            {result.draw ? en['draw'] : en[`${result.winner}Wins`]}
+          </Text>
+        </View>
+
         <TouchableOpacity
           style={styles.button}
-          onPress={() => history.push('/game')}
+          onPress={() => history.push('/')}
         >
-          <Text style={styles.text}>{en['play']}</Text>
+          <Text style={styles.text}>{en['back']}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -44,6 +53,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+
+  titleContainer: {
+    marginBottom: 20,
   },
 
   text: {

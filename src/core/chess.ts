@@ -28,6 +28,7 @@ interface Player {
 
 export default class Chess {
   private __board: Piece[][];
+  private __previousBoard: Piece[][]; // Last turn board
   private __players: Player[];
   turnNumber: number;
   onFinish?: (result: Result) => any; // This function is called when the game ends
@@ -165,6 +166,10 @@ export default class Chess {
     board[3][7] = new Queen('black');
 
     return board;
+  }
+
+  getPreviousBoard() {
+    return this.__previousBoard;
   }
 
   getBoard() {
@@ -360,10 +365,14 @@ export default class Chess {
       throw new Error('Invalid movement');
     }
 
+    // Save the board before move
+    this.__previousBoard = this.copyBoard();
+
     this.__movePiece(fromX, fromY, toX, toY);
 
     const player = this.getPlayer(piece.color);
 
+    // Castling
     if (movement.castle) {
       for (const [castleType, castle] of Object.entries(player.castling)) {
         if (
@@ -378,6 +387,11 @@ export default class Chess {
           );
         }
       }
+    }
+
+    // Passing
+    if (movement.passing) {
+      this.removePiece(toX, toY - player.yDirection);
     }
 
     if (piece.pieceType === 'pawn' && toY === player.lastPawnYLine) {

@@ -22,7 +22,8 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.gamesflood.ezejedrez"
+      "package": "com.gamesflood.ezejedrez",
+      "permissions": []
     },
     "web": {
       "favicon": "./assets/favicon.png"

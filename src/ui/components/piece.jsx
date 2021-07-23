@@ -1,4 +1,5 @@
 import React from 'react';
+import * as Device from 'expo-device';
 
 /* -------------------------------------------------------
  Pieces source
@@ -12,10 +13,6 @@ import BPawn from '../../../assets/pieces/b_pawn.svg';
 import BQueen from '../../../assets/pieces/b_queen.svg';
 import BRook from '../../../assets/pieces/b_rook.svg';
 
-// Dummy piece
-// import b_doge from '../../../assets/pieces/nn_doge.png';
-// import w_doge from '../../../assets/pieces/nn_doge.png';
-
 // White
 import WBishop from '../../../assets/pieces/w_bishop.svg';
 import WKing from '../../../assets/pieces/w_king.svg';
@@ -25,26 +22,45 @@ import WQueen from '../../../assets/pieces/w_queen.svg';
 import WRook from '../../../assets/pieces/w_rook.svg';
 
 const style = { width: '80%', height: '80%' };
+const pieceComps =
+  Device.brand !== null
+    ? {
+        // ----- Device -----
+        // SVG can be used as components on devices
 
-const piecesSrc = {
-  b_bishop: <BBishop style={style} />,
-  b_king: <BKing style={style} />,
-  b_knight: <BKnight style={style} />,
-  b_pawn: <BPawn style={style} />,
-  b_queen: <BQueen style={style} />,
-  b_rook: <BRook style={style} />,
+        b_bishop: <BBishop style={style} />,
+        b_king: <BKing style={style} />,
+        b_knight: <BKnight style={style} />,
+        b_pawn: <BPawn style={style} />,
+        b_queen: <BQueen style={style} />,
+        b_rook: <BRook style={style} />,
 
-  // w_doge,
-  // b_doge,
+        w_bishop: <WBishop style={style} />,
+        w_king: <WKing style={style} />,
+        w_knight: <WKnight style={style} />,
+        w_pawn: <WPawn style={style} />,
+        w_queen: <WQueen style={style} />,
+        w_rook: <WRook style={style} />,
+      }
+    : {
+        // ----- Web -----
+        // SVG cannot be used as components on web
 
-  w_bishop: <WBishop style={style} />,
-  w_king: <WKing style={style} />,
-  w_knight: <WKnight style={style} />,
-  w_pawn: <WPawn style={style} />,
-  w_queen: <WQueen style={style} />,
-  w_rook: <WRook style={style} />,
-};
+        b_bishop: <img src={BBishop} style={style} alt="b_bishop" />,
+        b_king: <img src={BKing} style={style} alt="b_king" />,
+        b_knight: <img src={BKnight} style={style} alt="b_knight" />,
+        b_pawn: <img src={BPawn} style={style} alt="b_pawn" />,
+        b_queen: <img src={BQueen} style={style} alt="b_queen" />,
+        b_rook: <img src={BRook} style={style} alt="b_rook" />,
+
+        w_bishop: <img src={WBishop} style={style} alt="w_bishop" />,
+        w_king: <img src={WKing} style={style} alt="w_king" />,
+        w_knight: <img src={WKnight} style={style} alt="w_knight" />,
+        w_pawn: <img src={WPawn} style={style} alt="w_pawn" />,
+        w_queen: <img src={WQueen} style={style} alt="w_queen" />,
+        w_rook: <img src={WRook} style={style} alt="w_rook" />,
+      };
 
 export default function Piece({ piece }) {
-  return piecesSrc[piece];
+  return pieceComps[piece];
 }

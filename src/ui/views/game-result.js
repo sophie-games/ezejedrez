@@ -38,8 +38,8 @@ const styles = StyleSheet.create({
   },
 
   mainMenu: {
-    width: '100%',
-    height: '100%',
+    alignSelf: 'stretch', // Width 100%
+    flex: 1, // Height 100%
     backgroundColor: '#D8AF86',
     display: 'flex',
     alignItems: 'center',
@@ -47,20 +47,20 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    width: '80%',
-    height: '75px',
+    width: 200,
+    height: 75,
     backgroundColor: '#8E5431',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
   },
 
-  titleContainer: {
-    marginBottom: 20,
-  },
-
   text: {
     fontWeight: 'bold',
     fontSize: 20,
+  },
+
+  titleContainer: {
+    marginBottom: 20,
   },
 });

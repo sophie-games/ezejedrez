@@ -24,26 +24,26 @@ import WPawn from '../../../assets/pieces/w_pawn.svg';
 import WQueen from '../../../assets/pieces/w_queen.svg';
 import WRook from '../../../assets/pieces/w_rook.svg';
 
+const style = { width: '80%', height: '80%' };
+
 const piecesSrc = {
-  b_bishop: <BBishop />,
-  b_king: <BKing />,
-  b_knight: <BKnight />,
-  b_pawn: <BPawn />,
-  b_queen: <BQueen />,
-  b_rook: <BRook />,
+  b_bishop: <BBishop style={style} />,
+  b_king: <BKing style={style} />,
+  b_knight: <BKnight style={style} />,
+  b_pawn: <BPawn style={style} />,
+  b_queen: <BQueen style={style} />,
+  b_rook: <BRook style={style} />,
 
   // w_doge,
   // b_doge,
 
-  w_bishop: <WBishop />,
-  w_king: <WKing />,
-  w_knight: <WKnight />,
-  w_pawn: <WPawn />,
-  w_queen: <WQueen />,
-  w_rook: <WRook />,
+  w_bishop: <WBishop style={style} />,
+  w_king: <WKing style={style} />,
+  w_knight: <WKnight style={style} />,
+  w_pawn: <WPawn style={style} />,
+  w_queen: <WQueen style={style} />,
+  w_rook: <WRook style={style} />,
 };
-
-const style = { width: 50, height: 50 };
 
 export default function Piece({ piece }) {
   return piecesSrc[piece];

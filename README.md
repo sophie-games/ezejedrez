@@ -1,6 +1,10 @@
 # Ezejedrez
 
-A chess developed on React Native
+A chess developed on React Native.
+
+You can download the app from:
+
+- Android: https://play.google.com/store/apps/details?id=com.gamesflood.ezejedrez
 
 ---
 

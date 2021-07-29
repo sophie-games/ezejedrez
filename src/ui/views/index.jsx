@@ -1,5 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Text,
+  Dimensions,
+} from 'react-native';
 import { useHistory } from 'react-router-dom';
 import en from './../languages/en.json';
 
@@ -29,8 +35,8 @@ const styles = StyleSheet.create({
   },
 
   mainMenu: {
-    width: '100%',
-    height: '100%',
+    alignSelf: 'stretch', // Width 100%
+    flex: 1, // Height 100%
     backgroundColor: '#D8AF86',
     display: 'flex',
     alignItems: 'center',
@@ -38,8 +44,8 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    width: '80%',
-    height: '75px',
+    width: 200,
+    height: 75,
     backgroundColor: '#8E5431',
     display: 'flex',
     alignItems: 'center',

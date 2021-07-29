@@ -96,7 +96,7 @@ class GameView extends React.Component {
           highlightedSquares={this.state.highlightedSquares}
           onSquarePress={onSquarePress}
         />
-        <StatusBar style='auto' />
+        <StatusBar style="auto" />
       </View>
     );
   }
@@ -114,8 +114,8 @@ const styles = StyleSheet.create({
   },
 
   topBar: {
-    height: `${topBarHeight}px`,
-    width: '100%',
+    height: topBarHeight,
+    alignSelf: 'stretch', // Width 100%
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

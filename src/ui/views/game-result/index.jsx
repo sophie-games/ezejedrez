@@ -1,11 +1,12 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { useHistory, useLocation } from 'react-router-dom';
-import en from './../languages/en.json';
+import { useSelector } from 'react-redux';
 
 export default function GameResultView() {
   const history = useHistory();
   const location = useLocation();
+  const language = useSelector((state) => state.language);
 
   const result = location.state.result;
 
@@ -14,7 +15,9 @@ export default function GameResultView() {
       <View style={styles.mainMenu}>
         <View style={styles.titleContainer}>
           <Text style={styles.text}>
-            {result.draw ? en['draw'] : en[`${result.winner}Wins`]}
+            {result.draw
+              ? language.messages['draw']
+              : language.messages[`${result.winner}Wins`]}
           </Text>
         </View>
 
@@ -22,7 +25,7 @@ export default function GameResultView() {
           style={styles.button}
           onPress={() => history.push('/')}
         >
-          <Text style={styles.text}>{en['back']}</Text>
+          <Text style={styles.text}>{language.messages['back']}</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -1,0 +1,12 @@
+{
+  "language": "es",
+  "messages": {
+    "whitePlays": "Juegan las blancas!",
+    "blackPlays": "Juegan las negras!",
+    "whiteWins": "Ganan las blancas!",
+    "blackWins": "Ganan las negras!",
+    "draw": "Tablas!",
+    "play": "Jugar",
+    "back": "Volver"
+  }
+}

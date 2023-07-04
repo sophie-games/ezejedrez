@@ -1,7 +1,6 @@
 # Ezejedrez
 
-This is a chess developed from scratch on React Native using Typescript.
-The movement of all the pieces was designed using Test-driven development (TDD) so we make sure that everything is tested and there are no errors in it.
+This is a chess game developed from scratch with React Native and TypeScript. The movement of all the pieces was designed using test-driven development to ensure that all the game rules are tested and there are no errors.
 
 ---
 

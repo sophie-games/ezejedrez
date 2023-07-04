@@ -10,15 +10,15 @@ For development, you will only need Node.js, npm, yarn and Expo (https://docs.ex
 
 ## Install
 
-    $ npm install --global expo-cli
-    $ git clone https://github.com/leoflood/ezejedrez
-    $ cd ezejedrez
-    $ yarn
+    npm install --global expo-cli
+    git clone https://github.com/leoflood/ezejedrez
+    cd ezejedrez
+    yarn
 
 ## Test
 
-    $ yarn test
+    yarn test
 
 ## Start
 
-    $ yarn start
+    yarn start

@@ -11,7 +11,7 @@ For development, you will only need Node.js, npm, yarn and Expo (https://docs.ex
 ## Install
 
     npm install --global expo-cli
-    git clone https://github.com/leoflood/ezejedrez
+    git clone https://github.com/sophie-games/ezejedrez
     cd ezejedrez
     yarn
 
